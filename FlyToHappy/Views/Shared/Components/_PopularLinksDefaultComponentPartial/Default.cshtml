@@ -1,0 +1,382 @@
+﻿<style>
+    .destination-section {
+        width: 100%;
+        padding: 65px 16px;
+    }
+
+    .destination-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* BAŞLIK */
+    .destination-head {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    .destination-eyebrow {
+        display: block;
+        margin-bottom: 7px;
+        font-size: .76rem;
+        font-weight: 700;
+        letter-spacing: .14em;
+        color: var(--accent, #ff6a3d);
+        text-transform: uppercase;
+    }
+
+    .destination-title {
+        margin: 0;
+        font-size: clamp(1.7rem, 3vw, 2.5rem);
+        font-weight: 800;
+        color: var(--text, #fff);
+        line-height: 1.2;
+    }
+
+    .destination-subtitle {
+        max-width: 650px;
+        margin: 10px auto 0;
+        font-size: .9rem;
+        line-height: 1.6;
+        color: var(--text-dim, rgba(255,255,255,.75));
+    }
+
+    /* ANA GLASS PANEL */
+    .destination-panel {
+        padding: 22px;
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 22px;
+        background: rgba(28,32,46,.28);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 14px 35px rgba(0,0,0,.15);
+    }
+
+    /* ÜLKE / BÖLGE SEKMELERİ */
+    .destination-tabs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        max-width: 650px;
+        margin: 0 auto 28px;
+        padding: 5px;
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 14px;
+        background: rgba(255,255,255,.05);
+    }
+
+    .destination-tab {
+        border: none;
+        border-radius: 10px;
+        padding: 10px 14px;
+        background: transparent;
+        color: var(--text-dim, rgba(255,255,255,.72));
+        font-size: .82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .25s ease, color .25s ease, transform .25s ease;
+    }
+
+        .destination-tab:hover {
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .destination-tab.active {
+            color: #fff;
+            background: linear-gradient( 135deg, var(--accent, #ff6a3d), var(--accent-2, #ffb020) );
+            box-shadow: 0 6px 16px rgba(255,106,61,.18);
+        }
+
+    /* İÇERİK */
+    .destination-pane {
+        display: none;
+    }
+
+        .destination-pane.active {
+            display: block;
+            animation: destinationFade .3s ease;
+        }
+
+    @@keyframes destinationFade {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* 5 SÜTUN */
+    .destination-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px 32px;
+    }
+
+    .destination-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+        padding: 7px 5px;
+        border-radius: 8px;
+        color: var(--text-dim, rgba(255,255,255,.75));
+        text-decoration: none;
+        font-size: .82rem;
+        font-weight: 500;
+        transition: color .2s ease, transform .2s ease, background .2s ease;
+    }
+
+        .destination-link i {
+            flex-shrink: 0;
+            font-size: .95rem;
+            color: var(--accent-2, #ffb020);
+        }
+
+        .destination-link:hover {
+            color: #fff;
+            background: rgba(255,255,255,.05);
+            transform: translateX(4px);
+        }
+
+    /* TABLET */
+    @@media (max-width: 992px) {
+        .destination-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    /* MOBİL */
+    @@media (max-width: 576px) {
+        .destination-section {
+            padding: 45px 14px;
+        }
+
+        .destination-panel {
+            padding: 16px;
+        }
+
+        .destination-tabs {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .destination-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 12px;
+        }
+
+        .destination-link {
+            font-size: .76rem;
+        }
+    }
+
+    @@media (max-width: 400px) {
+        .destination-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<section class="destination-section" id="popularDestinations">
+    <div class="destination-container">
+
+        <div class="destination-head">
+            <span class="destination-eyebrow">POPÜLER DESTİNASYONLAR</span>
+
+            <h2 class="destination-title">
+                En Uygun Uçak Bileti Seçenekleri ile Seyahatini Planla
+            </h2>
+
+            <p class="destination-subtitle">
+                Türkiye'den Avrupa, Asya ve Afrika'nın popüler destinasyonlarına
+                uygun uçuş seçeneklerini keşfet.
+            </p>
+        </div>
+
+        <div class="destination-panel">
+
+            <!-- SEKMELER -->
+            <div class="destination-tabs">
+                <button class="destination-tab active"
+                        type="button"
+                        data-destination="turkey">
+                    Türkiye
+                </button>
+
+                <button class="destination-tab"
+                        type="button"
+                        data-destination="europe">
+                    Avrupa
+                </button>
+
+                <button class="destination-tab"
+                        type="button"
+                        data-destination="asia">
+                    Asya
+                </button>
+
+                <button class="destination-tab"
+                        type="button"
+                        data-destination="africa">
+                    Afrika
+                </button>
+            </div>
+
+            <!-- TÜRKİYE -->
+            <div class="destination-pane active" data-pane="turkey">
+                <div class="destination-grid">
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>İstanbul</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Ankara</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>İzmir</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Antalya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Adana</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Trabzon</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Gaziantep</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Diyarbakır</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Kayseri</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Samsun</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Erzurum</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Van</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Hatay</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Konya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Mardin</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Bodrum</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Dalaman</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Şanlıurfa</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Nevşehir</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Malatya</a>
+                </div>
+            </div>
+
+            <!-- AVRUPA -->
+            <div class="destination-pane" data-pane="europe">
+                <div class="destination-grid">
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Almanya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Fransa</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>İtalya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>İspanya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>İngiltere</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Hollanda</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Belçika</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Avusturya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>İsviçre</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Yunanistan</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Portekiz</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Polonya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Çekya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Macaristan</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Danimarka</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>İsveç</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Norveç</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Finlandiya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>İrlanda</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Hırvatistan</a>
+                </div>
+            </div>
+
+            <!-- ASYA -->
+            <div class="destination-pane" data-pane="asia">
+                <div class="destination-grid">
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Japonya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Çin</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Güney Kore</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Tayland</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Singapur</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Endonezya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Malezya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Vietnam</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Filipinler</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Hindistan</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Birleşik Arap Emirlikleri</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Katar</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Suudi Arabistan</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Ürdün</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Gürcistan</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Azerbaycan</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Kazakistan</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Özbekistan</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Nepal</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Sri Lanka</a>
+                </div>
+            </div>
+
+            <!-- AFRİKA -->
+            <div class="destination-pane" data-pane="africa">
+                <div class="destination-grid">
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Mısır</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Fas</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Tunus</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Cezayir</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Güney Afrika</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Kenya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Tanzanya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Etiyopya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Gana</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Nijerya</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Senegal</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Mauritius</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Seyşeller</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Madagaskar</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Ruanda</a>
+
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Uganda</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Zambiya</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Zimbabve</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Botsvana</a>
+                    <a href="#" class="destination-link"><i class="bi bi-geo-alt-fill"></i>Mozambik</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        const section = document.querySelector("#popularDestinations");
+        if (!section) return;
+
+        const tabs = section.querySelectorAll(".destination-tab");
+        const panes = section.querySelectorAll(".destination-pane");
+
+        tabs.forEach(function (tab) {
+            tab.addEventListener("click", function () {
+
+                const target = this.dataset.destination;
+
+                tabs.forEach(function (button) {
+                    button.classList.remove("active");
+                });
+
+                panes.forEach(function (pane) {
+                    pane.classList.remove("active");
+                });
+
+                this.classList.add("active");
+
+                const activePane = section.querySelector(
+                    '.destination-pane[data-pane="' + target + '"]'
+                );
+
+                if (activePane) {
+                    activePane.classList.add("active");
+                }
+            });
+        });
+    })();
+</script>

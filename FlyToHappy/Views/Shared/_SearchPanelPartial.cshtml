@@ -1,0 +1,396 @@
+        <div class="glass search-panel">
+
+            <!-- ANA SEKMELER -->
+            <div class="booking-main-tabs">
+                <button class="booking-main-tab active"
+                        type="button"
+                        data-panel="flight-search">
+                    <i class="bi bi-airplane"></i>
+                    Uçuş Ara
+                </button>
+
+                <button class="booking-main-tab"
+                        type="button"
+                        data-panel="my-trips">
+                    <i class="bi bi-ticket-perforated"></i>
+                    Seyahatlerim
+                </button>
+
+                <button class="booking-main-tab"
+                        type="button"
+                        data-panel="checkin">
+                    <i class="bi bi-check2-circle"></i>
+                    Online Check-in
+                </button>
+
+                <button class="booking-main-tab"
+                        type="button"
+                        data-panel="flight-status">
+                    <i class="bi bi-clock-history"></i>
+                    Uçuş Durumu
+                </button>
+            </div>
+
+            <div class="booking-main-content">
+
+                <!-- UÇUŞ ARA -->
+                <div class="booking-main-pane active"
+                     data-content="flight-search">
+
+                    <div class="trip-tabs" role="tablist">
+                        <button class="trip-tab active"
+                                type="button"
+                                data-trip="round">
+                            Gidiş - Dönüş
+                        </button>
+
+                        <button class="trip-tab"
+                                type="button"
+                                data-trip="oneway">
+                            Tek Yön
+                        </button>
+                    </div>
+
+                    <div class="row g-3 align-items-end">
+
+                        <!-- NEREDEN + NEREYE -->
+                        <div class="col-12 col-lg-5">
+                            <div class="row g-3 swap-wrap">
+
+                                <div class="col-6 field">
+                                    <label for="fromInput">Nereden</label>
+
+                                    <input id="fromInput"
+                                           class="g-input"
+                                           type="text"
+                                           value="İstanbul (IST)"
+                                           autocomplete="off" />
+                                </div>
+
+                                <div class="col-6 field">
+                                    <button class="swap-btn"
+                                            id="swapBtn"
+                                            type="button"
+                                            aria-label="Konumları Değiştir">
+                                        <i class="bi bi-arrow-left-right"></i>
+                                    </button>
+
+                                    <label for="toInput">Nereye</label>
+
+                                    <input id="toInput"
+                                           class="g-input"
+                                           type="text"
+                                           value="Roma (FCO)"
+                                           autocomplete="off" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- GİDİŞ TARİHİ -->
+                        <div class="col-6 col-lg-2 field">
+                            <label for="departInput">Gidiş Tarihi</label>
+
+                            <input id="departInput"
+                                   class="g-input"
+                                   type="date" />
+                        </div>
+
+                        <!-- DÖNÜŞ TARİHİ -->
+                        <div class="col-6 col-lg-2 field">
+                            <label for="returnInput">Dönüş Tarihi</label>
+
+                            <input id="returnInput"
+                                   class="g-input"
+                                   type="date" />
+                        </div>
+
+                        <!-- YOLCU + KABİN SINIFI -->
+                        <div class="col-12 col-lg-3 field pax-field">
+                            <label>Yolcular &amp; Kabin Sınıfı</label>
+
+                            <div class="dropdown">
+                                <button class="g-input text-start dropdown-toggle pax-toggle"
+                                        data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside"
+                                        data-bs-display="static"
+                                        type="button"
+                                        aria-expanded="false">
+
+                                    <span id="paxSummary">
+                                        1 yolcu, Ekonomi
+                                    </span>
+                                </button>
+
+                                <div class="dropdown-menu pax-menu">
+
+                                    <!-- YETİŞKİNLER -->
+                                    <div class="stepper">
+                                        <div>
+                                            <div>Yetişkin</div>
+                                            <small>12 yaş ve üzeri</small>
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3">
+                                            <button class="step-btn"
+                                                    type="button"
+                                                    data-pax="adults"
+                                                    data-dir="-1">
+                                                &minus;
+                                            </button>
+
+                                            <span id="adultsCount">1</span>
+
+                                            <button class="step-btn"
+                                                    type="button"
+                                                    data-pax="adults"
+                                                    data-dir="1">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <hr class="pax-divider" />
+
+                                    <!-- ÇOCUKLAR -->
+                                    <div class="stepper">
+                                        <div>
+                                            <div>Çocuk</div>
+                                            <small>2 - 11 yaş</small>
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3">
+                                            <button class="step-btn"
+                                                    type="button"
+                                                    data-pax="children"
+                                                    data-dir="-1">
+                                                &minus;
+                                            </button>
+
+                                            <span id="childrenCount">0</span>
+
+                                            <button class="step-btn"
+                                                    type="button"
+                                                    data-pax="children"
+                                                    data-dir="1">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <hr class="pax-divider" />
+
+                                    <!-- BEBEKLER -->
+                                    <div class="stepper">
+                                        <div>
+                                            <div>Bebek</div>
+                                            <small>2 yaş altı</small>
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3">
+                                            <button class="step-btn"
+                                                    type="button"
+                                                    data-pax="infants"
+                                                    data-dir="-1">
+                                                &minus;
+                                            </button>
+
+                                            <span id="infantsCount">0</span>
+
+                                            <button class="step-btn"
+                                                    type="button"
+                                                    data-pax="infants"
+                                                    data-dir="1">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <select id="cabinSelect"
+                                            class="cabin-select">
+                                        <option value="Economy">
+                                            Ekonomi
+                                        </option>
+
+                                        <option value="Premium">
+                                            Premium Ekonomi
+                                        </option>
+
+                                        <option value="Business">
+                                            Business
+                                        </option>
+
+                                        <option value="First">
+                                            First Class
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="d-grid d-lg-flex justify-content-lg-end mt-3">
+                        <button class="btn-primary-altura"
+                                id="searchBtn"
+                                type="button">
+                            <i class="bi bi-search me-2"></i>
+                            Uçuş Ara
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- SEYAHATLERİM -->
+                <div class="booking-main-pane"
+                     data-content="my-trips">
+
+                    <h3 class="booking-main-title">
+                        Seyahatlerim
+                    </h3>
+
+                    <p class="booking-main-description">
+                        Rezervasyon bilgilerinle seyahat detaylarına hızlıca ulaş.
+                    </p>
+
+                    <div class="row g-3 align-items-end">
+
+                        <div class="col-12 col-lg-4 field">
+                            <label for="mtPnr">
+                                Rezervasyon Kodu (PNR)
+                            </label>
+
+                            <input id="mtPnr"
+                                   class="g-input"
+                                   type="text"
+                                   placeholder="ABC123"
+                                   autocomplete="off" />
+                        </div>
+
+                        <div class="col-12 col-lg-4 field">
+                            <label for="mtSurname">
+                                Soyad
+                            </label>
+
+                            <input id="mtSurname"
+                                   class="g-input"
+                                   type="text"
+                                   placeholder="Bilet üzerindeki soyad"
+                                   autocomplete="off" />
+                        </div>
+
+                        <div class="col-12 col-lg-4 d-grid">
+                            <button class="btn-primary-altura"
+                                    type="button">
+                                <i class="bi bi-ticket-perforated me-2"></i>
+                                Seyahatimi Görüntüle
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ONLINE CHECK-IN -->
+                <div class="booking-main-pane"
+                     data-content="checkin">
+
+                    <h3 class="booking-main-title">
+                        Online Check-in
+                    </h3>
+
+                    <p class="booking-main-description">
+                        Uçuş bilgilerinizi girerek check-in işleminizi hızlıca tamamlayın.
+                    </p>
+
+                    <div class="booking-main-info">
+                        <i class="bi bi-info-circle"></i>
+                        Check-in işlemi uçuş saatinden 24 saat önce başlar.
+                    </div>
+
+                    <div class="row g-3 align-items-end">
+
+                        <div class="col-12 col-lg-4 field">
+                            <label for="ciPnr">
+                                Rezervasyon Kodu (PNR)
+                            </label>
+
+                            <input id="ciPnr"
+                                   class="g-input"
+                                   type="text"
+                                   placeholder="ABC123"
+                                   autocomplete="off" />
+                        </div>
+
+                        <div class="col-12 col-lg-4 field">
+                            <label for="ciSurname">
+                                Soyad
+                            </label>
+
+                            <input id="ciSurname"
+                                   class="g-input"
+                                   type="text"
+                                   placeholder="Pasaport / kimlik üzerindeki soyad"
+                                   autocomplete="off" />
+                        </div>
+
+                        <div class="col-12 col-lg-4 d-grid">
+                            <button class="btn-primary-altura"
+                                    type="button">
+                                <i class="bi bi-check2-circle me-2"></i>
+                                Check-in İşlemini Başlat
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- UÇUŞ DURUMU -->
+                <div class="booking-main-pane"
+                     data-content="flight-status">
+
+                    <h3 class="booking-main-title">
+                        Uçuş Durumu
+                    </h3>
+
+                    <p class="booking-main-description">
+                        Uçuşunuzun güncel kalkış ve varış bilgilerini görüntüleyin.
+                    </p>
+
+                    <div class="row g-3 align-items-end">
+
+                        <div class="col-12 col-lg-4 field">
+                            <label for="fsNo">
+                                Uçuş Numarası
+                            </label>
+
+                            <input id="fsNo"
+                                   class="g-input"
+                                   type="text"
+                                   placeholder="Örn: TK1834"
+                                   autocomplete="off" />
+                        </div>
+
+                        <div class="col-12 col-lg-4 field">
+                            <label for="fsDate">
+                                Tarih
+                            </label>
+
+                            <input id="fsDate"
+                                   class="g-input"
+                                   type="date" />
+                        </div>
+
+                        <div class="col-12 col-lg-4 d-grid">
+                            <button class="btn-primary-altura"
+                                    type="button">
+                                <i class="bi bi-clock-history me-2"></i>
+                                Uçuş Durumunu Gör
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>

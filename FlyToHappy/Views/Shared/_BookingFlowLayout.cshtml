@@ -1,0 +1,277 @@
+﻿@{
+    Layout = "~/Views/Shared/_SearchLayout.cshtml";
+    var currentStep = ViewData["BookingStep"]?.ToString() ?? "Passenger";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking-flow.css" asp-append-version="true" />
+    @await RenderSectionAsync("PageStyles", required: false)
+}
+
+<section class="booking-flow-page">
+    <div class="container">
+
+        <!-- BOOKING STEPS -->
+        <div class="booking-steps">
+
+            <div class="booking-step @(currentStep == "Passenger" ? "active" : "completed")">
+                <div class="booking-step-icon">
+                    <span>1</span>
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+                <div class="booking-step-text">
+                    <strong>Rezervasyon</strong>
+                    <small>Yolcu bilgileri</small>
+                </div>
+            </div>
+
+            <div class="booking-step @(currentStep == "Baggage" ? "active" : currentStep == "Confirmation" ? "completed" : "")">
+                <div class="booking-step-icon">
+                    <span>2</span>
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+                <div class="booking-step-text">
+                    <strong>Bagaj</strong>
+                    <small>Bagaj seçimi</small>
+                </div>
+            </div>
+
+            <div class="booking-step @(currentStep == "Confirmation" ? "active" : "")">
+                <div class="booking-step-icon">
+                    <span>3</span>
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+                <div class="booking-step-text">
+                    <strong>Onay</strong>
+                    <small>Gözden geçir</small>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOOKING CONTENT -->
+        <div class="booking-flow-grid">
+
+            <!-- LEFT SIDE -->
+            <div class="booking-flow-main">
+                @RenderBody()
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <aside class="booking-flow-sidebar">
+
+                <!-- PRICE SUMMARY -->
+                <div class="booking-price-card">
+
+                    <div class="booking-price-header">
+                        <div>
+                            <strong>Fiyat Özeti</strong>
+                            <span>Seçimlerine göre anlık güncellenir</span>
+                        </div>
+
+                        <i class="bi bi-receipt"></i>
+                    </div>
+
+                    <div class="booking-price-body">
+
+                        <div class="booking-price-row">
+                            <span>Gidiş Uçuşu</span>
+                            <strong id="flowDeparturePrice">0 TL</strong>
+                        </div>
+
+                        <div class="booking-price-row d-none" id="flowReturnPriceRow">
+                            <span>Dönüş Uçuşu</span>
+                            <strong id="flowReturnPrice">0 TL</strong>
+                        </div>
+
+                        <div class="booking-price-row">
+                            <span>Kabin Bagajı</span>
+                            <strong id="flowCabinBaggagePrice">0 TL</strong>
+                        </div>
+
+                        <div class="booking-price-row">
+                            <span>Uçak Altı Bagajı</span>
+                            <strong id="flowCheckedBaggagePrice">0 TL</strong>
+                        </div>
+
+                        <div class="booking-price-total">
+                            <span>Toplam</span>
+                            <strong id="flowTotalPrice">0 TL</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- DEPARTURE FLIGHT -->
+                <div class="flight-summary-card departure-flight-card">
+
+                    <div class="flight-summary-header">
+                        <div class="flight-summary-title">
+                            <i class="bi bi-airplane"></i>
+                            <strong>Gidiş Uçuşu</strong>
+                        </div>
+
+                        <button type="button" class="flight-rules-btn">
+                            <i class="bi bi-info-circle"></i>
+                            Uçuş Kuralları
+                        </button>
+                    </div>
+
+                    <div class="flight-summary-airline">
+                        <span class="flight-summary-airline-logo" id="departureAirlineCode">TK</span>
+
+                        <div>
+                            <strong id="summaryAirline">Turkish Airlines</strong>
+                            <span id="summaryFlightNumber">TK1861</span>
+                        </div>
+                    </div>
+
+                    <div class="flight-summary-package">
+                        <span id="summaryPackage">Light</span>
+                        <i class="bi bi-info-circle"></i>
+                    </div>
+
+                    <div class="flight-summary-timeline">
+
+                        <div class="timeline-line">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-path"></span>
+                            <span class="timeline-dot"></span>
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-item">
+                                <strong>Kalkış:</strong>
+
+                                <div class="timeline-time">
+                                    <span id="summaryDepartureTime">08:10</span>
+                                    <span id="summaryDepartureDate">--</span>
+                                </div>
+
+                                <p id="summaryDepartureAirport">İstanbul Havalimanı</p>
+                            </div>
+
+                            <div class="timeline-item">
+                                <strong>Varış:</strong>
+
+                                <div class="timeline-time">
+                                    <span id="summaryArrivalTime">09:55</span>
+                                    <span id="summaryArrivalDate">--</span>
+                                </div>
+
+                                <p id="summaryArrivalAirport">Roma Fiumicino Havalimanı</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flight-summary-class">
+                        <i class="bi bi-ticket-fill"></i>
+                        <span>Sınıf:</span>
+                        <strong id="summaryCabin">Ekonomi</strong>
+                    </div>
+
+                    <div class="flight-summary-duration">
+                        <i class="bi bi-clock"></i>
+                        <strong>Toplam Seyahat Süresi:</strong>
+                        <span id="summaryDuration">2 sa 45 dk</span>
+                    </div>
+
+                </div>
+
+                <!-- RETURN FLIGHT -->
+                <div class="flight-summary-card return-flight-card d-none">
+
+                    <div class="flight-summary-header">
+                        <div class="flight-summary-title">
+                            <i class="bi bi-airplane"></i>
+                            <strong>Dönüş Uçuşu</strong>
+                        </div>
+
+                        <button type="button" class="flight-rules-btn">
+                            <i class="bi bi-info-circle"></i>
+                            Uçuş Kuralları
+                        </button>
+                    </div>
+
+                    <div class="flight-summary-airline">
+                        <span class="flight-summary-airline-logo" id="returnAirlineCode">TK</span>
+
+                        <div>
+                            <strong id="returnSummaryAirline">Turkish Airlines</strong>
+                            <span id="returnSummaryFlightNumber">TK1862</span>
+                        </div>
+                    </div>
+
+                    <div class="flight-summary-package">
+                        <span id="returnSummaryPackage">Light</span>
+                        <i class="bi bi-info-circle"></i>
+                    </div>
+
+                    <div class="flight-summary-timeline">
+
+                        <div class="timeline-line">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-path"></span>
+                            <span class="timeline-dot"></span>
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-item">
+                                <strong>Kalkış:</strong>
+
+                                <div class="timeline-time">
+                                    <span id="returnSummaryDepartureTime">18:20</span>
+                                    <span id="returnSummaryDepartureDate">--</span>
+                                </div>
+
+                                <p id="returnSummaryDepartureAirport">Roma Fiumicino Havalimanı</p>
+                            </div>
+
+                            <div class="timeline-item">
+                                <strong>Varış:</strong>
+
+                                <div class="timeline-time">
+                                    <span id="returnSummaryArrivalTime">22:05</span>
+                                    <span id="returnSummaryArrivalDate">--</span>
+                                </div>
+
+                                <p id="returnSummaryArrivalAirport">İstanbul Havalimanı</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flight-summary-class">
+                        <i class="bi bi-ticket-fill"></i>
+                        <span>Sınıf:</span>
+                        <strong id="returnSummaryCabin">Ekonomi</strong>
+                    </div>
+
+                    <div class="flight-summary-duration">
+                        <i class="bi bi-clock"></i>
+                        <strong>Toplam Seyahat Süresi:</strong>
+                        <span id="returnSummaryDuration">2 sa 45 dk</span>
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/booking-flow.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("PageScripts", required: false)
+}

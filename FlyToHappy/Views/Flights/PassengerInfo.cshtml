@@ -1,0 +1,404 @@
+﻿@{
+    ViewData["Title"] = "Yolcu Bilgileri";
+    ViewData["BookingStep"] = "Passenger";
+    Layout = "~/Views/Shared/_BookingFlowLayout.cshtml";
+}
+
+@section PageStyles {
+    <link rel="stylesheet" href="~/css/passenger-info.css" asp-append-version="true" />
+}
+
+<div class="passenger-content-main">
+
+    <!-- PAGE TITLE -->
+    <div class="passenger-page-header">
+        <h1>Yolcu Bilgileri</h1>
+        <p>Rezervasyonunu tamamlamak için yolcu bilgilerini gir.</p>
+    </div>
+
+    <form id="passengerForm">
+
+        <!-- RESERVATION CONTACT INFO -->
+        <div class="booking-contact-card">
+
+            <div class="booking-contact-header">
+                <h2>İletişim Bilgileri</h2>
+                <p>Rezervasyon ve uçuş bildirimleri bu bilgiler üzerinden gönderilecektir.</p>
+            </div>
+
+            <div class="booking-contact-body">
+
+                <!-- Reservation contact person: first name / last name -->
+                <div class="passenger-form-row">
+
+                    <div class="passenger-form-group">
+                        <label for="contactFirstName">Ad</label>
+                        <input type="text"
+                               id="contactFirstName"
+                               name="contactFirstName"
+                               placeholder="Adınız"
+                               required />
+                    </div>
+
+                    <div class="passenger-form-group">
+                        <label for="contactLastName">Soyad</label>
+                        <input type="text"
+                               id="contactLastName"
+                               name="contactLastName"
+                               placeholder="Soyadınız"
+                               required />
+                    </div>
+
+                </div>
+
+                <div class="passenger-form-row">
+
+                    <div class="passenger-form-group">
+                        <label for="contactEmail">E-posta</label>
+                        <input type="email"
+                               id="contactEmail"
+                               name="contactEmail"
+                               placeholder="ornek@email.com"
+                               required />
+                    </div>
+
+                    <div class="passenger-form-group">
+                        <label for="contactPhone">Telefon Numarası</label>
+                        <input type="tel"
+                               id="contactPhone"
+                               name="contactPhone"
+                               placeholder="+90 5XX XXX XX XX"
+                               required />
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PASSENGERS -->
+        <div id="passengersContainer">
+
+            <!-- PASSENGER CARD -->
+            <div class="passenger-card"
+                 data-passenger-index="0">
+
+                <div class="passenger-card-header">
+                    <h2>1. Yolcu</h2>
+                    <span>Yetişkin</span>
+                </div>
+
+                <div class="passenger-card-body">
+
+                    <!-- NAME / SURNAME -->
+                    <div class="passenger-form-row">
+
+                        <div class="passenger-form-group">
+                            <label for="firstName">Ad</label>
+
+                            <input type="text"
+                                   id="firstName"
+                                   name="firstName"
+                                   placeholder="Adınızı girin"
+                                   required />
+                        </div>
+
+                        <div class="passenger-form-group">
+                            <label for="lastName">Soyad</label>
+
+                            <input type="text"
+                                   id="lastName"
+                                   name="lastName"
+                                   placeholder="Soyadınızı girin"
+                                   required />
+                        </div>
+
+                    </div>
+
+
+                    <!-- BIRTHDATE / GENDER -->
+                    <div class="passenger-form-row">
+
+                        <div class="passenger-form-group">
+                            <label class="passenger-field-label">
+                                Doğum Tarihi
+                            </label>
+
+                            <div class="birth-date-fields">
+
+                                <!-- DAY -->
+                                <div class="custom-date-select">
+
+                                    <button type="button"
+                                            class="custom-date-trigger"
+                                            id="birthDayTrigger">
+                                        <span>Gün</span>
+                                        <i class="bi bi-chevron-down"></i>
+                                    </button>
+
+                                    <div class="custom-date-menu"
+                                         id="birthDayMenu">
+                                    </div>
+
+                                    <input type="hidden"
+                                           id="birthDay"
+                                           name="birthDay" />
+
+                                </div>
+
+
+                                <!-- MONTH -->
+                                <select id="birthMonth"
+                                        name="birthMonth"
+                                        required>
+                                    <option value="">Ay</option>
+                                </select>
+
+
+                                <!-- YEAR -->
+                                <div class="custom-date-select">
+
+                                    <button type="button"
+                                            class="custom-date-trigger"
+                                            id="birthYearTrigger">
+                                        <span>Yıl</span>
+                                        <i class="bi bi-chevron-down"></i>
+                                    </button>
+
+                                    <div class="custom-date-menu"
+                                         id="birthYearMenu">
+                                    </div>
+
+                                    <input type="hidden"
+                                           id="birthYear"
+                                           name="birthYear" />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="passenger-form-group">
+
+                            <label class="passenger-field-label"
+                                   for="gender">
+                                Cinsiyet
+                            </label>
+
+                            <select id="gender"
+                                    name="gender"
+                                    required>
+                                <option value="">Seçiniz</option>
+                                <option value="Male">Erkek</option>
+                                <option value="Female">Kadın</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- NATIONALITY / TURKISH ID -->
+                    <div class="passenger-form-row">
+
+                        <div class="passenger-form-group">
+
+                            <label for="nationality">
+                                Uyruk
+                            </label>
+
+                            <select id="nationality"
+                                    name="nationality"
+                                    required>
+                                <option value="">Seçiniz</option>
+                                <option value="TR">Türkiye</option>
+                                <option value="DE">Almanya</option>
+                                <option value="IT">İtalya</option>
+                                <option value="FR">Fransa</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="passenger-form-group"
+                             id="turkishIdFields">
+
+                            <label for="nationalId">
+                                T.C. Kimlik Numarası
+                            </label>
+
+                            <input type="text"
+                                   id="nationalId"
+                                   name="nationalId"
+                                   maxlength="11"
+                                   inputmode="numeric"
+                                   placeholder="11 haneli T.C. Kimlik Numaranızı girin" />
+
+                            <label class="national-id-checkbox"
+                                   for="notTurkishCitizen">
+
+                                <input type="checkbox"
+                                       id="notTurkishCitizen"
+                                       name="notTurkishCitizen" />
+
+                                <span>
+                                    T.C. Vatandaşı Değilim
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSPORT -->
+                    <div class="passenger-passport-toggle">
+
+                        <label for="hasPassport">
+
+                            <input type="checkbox"
+                                   id="hasPassport"
+                                   name="hasPassport" />
+
+                            Pasaportum var
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- PASSPORT FIELDS -->
+                    <div id="passportFields"
+                         class="d-none">
+
+                        <div class="passenger-form-row">
+
+                            <div class="passenger-form-group">
+
+                                <label for="passportNumber">
+                                    Pasaport Numarası
+                                </label>
+
+                                <input type="text"
+                                       id="passportNumber"
+                                       name="passportNumber"
+                                       placeholder="Pasaport numaranızı girin" />
+
+                            </div>
+
+
+                            <div class="passenger-form-group">
+
+                                <label class="passenger-field-label">
+                                    Pasaport Geçerlilik Tarihi
+                                </label>
+
+                                <div class="birth-date-fields">
+
+                                    <!-- DAY -->
+                                    <div class="custom-date-select">
+
+                                        <button type="button"
+                                                class="custom-date-trigger"
+                                                id="passportExpiryDayTrigger">
+
+                                            <span>Gün</span>
+                                            <i class="bi bi-chevron-down"></i>
+
+                                        </button>
+
+                                        <div class="custom-date-menu"
+                                             id="passportExpiryDayMenu">
+                                        </div>
+
+                                        <input type="hidden"
+                                               id="passportExpiryDay"
+                                               name="passportExpiryDay" />
+
+                                    </div>
+
+
+                                    <!-- MONTH -->
+                                    <select id="passportExpiryMonth"
+                                            name="passportExpiryMonth">
+                                        <option value="">Ay</option>
+                                    </select>
+
+
+                                    <!-- YEAR -->
+                                    <div class="custom-date-select">
+
+                                        <button type="button"
+                                                class="custom-date-trigger"
+                                                id="passportExpiryYearTrigger">
+
+                                            <span>Yıl</span>
+                                            <i class="bi bi-chevron-down"></i>
+
+                                        </button>
+
+                                        <div class="custom-date-menu"
+                                             id="passportExpiryYearMenu">
+                                        </div>
+
+                                        <input type="hidden"
+                                               id="passportExpiryYear"
+                                               name="passportExpiryYear" />
+
+                                    </div>
+
+
+                                    <!-- FINAL DATE -->
+                                    <input type="hidden"
+                                           id="passportExpiryDate"
+                                           name="passportExpiryDate" />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PASSENGER ACTIONS -->
+        <div class="passenger-actions">
+
+            <a asp-controller="Flights"
+               asp-action="SearchResults"
+               class="btn passenger-back-btn">
+
+                <i class="bi bi-arrow-left"></i>
+                Geri Dön
+
+            </a>
+
+            <button type="button"
+                    class="btn passenger-continue-btn">
+
+                Devam Et
+                <i class="bi bi-arrow-right"></i>
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section PageScripts {
+    <script src="~/js/passenger-info.js" asp-append-version="true"></script>
+}

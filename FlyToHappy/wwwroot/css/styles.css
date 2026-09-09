@@ -1,0 +1,559 @@
+/* ============================================================
+   ALTURA — Glassmorphism (cam efekti) stil dosyası
+   ------------------------------------------------------------
+   TÜM fotoğraf adresleri aşağıda :root içinde
+   tek yerde toplandı. Kendi görsellerini koymak için sadece
+   oradaki url(...) değerlerini değiştirmen yeterli. Örn:
+     --slide-1: url("images/plane-view.jpg");
+   Şu an önizlemede görünsün diye her zaman yüklenen demo
+   fotoğraflar kullanılıyor.
+   ============================================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ---------- 1) TASARIM JETONLARI ---------- */
+:root {
+  /* --- FOTOĞRAFLAR (kendi görsellerinle değiştir) --- */
+  /* Sayfanın tümünü kaplayan sabit arka plan (cam panellerin arkasında blur olarak görünür) */
+  --bg-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80");
+  /* Hero slider kareleri — mutlu tatil manzaraları + manzaralı uçak fotoğrafları (sıcak tonlar) */
+  --slide-1: url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80");  /* Uçak kanadı — gün batımı bulutların üstünde */
+  --slide-2: url("https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?w=1920&q=80");  /* Santorini, Yunanistan */
+  --slide-3: url("https://images.unsplash.com/photo-1527838832700-5059252407fa?w=1920&q=80");  /* İstanbul, Türkiye — gün batımı */
+  --slide-4: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80");  /* Tropik plaj — altın saat */
+
+  /* --- CAM (glass) değerleri: sıcak tonda, hafif turuncu tint --- */
+  --glass-bg:     rgba(255, 214, 170, 0.14);
+  --glass-border: rgba(255, 255, 255, 0.45);
+  --glass-radius: 22px;
+  --glass-shadow: 0 12px 35px rgba(70, 20, 0, 0.2);
+  --blur: 18px;
+
+  /* --- CAM input değerleri --- */
+  --input-bg:     rgba(255, 255, 255, 0.1);
+  --input-border: rgba(255, 255, 255, 0.35);
+
+  /* --- Canlı, sıcak vurgu renkleri (mercan / turuncu / altın) --- */
+  --accent:      #ff6a3d;   /* mercan-turuncu — ana CTA */
+  --accent-2:    #ffb020;   /* altın sarısı — gradient ikinci ucu */
+  --accent-soft: rgba(255, 106, 61, 0.18);
+
+  /* --- Metin ve ölçüler --- */
+  --text:     #ffffff;
+  --text-dim: rgba(255, 244, 235, 0.8);
+  --ink:      #4a1d0f;   /* açık/beyaz buton üstündeki sıcak koyu yazı */
+  --max:      1200px;    /* masaüstünde içerik genişliği */
+}
+
+/* ---------- 2) TEMEL ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+
+  /* Tam ekran fotoğraf + üstünde sıcak, hafif koyu katman (yazılar okunsun diye) */
+  background:
+    linear-gradient(rgba(40, 14, 4, 0.45), rgba(30, 10, 4, 0.55)),
+    var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;   /* kaydırınca sabit kalır; cam paneller onu bulanıklaştırır */
+}
+
+/* İçeriği ortalayan, en fazla 1200px kutu */
+.container { max-width: var(--max); margin: 0 auto; padding-inline: 20px; }
+
+h1, h2, h3 { line-height: 1.1; font-weight: 700; letter-spacing: -0.01em; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ---------- 3) CAM (glass) TEMEL SINIFI ---------- */
+/* Bu sınıfı taşıyan her kutu "buzlu cam" gibi görünür. */
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--blur));
+          backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ---------- 4) CAM INPUT'LAR ---------- */
+.g-input {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 14px;
+  color: #fff;
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+  font-family: inherit;
+}
+.g-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.g-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.16);
+}
+/* Tarih seçicinin (native) yazısı ve ikonu koyu kalmasın diye açık şema */
+.g-input[type="date"] { color-scheme: dark; }
+/* Hata durumunda kırmızımsı kenar */
+.g-input.invalid { border-color: #ff7a7a; background: rgba(255, 80, 80, 0.12); }
+
+/* ---------- 5) BUTONLAR ---------- */
+/* Ana buton: canlı mercan → altın gradient, beyaz yazı */
+.btn-primary-altura {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary-altura:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgba(255, 106, 61, 0.45); }
+
+/* İkincil buton: cam görünüm */
+.btn-glass {
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  border-radius: 12px;
+  font-family: inherit;
+  padding: 0.55rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-glass:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* ---------- 6) NAVBAR ---------- */
+.nav-altura {
+  position: fixed;            /* hero'nun üstünde durur, scroll'da sabit kalır */
+  top: 0; left: 0; right: 0;
+  z-index: 30;
+  padding: 18px 0;
+
+  /* Çok hafif glass: hero fotoğrafı arkasından net hissedilsin */
+  background: rgba(18, 22, 28, 0.08);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 220ms ease, backdrop-filter 220ms ease, border-color 220ms ease;
+}
+/* Scroll ~30px sonrası: glass etkisi biraz güçlenir (hâlâ ağır değil) */
+.nav-altura.scrolled {
+  background: rgba(20, 24, 30, 0.35);
+  -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.brand-mark { flex: none; display: block; filter: drop-shadow(0 4px 10px rgba(255, 106, 61, 0.35)); }
+.brand-name em { font-style: normal; color: var(--accent-2); }
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a { color: var(--text-dim); font-weight: 500; }
+.nav-links a:hover { color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 0.6rem; }
+
+/* Dil / para birimi seçici — sade, neredeyse metin gibi, hiçbir butonla yarışmaz */
+.lang-menu { position: relative; }
+.lang-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+.lang-select i { font-size: 0.85rem; }
+.lang-select i.bi-chevron-down { font-size: 0.7rem; opacity: 0.8; }
+.lang-select:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.lang-select[aria-expanded="true"] { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+/* Dil / para birimi dropdown — küçük, glassmorphism */
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 190px;
+  background: rgba(30, 30, 30, 0.28);
+  -webkit-backdrop-filter: blur(22px);
+          backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.2);
+  padding: 0.4rem;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 50;
+}
+.lang-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.lang-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 0.88rem;
+  padding: 0.55rem 0.65rem;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.lang-option:hover { background: rgba(255, 255, 255, 0.1); }
+.lang-check { font-size: 0.8rem; color: var(--accent-2); opacity: 0; transition: opacity 150ms ease; }
+.lang-option.active .lang-check { opacity: 1; }
+
+/* Sign in: hafif glass buton, ikincil görünüm (ana CTA turuncu kalır) */
+.btn-signin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(14px);
+          backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.55rem 1.1rem;
+  min-height: 42px;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+.btn-signin i { font-size: 0.95rem; }
+.btn-signin:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.55); }
+
+/* Hamburger / kullanıcı menüsü tetikleyicisi */
+.user-menu { position: relative; }
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+.nav-toggle:hover,
+.nav-toggle[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Kullanıcı dropdown — glassmorphism, koyu, arama panelinden daha belirgin bir kart */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 224px;
+  background: rgba(30, 30, 30, 0.28);
+  -webkit-backdrop-filter: blur(22px);
+          backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 50;
+}
+.user-dropdown.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 150ms ease;
+}
+.dropdown-item .menu-icon { flex: none; width: 16px; height: 16px; color: var(--text-dim); }
+.dropdown-item:hover { background: rgba(255, 255, 255, 0.1); }
+.dropdown-divider-custom { border: none; border-top: 1px solid rgba(255, 255, 255, 0.15); margin: 0.4rem 0.2rem; }
+.dropdown-item-danger, .dropdown-item-danger .menu-icon { color: #ffb4a0; }
+.dropdown-item-danger:hover { background: rgba(255, 90, 61, 0.14); }
+
+/* ---------- 7) HERO + SLIDER ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 130px 0 70px;
+  overflow: hidden;
+}
+/* Slider katmanı: kareler üst üste, opacity ile geçiş yapar */
+.slider { position: absolute; inset: 0; z-index: 0; }
+.slide {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 3s ease;
+}
+.slide.active { opacity: 1; }
+.s1 { background-image: var(--slide-1); }
+.s2 { background-image: var(--slide-2); }
+.s3 { background-image: var(--slide-3); }
+.s4 { background-image: var(--slide-4); }
+
+
+/* Slider üstündeki sıcak koyu katman (yazı okunurluğu, gün batımı hissi) */
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(40, 14, 4, 0.25), rgba(35, 12, 6, 0.35) 55%, rgba(20, 8, 4, 0.65)),
+              linear-gradient(90deg, rgba(255, 106, 61, 0.12), transparent 60%);
+}
+.hero .container { position: relative; z-index: 2; width: 100%; }
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  max-width: 16ch;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+}
+.hero .sub {
+  margin-top: 0.75rem;
+  max-width: 48ch;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.05rem;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Slider noktaları */
+.slider-dots { display: flex; gap: 0.5rem; margin-top: 1.25rem; }
+.dot {
+  width: 30px; height: 4px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  border: none; cursor: pointer; padding: 0;
+  transition: background 0.2s ease;
+}
+.dot.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+
+/* Alan (etiket + input) */
+.field { text-align: left; }
+.field > label { display: block; font-size: 0.72rem; color: var(--text-dim); margin-bottom: 0.3rem; font-weight: 600; }
+
+/* ---------- 9) BÖLÜM BAŞLIKLARI ---------- */
+.section { padding: 70px 0; }
+.section-title { font-size: clamp(1.6rem, 3.5vw, 2.3rem); margin-bottom: 0.4rem; }
+.section-sub { color: var(--text-dim); margin-bottom: 1.75rem; }
+
+/* ---------- 10) POPÜLER ROTALAR (sade cam kartlar) ---------- */
+.route-card { padding: 1.4rem; height: 100%; transition: transform 0.2s ease; cursor: pointer; }
+.route-card:hover { transform: translateY(-4px); }
+.route-card .city { font-size: 1.3rem; font-weight: 700; }
+.route-card .country { color: var(--text-dim); font-size: 0.9rem; }
+.route-card .price { margin-top: 0.9rem; font-size: 1.15rem; font-weight: 700; color: var(--accent-2); }
+.route-card .price small { color: var(--text-dim); font-weight: 400; font-size: 0.8rem; }
+
+/* ---------- 11) KAMPANYALAR ---------- */
+.promo-card { padding: 1.6rem; height: 100%; display: flex; flex-direction: column; justify-content: space-between; gap: 1rem; }
+.promo-card .tag { font-size: 0.8rem; color: var(--text-dim); }
+.promo-card h3 { font-size: 1.35rem; }
+.promo-card p { color: var(--text-dim); margin-top: 0.35rem; }
+
+/* ---------- 12) SONUÇLAR (arama sonrası JS ile açılır) ---------- */
+#results { display: none; }
+.flight-row {
+  padding: 1.1rem 1.3rem; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;
+}
+.airline-badge {
+  width: 46px; height: 46px; border-radius: 12px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #12243c; background: rgba(255, 255, 255, 0.9);
+}
+.time-big { font-size: 1.2rem; font-weight: 700; }
+.route-mid { display: flex; align-items: center; gap: 0.5rem; color: var(--text-dim); min-width: 120px; }
+.route-mid .line { flex: 1; height: 1px; background: rgba(255, 255, 255, 0.35); min-width: 50px; }
+.price-big { font-size: 1.5rem; font-weight: 800; color: var(--accent-2); }
+
+/* ---------- 13) FOOTER ---------- */
+footer {
+  margin-top: 20px;
+  background: rgba(35, 12, 6, 0.6);
+  -webkit-backdrop-filter: blur(var(--blur));
+          backdrop-filter: blur(var(--blur));
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 50px 0 30px;
+}
+.footer-grid { display: flex; flex-wrap: wrap; gap: 2.5rem; justify-content: space-between; }
+.footer-col h4 { font-size: 0.95rem; margin-bottom: 0.75rem; }
+.footer-col a { display: block; color: var(--text-dim); padding: 0.2rem 0; }
+.footer-col a:hover { color: #fff; }
+.footer-bottom {
+  margin-top: 2rem; padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+  color: var(--text-dim); font-size: 0.85rem;
+}
+
+/* ---------- 14) RESPONSIVE (mobil: kartlar alt alta) ---------- */
+@media (max-width: 992px) {
+  .nav-links { display: none; }              /* mobilde orta linkleri gizle */
+}
+@media (max-width: 768px) {
+  .flight-row { gap: 0.75rem; }
+}
+/* Navbar: mobilde sağ taraf sadeleşir, dokunma alanları 40-44px'de kalır */
+@media (max-width: 480px) {
+  .nav-right { gap: 0.4rem; }
+  .lang-select span { display: none; }        /* sadece globe + chevron kalır */
+  .lang-select { padding: 0.5rem; }
+  .btn-signin span { display: none; }         /* sadece kullanıcı ikonu kalır */
+  .btn-signin { padding: 0.55rem; width: 42px; justify-content: center; }
+  .user-dropdown { min-width: 200px; right: -4px; }
+}
+
+/* ---------- 15) ERİŞİLEBİLİRLİK ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .slide, .route-card, .btn-primary-altura { transition: none; }
+}
+:focus-visible { outline: 3px solid #fff; outline-offset: 2px; border-radius: 6px; }
+
+/* ============================================================
+   KAMPANYALAR — FIRSAT UÇUŞLAR (campaign-* prefix)
+   Asimetrik CSS Grid, mevcut glassmorphism temasına uyumlu.
+   ============================================================ */
+
+/* Başlık satırı: solda etiket+başlık, sağda fiyat garantisi */
+.campaign-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; margin-bottom: 1.75rem;
+}
+.campaign-eyebrow {
+  display: inline-block; margin-bottom: 0.5rem;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent);
+}
+.campaign-title { margin-bottom: 0; }
+.campaign-guarantee {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1rem; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  font-size: 0.88rem; font-weight: 600; color: #fff; white-space: nowrap;
+}
+.campaign-guarantee i { color: var(--accent-2); font-size: 1rem; }
+
+/* Asimetrik grid: 1.8fr | 0.85fr | 0.85fr, öne çıkan kart 2 satır kaplar */
+.campaign-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 0.85fr 0.85fr;
+  grid-auto-rows: 1fr;
+  gap: 1.25rem;
+}
+.campaign-featured { grid-row: span 2; }
+
+/* Kart temeli — .glass ile birlikte kullanılır */
+.campaign-card {
+  display: flex; flex-direction: column; overflow: hidden;
+  color: inherit; cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.campaign-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(70, 20, 0, 0.32);
+}
+
+/* Görsel alanı */
+.campaign-media { width: 100%; overflow: hidden; }
+.campaign-media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.5s ease;
+}
+.campaign-card:hover .campaign-media img { transform: scale(1.05); }
+.campaign-small .campaign-media { height: 150px; }
+.campaign-featured .campaign-media { height: 300px; }
+
+/* Metin gövdesi */
+.campaign-body {
+  display: flex; flex-direction: column;
+  padding: 1.1rem 1.25rem 1.3rem; flex: 1;
+}
+.campaign-route {
+  font-size: 1.15rem; font-weight: 700; color: #fff; line-height: 1.25;
+}
+.campaign-route span { color: var(--accent-2); font-weight: 600; }
+.campaign-featured .campaign-route { font-size: 1.55rem; }
+.campaign-date { margin-top: 0.4rem; font-size: 0.85rem; color: var(--text-dim); }
+.campaign-desc { margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-dim); }
+.campaign-price {
+  margin-top: 0.35rem; font-size: 1.25rem; font-weight: 800; color: var(--accent-2);
+}
+.campaign-featured .campaign-price { font-size: 1.6rem; }
+
+/* TABLET: büyük kart üstte tam genişlik, küçükler 2 sütun */
+@media (max-width: 992px) {
+  .campaign-grid { grid-template-columns: 1fr 1fr; }
+  .campaign-featured { grid-column: 1 / -1; grid-row: auto; }
+  .campaign-featured .campaign-media { height: 260px; }
+}
+
+/* MOBİL: tek sütun */
+@media (max-width: 576px) {
+  .campaign-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .campaign-featured .campaign-media,
+  .campaign-small .campaign-media { height: 180px; }
+  .campaign-featured .campaign-route { font-size: 1.3rem; }
+  .campaign-featured .campaign-price { font-size: 1.4rem; }
+  .campaign-body { padding: 1rem 1.1rem 1.15rem; }
+}
+
+.search-page-body .fly-footer {
+    margin-top: 0;
+}
+
+.search-page-body {
+    background: #5c4b49;
+}

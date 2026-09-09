@@ -1,0 +1,159 @@
+﻿@{
+    ViewData["Title"] = "Rezervasyon Onayı";
+    ViewData["BookingStep"] = "Confirmation";
+    Layout = "~/Views/Shared/_BookingFlowLayout.cshtml";
+}
+
+@section PageStyles {
+    <link rel="stylesheet" href="~/css/confirmation.css" asp-append-version="true" />
+}
+
+<div class="confirmation-main">
+
+    <!-- PAGE HEADER -->
+    <div class="confirmation-page-header">
+        <h1>Gözden Geçir & Onayla</h1>
+        <p>Rezervasyonunu tamamlamadan önce bilgilerini ve seçimlerini kontrol et.</p>
+    </div>
+
+    <!-- PASSENGER SUMMARY -->
+    <div class="confirmation-card">
+
+        <div class="confirmation-card-header">
+            <div>
+                <i class="bi bi-person-fill"></i>
+                <h2>Yolcu Bilgileri</h2>
+            </div>
+
+            <button type="button" class="confirmation-edit-btn" id="editPassengerBtn">
+                <i class="bi bi-pencil"></i>
+                Düzenle
+            </button>
+        </div>
+
+        <div class="confirmation-card-body">
+
+            <div id="confirmPassengersContainer">
+                <!-- Passengers will be rendered with JavaScript -->
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CONTACT SUMMARY -->
+    <div class="confirmation-card">
+
+        <div class="confirmation-card-header">
+            <div>
+                <i class="bi bi-envelope-fill"></i>
+                <h2>İletişim Bilgileri</h2>
+            </div>
+        </div>
+
+        <div class="confirmation-card-body">
+
+            <div class="confirmation-info-grid">
+
+                <div class="confirmation-info-item">
+                    <span>Ad</span>
+                    <strong id="confirmContactFirstName">-</strong>
+                </div>
+
+                <div class="confirmation-info-item">
+                    <span>Soyad</span>
+                    <strong id="confirmContactLastName">-</strong>
+                </div>
+
+                <div class="confirmation-info-item">
+                    <span>E-posta</span>
+                    <strong id="confirmEmail">-</strong>
+                </div>
+
+                <div class="confirmation-info-item">
+                    <span>Telefon</span>
+                    <strong id="confirmPhone">-</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BAGGAGE SUMMARY -->
+    <div class="confirmation-card">
+
+        <div class="confirmation-card-header">
+            <div>
+                <i class="bi bi-luggage-fill"></i>
+                <h2>Bagaj Seçimleri</h2>
+            </div>
+
+            <button type="button" class="confirmation-edit-btn" id="editBaggageBtn">
+                <i class="bi bi-pencil"></i>
+                Düzenle
+            </button>
+        </div>
+
+        <div class="confirmation-card-body">
+
+            <div class="confirmation-baggage-row">
+                <div>
+                    <span>Kabin Bagajı</span>
+                    <strong id="confirmCabinBaggage">-</strong>
+                </div>
+
+                <strong class="confirmation-baggage-price" id="confirmCabinBaggagePrice">
+                    0 TL
+                </strong>
+            </div>
+
+            <div class="confirmation-baggage-row">
+                <div>
+                    <span>Uçak Altı Bagajı</span>
+                    <strong id="confirmCheckedBaggage">-</strong>
+                </div>
+
+                <strong class="confirmation-baggage-price" id="confirmCheckedBaggagePrice">
+                    0 TL
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CONFIRM -->
+    <div class="confirmation-agreement">
+
+        <label>
+            <input type="checkbox" id="confirmationAgreement" />
+
+            <span>
+                Rezervasyon bilgilerimi kontrol ettim ve doğru olduğunu onaylıyorum.
+            </span>
+        </label>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="confirmation-actions">
+
+        <button type="button" class="confirmation-back-btn" id="confirmationBackBtn">
+            <i class="bi bi-arrow-left"></i>
+            Bagaja Dön
+        </button>
+
+        <button type="button" class="confirmation-complete-btn" id="completeBookingBtn">
+            <i class="bi bi-credit-card-fill"></i>
+            Ödemeye Geç
+        </button>
+
+    </div>
+
+</div>
+
+@section PageScripts {
+    <script src="~/js/confirmation.js" asp-append-version="true"></script>
+}

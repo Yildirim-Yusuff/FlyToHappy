@@ -1,0 +1,420 @@
+﻿/* ========================
+   RESERVATION SUCCESS PAGE
+   Reuses FlyToHappy glass-card design tokens.
+======================== */
+
+.success-page {
+    padding-top: 130px;
+    padding-bottom: 80px;
+}
+
+.success-hero,
+.success-section,
+.success-actions {
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ========================
+   HERO
+======================== */
+
+.success-hero {
+    margin-bottom: 24px;
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 16px;
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.10);
+}
+
+.success-hero-top {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 26px 28px;
+}
+
+.success-check {
+    width: 62px;
+    height: 62px;
+    margin: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255,176,32,.45);
+    background: rgba(255,176,32,.16);
+    color: #ffcf5c;
+    font-size: 2rem;
+}
+
+.success-hero h1 {
+    margin: 0 0 6px;
+    color: #fff;
+    font-size: 1.55rem;
+    font-weight: 800;
+}
+
+.success-hero p {
+    margin: 0;
+    color: rgba(255,255,255,.72);
+    font-size: .9rem;
+}
+
+
+/* ========================
+   PNR AND ROUTE BAND
+======================== */
+
+.success-hero-band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 16px 28px;
+    border-top: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,176,32,.06);
+}
+
+.success-band-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.success-pnr {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 22px;
+    border: 1px dashed rgba(255,176,32,.5);
+    border-radius: 12px;
+    background: rgba(255,176,32,.08);
+}
+
+    .success-pnr span {
+        color: rgba(255,255,255,.80);
+        font-size: .72rem;
+    }
+
+    .success-pnr strong {
+        color: #ffcf5c;
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: 3px;
+    }
+
+.success-route {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .success-route > span:first-child {
+        color: rgba(255,255,255,.80);
+        font-size: .70rem;
+    }
+
+    .success-route strong {
+        color: #fff;
+        font-size: .9rem;
+        font-weight: 700;
+    }
+
+    .success-route strong em {
+        color: rgba(255,255,255,.62);
+        font-style: normal;
+        font-weight: 500;
+    }
+
+    .success-route small {
+        color: rgba(255,255,255,.78);
+        font-size: .75rem;
+    }
+
+
+/* ========================
+   SECTIONS
+======================== */
+
+.success-section {
+    margin-bottom: 24px;
+}
+
+.success-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+    .success-section-title i {
+        color: #ffcf5c;
+        font-size: .95rem;
+    }
+
+/* Flight cards stacked in the success context */
+.success-section .flight-summary-card {
+    margin-bottom: 16px;
+}
+
+    .success-section .flight-summary-card:last-child {
+        margin-bottom: 0;
+    }
+
+.flight-summary-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255,176,32,.12);
+    color: #ffcf5c;
+    font-size: .70rem;
+    font-weight: 700;
+}
+
+.flight-summary-facts {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.flight-summary-fact {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999px;
+    color: rgba(255,255,255,.80);
+    font-size: .70rem;
+    font-weight: 600;
+}
+
+    .flight-summary-fact i {
+        color: #ffcf5c;
+    }
+
+.success-flight-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 4px 18px 18px;
+}
+
+.success-flight-point strong {
+    color: #fff;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: -.02em;
+}
+
+.success-flight-point .iata {
+    color: rgba(255,255,255,.80);
+    font-size: 1.02rem;
+    font-weight: 800;
+    letter-spacing: .3px;
+}
+
+.success-flight-point .airport {
+    margin-top: 3px;
+    color: #ffcf5c;
+    font-size: .82rem;
+    font-weight: 500;
+}
+
+.success-flight-point .date {
+    color: rgba(255,255,255,.78);
+    font-size: .74rem;
+    font-weight: 600;
+}
+
+.success-flight-point--arrival {
+    text-align: right;
+}
+
+.success-flight-path {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 180px;
+}
+
+    .success-flight-path > span {
+        color: rgba(255,255,255,.80);
+        font-size: .74rem;
+        font-weight: 600;
+    }
+
+.success-flight-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+    .success-flight-line .dot {
+        width: 9px;
+        height: 9px;
+        flex-shrink: 0;
+        border: 2px solid #ffb020;
+        border-radius: 50%;
+        background: #5c4b49;
+    }
+
+    .success-flight-line .path {
+        flex: 1;
+        height: 2px;
+        background: rgba(255,176,32,.55);
+    }
+
+    .success-flight-line i {
+        color: #ffcf5c;
+        font-size: .82rem;
+    }
+
+.success-section .confirmation-info-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Passenger blocks spacing */
+.success-section .confirmation-passenger-block + .confirmation-passenger-block {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.10);
+}
+
+.success-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+    max-width: 820px;
+    margin: 0 auto 24px;
+}
+
+    .success-two-col .success-section {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+
+/* ========================
+   ACTIONS (home button matches existing primary CTA)
+======================== */
+
+.success-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.success-home-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff6a3d, #ffb020);
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 22px rgba(255,106,61,.22);
+    transition: transform .2s ease;
+}
+
+    .success-home-btn:hover {
+        transform: translateY(-1px);
+        color: #fff;
+    }
+
+    .success-home-btn i {
+        font-size: 1rem;
+    }
+
+
+/* ========================
+   RESPONSIVE
+======================== */
+
+@media (max-width: 768px) {
+    .success-page {
+        padding-top: 110px;
+    }
+
+    .success-hero-top {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px 18px;
+    }
+
+    .success-hero-band {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px 18px;
+    }
+
+    .success-band-left {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    .success-hero h1 {
+        font-size: 1.3rem;
+    }
+
+    .success-pnr strong {
+        font-size: 1.3rem;
+    }
+
+    .flight-summary-airline {
+        flex-wrap: wrap;
+    }
+
+    .flight-summary-facts {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .success-flight-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .success-flight-point--arrival {
+        text-align: left;
+    }
+
+    .success-flight-path {
+        width: 100%;
+    }
+
+    .success-two-col {
+        grid-template-columns: 1fr;
+    }
+
+    .success-section .confirmation-info-grid {
+        grid-template-columns: 1fr;
+    }
+}

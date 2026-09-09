@@ -1,0 +1,399 @@
+﻿/* ========================
+   PAGE HEADER
+======================== */
+
+.baggage-page-header {
+    margin-bottom: 24px;
+}
+
+    .baggage-page-header h1 {
+        margin: 0 0 6px;
+        color: #fff;
+        font-size: 1.55rem;
+        font-weight: 750;
+    }
+
+    .baggage-page-header p {
+        margin: 0;
+        color: rgba(255,255,255,.58);
+        font-size: .84rem;
+    }
+
+.baggage-main {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+}
+
+
+/* ========================
+   BAGGAGE CARD
+======================== */
+
+.baggage-card {
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 18px;
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.08);
+}
+
+.baggage-card-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 22px;
+}
+
+.baggage-card-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: rgba(255,176,32,.13);
+    color: #ffcf5c;
+}
+
+.baggage-card-header h2 {
+    margin: 0 0 3px;
+    color: #fff;
+    font-size: 1.23rem;
+    font-weight: 700;
+}
+
+.baggage-card-header p {
+    margin: 0;
+    color: rgba(255,255,255,.50);
+    font-size: .73rem;
+}
+
+
+/* ========================
+   CABIN BAGGAGE
+======================== */
+
+.baggage-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 14px;
+}
+
+.baggage-option {
+    position: relative;
+    min-width: 0;
+    cursor: pointer;
+}
+
+    .baggage-option > input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+    }
+
+.baggage-option-content {
+    position: relative;
+    height: 100%;
+    padding: 17px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 15px;
+    background: rgba(255,255,255,.035);
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.baggage-option:hover .baggage-option-content {
+    border-color: rgba(255,176,32,.35);
+    background: rgba(255,255,255,.055);
+}
+
+.baggage-option.selected .baggage-option-content {
+    border-color: #ffb020;
+    background: rgba(255,176,32,.09);
+}
+
+
+/* ========================
+   CABIN SELECT CHECK
+======================== */
+
+.baggage-option-content::after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,.30);
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,.18);
+    color: #fff;
+    font-family: "bootstrap-icons";
+    font-size: .68rem;
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.baggage-option.selected .baggage-option-content::after {
+    content: "\F26E";
+    border-color: #ff8a3d;
+    background: linear-gradient(135deg,#ff6a3d,#ffb020);
+    box-shadow: 0 5px 14px rgba(255,106,61,.30);
+}
+
+
+/* ========================
+   CABIN OPTION CONTENT
+======================== */
+
+.baggage-option-top {
+    min-height: 57px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.baggage-option-image {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: rgba(255,255,255,.07);
+    color: #fff;
+    font-size: 2.25rem;
+}
+
+.baggage-free-badge,
+.baggage-weight-badge {
+    position: absolute;
+    top: 43px;
+    right: 11px;
+    padding: 4px 7px;
+    border-radius: 20px;
+    font-size: .80rem;
+    font-weight: 700;
+}
+
+.baggage-free-badge {
+    background: rgba(109,210,146,.12);
+    color: #9be6b6;
+}
+
+.baggage-weight-badge {
+    background: rgba(255,176,32,.10);
+    color: #ffcf5c;
+}
+
+.baggage-option-info {
+    margin-top: 12px;
+}
+
+    .baggage-option-info h3 {
+        margin: 0 0 5px;
+        color: #fff;
+        font-size: .97rem;
+        font-weight: 700;
+    }
+
+    .baggage-option-info p {
+        min-height: 38px;
+        margin: 0;
+        color: rgba(255,255,255,.44);
+        font-size: .75rem;
+        line-height: 1.45;
+    }
+
+.baggage-option-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,.08);
+}
+
+    .baggage-option-footer span {
+        color: rgba(255,255,255,.52);
+        font-size: .68rem;
+    }
+
+    .baggage-option-footer strong {
+        color: #ffcf5c;
+        font-size: .77rem;
+    }
+
+
+/* ========================
+   CHECKED BAGGAGE
+======================== */
+
+.checked-baggage-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checked-baggage-option {
+    position: relative;
+    display: grid;
+    grid-template-columns: 20px minmax(0,1fr) auto;
+    gap: 13px;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,.11);
+    border-radius: 13px;
+    background: rgba(255,255,255,.03);
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease;
+}
+
+    .checked-baggage-option > input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+    }
+
+    .checked-baggage-option:hover {
+        border-color: rgba(255,176,32,.30);
+    }
+
+    .checked-baggage-option.selected {
+        border-color: #ffb020;
+        background: rgba(255,176,32,.08);
+    }
+
+.checked-baggage-radio {
+    width: 17px;
+    height: 17px;
+    display: block;
+    border: 2px solid rgba(255,255,255,.25);
+    border-radius: 50%;
+}
+
+.checked-baggage-option.selected .checked-baggage-radio {
+    border: 5px solid #ffb020;
+    background: #fff;
+}
+
+.checked-baggage-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+    .checked-baggage-info strong {
+        color: #fff;
+        font-size: .78rem;
+        font-weight: 650;
+    }
+
+    .checked-baggage-info small {
+        color: rgba(255,255,255,.42);
+        font-size: .67rem;
+    }
+
+.checked-baggage-price strong {
+    color: #ffcf5c;
+    font-size: .78rem;
+}
+
+
+/* ========================
+   ACTIONS
+======================== */
+
+.baggage-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.baggage-back-btn,
+.baggage-continue-btn {
+    min-height: 46px;
+    padding: 0 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 12px;
+    font-size: .8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.baggage-back-btn {
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.75);
+}
+
+    .baggage-back-btn:hover {
+        background: rgba(255,255,255,.09);
+    }
+
+.baggage-continue-btn {
+    border: none;
+    background: linear-gradient(135deg,#ff6a3d,#ffb020);
+    color: #fff;
+    box-shadow: 0 8px 22px rgba(255,106,61,.18);
+}
+
+    .baggage-continue-btn:hover {
+        transform: translateY(-1px);
+    }
+
+
+/* ========================
+   RESPONSIVE
+======================== */
+
+@media (max-width: 991.98px) {
+    .baggage-options {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .baggage-options {
+        grid-template-columns: 1fr;
+    }
+
+    .baggage-actions {
+        flex-direction: column-reverse;
+    }
+
+    .baggage-back-btn,
+    .baggage-continue-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .baggage-card {
+        padding: 18px;
+    }
+
+    .checked-baggage-option {
+        grid-template-columns: 18px minmax(0,1fr);
+    }
+
+    .checked-baggage-price {
+        grid-column: 2;
+    }
+}

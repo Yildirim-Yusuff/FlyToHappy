@@ -1,0 +1,29 @@
+# local files
+/.claude/
+/Claude outputs/
+
+# QA temporary folders
+/.qa/
+/.qa-*/
+
+# Knowledge
+/FlyToHappy/knowledge/
+
+# Ignore every Markdown file
+*.md
+
+# But allow root README.md
+!/README.md
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# .NET build outputs
+bin/
+obj/
+
+# OS files
+.DS_Store
+Thumbs.db

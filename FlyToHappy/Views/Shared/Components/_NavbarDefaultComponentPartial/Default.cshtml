@@ -1,0 +1,98 @@
+﻿ <!-- ================= NAVBAR ================= -->
+<nav class="nav-altura">
+    <div class="container nav-inner">
+        <a href="#" class="brand">
+            <svg class="brand-mark" width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="fthGradNav" x1="4" y1="36" x2="36" y2="4" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#ff6a3d" />
+                        <stop offset="1" stop-color="#ffb020" />
+                    </linearGradient>
+                </defs>
+                <rect width="40" height="40" rx="12" fill="url(#fthGradNav)" />
+                <path d="M7 25c4.5 6.5 21.5 6.5 26 0" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-dasharray="0.5 5.2" opacity="0.9" />
+                <path d="M12.5 22.5 29 9.5 23 27 19.3 20 12.5 22.5Z" fill="#fff" />
+                <path d="M19.3 20 23 27 20.3 22.3 19.3 20Z" fill="#ffd9bd" />
+                <path d="M31 8.3l0.9 2.1 2.1 0.9-2.1 0.9-0.9 2.1-0.9-2.1-2.1-0.9 2.1-0.9 0.9-2.1Z" fill="#fff" />
+            </svg>
+            <span class="brand-name">FlyTo<em>Happy</em></span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#popularDestinations">Popüler Rotalar</a>
+            <a href="#popularFlights">Kampanyalar</a>
+            <a href="#additionalServices">Ek Hizmetler</a>
+            <a href="#flyToHappyFaq">Yardım</a>
+        </div>
+
+        <div class="nav-right">
+            <div class="lang-menu">
+                <button class="lang-select" id="langToggle" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Dil ve para birimi seçimi">
+                    <i class="bi bi-globe2"></i>
+                    <span id="langLabel">TR / TRY</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+
+                <div class="lang-dropdown" id="langDropdown">
+                    <button type="button" class="lang-option" data-lang="EN" data-currency="USD">
+                        <span>English / USD</span>
+                        <i class="bi bi-check2 lang-check"></i>
+                    </button>
+
+                    <button type="button" class="lang-option active" data-lang="TR" data-currency="TRY">
+                        <span>Türkçe / TRY</span>
+                        <i class="bi bi-check2 lang-check"></i>
+                    </button>
+                </div>
+            </div>
+
+            <a href="#" class="btn-signin" aria-label="Giriş yap">
+                <i class="bi bi-person"></i>
+                <span>Giriş Yap</span>
+            </a>
+
+            <div class="user-menu">
+                <button class="nav-toggle" id="menuToggle" type="button" aria-label="Kullanıcı menüsü" aria-haspopup="true" aria-expanded="false">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="#" class="dropdown-item">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        Profilim
+                    </a>
+
+                    <a href="#" class="dropdown-item">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        </svg>
+                        Rezervasyonlarım
+                    </a>
+
+                    <a href="#" class="dropdown-item">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                        Ayarlar
+                    </a>
+
+                    <hr class="dropdown-divider-custom" />
+
+                    <a href="#" class="dropdown-item dropdown-item-danger">
+                        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" x2="9" y1="12" y2="12" />
+                        </svg>
+                        Çıkış Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

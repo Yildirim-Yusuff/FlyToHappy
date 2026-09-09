@@ -1,0 +1,281 @@
+﻿@{
+    ViewData["Title"] = "Bagaj";
+    ViewData["BookingStep"] = "Baggage";
+    Layout = "~/Views/Shared/_BookingFlowLayout.cshtml";
+}
+
+@section PageStyles {
+    <link rel="stylesheet" href="~/css/baggage.css" asp-append-version="true" />
+}
+
+<div class="baggage-main">
+
+    <!-- PAGE HEADER -->
+    <div class="baggage-page-header">
+        <h1>Bagaj Seçimi</h1>
+        <p>Seyahatin için ihtiyacın olan bagaj hakkını seç.</p>
+    </div>
+
+    <!-- CABIN BAGGAGE -->
+    <div class="baggage-card">
+
+        <div class="baggage-card-header">
+            <div class="baggage-card-icon">
+                <i class="bi bi-briefcase-fill"></i>
+            </div>
+
+            <div>
+                <h2>Kabin Bagajı</h2>
+                <p>Uçakta yanında taşımak istediğin bagaj seçeneğini belirle.</p>
+            </div>
+        </div>
+
+        <div class="baggage-options cabin-options">
+
+            <!-- PERSONAL ITEM -->
+            <label class="baggage-option selected">
+                <input type="radio"
+                       name="cabinBaggage"
+                       value="personal"
+                       data-name="Kişisel Eşya"
+                       data-kg="0"
+                       data-price="0"
+                       checked />
+
+                <div class="baggage-option-content">
+
+                    <div class="baggage-option-top">
+                        <div class="baggage-option-image">
+                            <i class="bi bi-backpack-fill"></i>
+                        </div>
+
+                        <span class="baggage-free-badge">Ücretsiz</span>
+                    </div>
+
+                    <div class="baggage-option-info">
+                        <h3>Kişisel Eşya</h3>
+                        <p>Koltuk altına sığabilecek küçük çanta.</p>
+                    </div>
+
+                    <div class="baggage-option-footer">
+                        <span>Küçük Çanta</span>
+                        <strong>0 TL</strong>
+                    </div>
+
+                </div>
+            </label>
+
+            <!-- CABIN S -->
+            <label class="baggage-option">
+                <input type="radio"
+                       name="cabinBaggage"
+                       value="cabin-s"
+                       data-name="Kabin Valizi S"
+                       data-kg="8"
+                       data-price="350" />
+
+                <div class="baggage-option-content">
+
+                    <div class="baggage-option-top">
+                        <div class="baggage-option-image">
+                            <i class="bi bi-suitcase-lg-fill"></i>
+                        </div>
+
+                        <span class="baggage-weight-badge">8 kg</span>
+                    </div>
+
+                    <div class="baggage-option-info">
+                        <h3>Kabin Valizi S</h3>
+                        <p>Üst bagaj bölmesine uygun kabin valizi.</p>
+                    </div>
+
+                    <div class="baggage-option-footer">
+                        <span>8 kg</span>
+                        <strong>+350 TL</strong>
+                    </div>
+
+                </div>
+            </label>
+
+            <!-- CABIN L -->
+            <label class="baggage-option">
+                <input type="radio"
+                       name="cabinBaggage"
+                       value="cabin-l"
+                       data-name="Kabin Valizi L"
+                       data-kg="12"
+                       data-price="550" />
+
+                <div class="baggage-option-content">
+
+                    <div class="baggage-option-top">
+                        <div class="baggage-option-image">
+                            <i class="bi bi-suitcase2-fill"></i>
+                        </div>
+
+                        <span class="baggage-weight-badge">12 kg</span>
+                    </div>
+
+                    <div class="baggage-option-info">
+                        <h3>Kabin Valizi L</h3>
+                        <p>Daha fazla eşya için geniş kabin seçeneği.</p>
+                    </div>
+
+                    <div class="baggage-option-footer">
+                        <span>12 kg</span>
+                        <strong>+550 TL</strong>
+                    </div>
+
+                </div>
+            </label>
+
+        </div>
+
+    </div>
+
+    <!-- CHECKED BAGGAGE -->
+    <div class="baggage-card">
+
+        <div class="baggage-card-header">
+            <div class="baggage-card-icon">
+                <i class="bi bi-luggage-fill"></i>
+            </div>
+
+            <div>
+                <h2>Uçak Altı Bagajı</h2>
+                <p>Check-in sırasında teslim edeceğin ek bagaj hakkını belirle.</p>
+            </div>
+        </div>
+
+        <div class="checked-baggage-options">
+
+            <!-- NO EXTRA BAGGAGE -->
+            <label class="checked-baggage-option selected">
+                <input type="radio"
+                       name="checkedBaggage"
+                       value="0"
+                       data-name="Ek bagaj yok"
+                       data-kg="0"
+                       data-price="0"
+                       checked />
+
+                <span class="checked-baggage-radio"></span>
+
+                <div class="checked-baggage-info">
+                    <strong>Ek bagaj istemiyorum</strong>
+                    <small>Mevcut bagaj hakkın ile devam et.</small>
+                </div>
+
+                <div class="checked-baggage-price">
+                    <strong>0 TL</strong>
+                </div>
+            </label>
+
+            <!-- 12 KG -->
+            <label class="checked-baggage-option">
+                <input type="radio"
+                       name="checkedBaggage"
+                       value="12"
+                       data-name="+12 kg Ek Bagaj"
+                       data-kg="12"
+                       data-price="1056" />
+
+                <span class="checked-baggage-radio"></span>
+
+                <div class="checked-baggage-info">
+                    <strong>+12 kg Ek Bagaj</strong>
+                    <small>Kısa seyahatler için ideal.</small>
+                </div>
+
+                <div class="checked-baggage-price">
+                    <strong>+1.056 TL</strong>
+                </div>
+            </label>
+
+            <!-- 20 KG -->
+            <label class="checked-baggage-option">
+                <input type="radio"
+                       name="checkedBaggage"
+                       value="20"
+                       data-name="+20 kg Ek Bagaj"
+                       data-kg="20"
+                       data-price="1677.50" />
+
+                <span class="checked-baggage-radio"></span>
+
+                <div class="checked-baggage-info">
+                    <strong>+20 kg Ek Bagaj</strong>
+                    <small>Standart valizler için uygun.</small>
+                </div>
+
+                <div class="checked-baggage-price">
+                    <strong>+1.677,50 TL</strong>
+                </div>
+            </label>
+
+            <!-- 30 KG -->
+            <label class="checked-baggage-option">
+                <input type="radio"
+                       name="checkedBaggage"
+                       value="30"
+                       data-name="+30 kg Ek Bagaj"
+                       data-kg="30"
+                       data-price="4161.30" />
+
+                <span class="checked-baggage-radio"></span>
+
+                <div class="checked-baggage-info">
+                    <strong>+30 kg Ek Bagaj</strong>
+                    <small>Uzun seyahatler için ekstra alan.</small>
+                </div>
+
+                <div class="checked-baggage-price">
+                    <strong>+4.161,30 TL</strong>
+                </div>
+            </label>
+
+            <!-- 50 KG -->
+            <label class="checked-baggage-option">
+                <input type="radio"
+                       name="checkedBaggage"
+                       value="50"
+                       data-name="+50 kg Ek Bagaj"
+                       data-kg="50"
+                       data-price="9128.90" />
+
+                <span class="checked-baggage-radio"></span>
+
+                <div class="checked-baggage-info">
+                    <strong>+50 kg Ek Bagaj</strong>
+                    <small>Maksimum ek bagaj seçeneği.</small>
+                </div>
+
+                <div class="checked-baggage-price">
+                    <strong>+9.128,90 TL</strong>
+                </div>
+            </label>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="baggage-actions">
+
+        <button type="button" class="baggage-back-btn" id="baggageBackBtn">
+            <i class="bi bi-arrow-left"></i>
+            Geri Dön
+        </button>
+
+        <button type="button" class="baggage-continue-btn" id="baggageContinueBtn">
+            Onaya Devam Et
+            <i class="bi bi-arrow-right"></i>
+        </button>
+
+    </div>
+
+</div>
+
+@section PageScripts {
+    <script src="~/js/baggage.js" asp-append-version="true"></script>
+}

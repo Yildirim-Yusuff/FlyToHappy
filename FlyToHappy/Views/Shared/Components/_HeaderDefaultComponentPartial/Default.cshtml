@@ -1,0 +1,413 @@
+﻿<script src="https://unpkg.com/lucide@latest"> </script>
+<style>
+.hero-info-grid {
+        margin-top: 3.7rem;
+        position: relative;
+        z-index: 1;
+    }
+
+.hero-info-card {
+        height: 100%;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 24px;
+        border-radius: 16px;
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 10px 28px rgba(0,0,0,.12);
+        transition: transform .3s ease, background .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+
+.hero-info-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,.12);
+            border-color: rgba(255,176,32,.30);
+            box-shadow: 0 16px 34px rgba(0,0,0,.18);
+        }
+
+.hero-info-icon {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: rgba(255,255,255,.05);
+        border: 1px solid rgba(255,255,255,.15);
+    }
+
+.hero-info-icon svg {
+            width: 26px;
+            height: 26px;
+            color: var(--accent-2, #ffb020);
+            stroke-width: 1.9;
+        }
+
+.hero-info-content {
+        min-width: 0;
+    }
+
+.hero-info-content h3 {
+            margin: 0 0 6px;
+            color: #fff;
+            font-size: 1.08rem;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+.hero-info-content p {
+            margin: 0;
+            color: var(--text-dim, rgba(255,255,255,.70));
+            font-size: .88rem;
+            line-height: 1.5;
+        }
+
+.hero .container .hero-info-grid {
+        margin-top: 0 !important;
+        position: relative;
+        top: 5px;
+    }
+
+@@media (max-width: 768px) {
+.hero-info-card {
+            padding: 20px;
+        }
+.hero-info-icon {
+            width: 46px;
+            height: 46px;
+            flex-basis: 46px;
+        }
+.hero-info-icon svg {
+                width: 24px;
+                height: 24px;
+            }
+.hero-info-content h3 {
+            font-size: 1rem;
+        }
+.hero-info-content p {
+            font-size: .83rem;
+        }
+}
+
+.hero-info-grid,
+    .hero-info-card {
+        position: relative;
+        z-index: 1;
+    }
+
+@@media (max-width: 768px) {
+.hero-info-card {
+            padding: 1.1rem;
+        }
+}
+
+@@media (max-width: 991px) {
+.hero {
+            height: auto;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+.hero .container {
+                width: 100%;
+                max-width: 100%;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+}
+
+@@media (max-width: 576px) {
+.hero {
+            padding-top: 85px;
+        }
+.hero h1 {
+                font-size: 2rem;
+                line-height: 1.05;
+                margin-bottom: 12px;
+            }
+.hero .sub {
+                font-size: .92rem;
+                line-height: 1.5;
+                margin-bottom: 24px;
+            }
+}
+
+@@media (max-width: 390px) {
+.hero h1 {
+            font-size: 1.75rem;
+        }
+}
+
+.hero .slide {
+        opacity: 0;
+        transition: opacity 4s ease-in-out;
+    }
+
+.hero .slide.active {
+            opacity: 1;
+        }
+
+#heroTitle,
+    #heroText {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+.hero-text-animate {
+        animation: heroTextFade 4s ease-in-out;
+    }
+
+@@keyframes heroTextFade {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<header class="hero">
+    <div class="slider">
+        <div class="slide s1 active"
+             data-city="Golden hour"
+             data-country="35,000 ft"
+             data-title="Hayalindeki Rotaya Uygun Fiyatlarla Uç"
+             data-text="Yüzlerce hava yolu arasından en uygun uçuşları bul, seyahatini kolayca planla ve dünyayı keşfet.">
+        </div>
+
+        <div class="slide s2"
+             data-city="Santorini"
+             data-country="Greece"
+             data-title="Yeni Şehirler, Yeni Hikâyeler"
+             data-text="Avrupa'nın en güzel şehirlerine uygun uçuş seçeneklerini keşfet ve yeni macerana bugün başla.">
+        </div>
+
+        <div class="slide s3"
+             data-city="Istanbul"
+             data-country="Türkiye"
+             data-title="Seyahatin İstanbul’dan Başlasın"
+             data-text="Yurt içi ve yurt dışı yüzlerce destinasyona uçuşları karşılaştır, sana en uygun bileti kolayca bul.">
+        </div>
+
+        <div class="slide s4"
+             data-city="Maldives"
+             data-country="Indian Ocean"
+             data-title="Tatilini Bir Uçuş Uzağa Taşı"
+             data-text="Deniz, güneş ve unutulmaz rotalar seni bekliyor. Uygun fiyatlı uçuşlarla tatilini şimdi planla.">
+        </div>
+    </div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="container">
+        <h1 id="heroTitle">
+            Hayalindeki Rotaya Uygun Fiyatlarla Uç
+        </h1>
+
+        <p class="sub" id="heroText">
+            Yüzlerce hava yolu arasından en uygun uçuşları bul,
+            seyahatini kolayca planla ve dünyayı keşfet.
+        </p>
+
+        @await Html.PartialAsync("_SearchPanelPartial")
+
+        <!-- ALT KARTLAR -->
+        <div class="row g-3 hero-info-grid">
+
+            <div class="col-12 col-md-4">
+                <div class="hero-info-card">
+
+                    <div class="hero-info-icon">
+                        <i data-lucide="headset"></i>
+                    </div>
+
+                    <div class="hero-info-content">
+                        <h3>7/24 Destek</h3>
+
+                        <p>
+                            Rezervasyon ve uçuş işlemleri için
+                            destek ekibimizle iletişime geçin.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="hero-info-card">
+
+                    <div class="hero-info-icon">
+                        <i data-lucide="plane"></i>
+                    </div>
+
+                    <div class="hero-info-content">
+                        <h3>Yurt İçi &amp; Yurt Dışı Uçuşlar</h3>
+
+                        <p>
+                            Dünya genelinde yüzlerce destinasyona
+                            uygun fiyatlı uçuşları keşfedin.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="hero-info-card">
+
+                    <div class="hero-info-icon">
+                        <i data-lucide="refresh-ccw-dot"></i>
+                    </div>
+
+                    <div class="hero-info-content">
+                        <h3>İade &amp; Değişiklik</h3>
+
+                        <p>
+                            Bilet iade ve değişiklik
+                            işlemlerinizi kolayca yönetin.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="slider-dots" id="dots">
+            <button class="dot active"
+                    data-i="0"
+                    aria-label="Slide 1">
+            </button>
+
+            <button class="dot"
+                    data-i="1"
+                    aria-label="Slide 2">
+            </button>
+
+            <button class="dot"
+                    data-i="2"
+                    aria-label="Slide 3">
+            </button>
+
+            <button class="dot"
+                    data-i="3"
+                    aria-label="Slide 4">
+            </button>
+        </div>
+
+    </div>
+</header>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        /* =========================
+           LUCIDE ICONLARI
+           ========================= */
+
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+
+        /* =========================
+           HERO SLIDER YAZILARI
+           ========================= */
+
+        const heroSlider = document.querySelector(".hero .slider");
+        const heroTitle = document.querySelector("#heroTitle");
+        const heroText = document.querySelector("#heroText");
+
+        if (heroSlider && heroTitle && heroText) {
+
+            const slides =
+                heroSlider.querySelectorAll(".slide");
+
+            /*
+                Aktif resim değiştiğinde
+                yazıyı da aynı anda değiştir.
+            */
+            function syncHeroText() {
+
+                const activeSlide =
+                    heroSlider.querySelector(".slide.active");
+
+                if (!activeSlide) return;
+
+                const newTitle =
+                    activeSlide.dataset.title;
+
+                const newText =
+                    activeSlide.dataset.text;
+
+                /*
+                    Eski animasyonu kaldır.
+                */
+                heroTitle.classList.remove("hero-text-animate");
+                heroText.classList.remove("hero-text-animate");
+
+                /*
+                    Aktif resme ait yazıları değiştir.
+                */
+                if (newTitle) {
+                    heroTitle.textContent = newTitle;
+                }
+
+                if (newText) {
+                    heroText.textContent = newText;
+                }
+
+                /*
+                    Animasyonu yeniden başlat.
+                */
+                void heroTitle.offsetWidth;
+
+                heroTitle.classList.add("hero-text-animate");
+                heroText.classList.add("hero-text-animate");
+            }
+
+            /*
+                Sliderdaki active class değişimini izle.
+            */
+            const observer =
+                new MutationObserver(function (mutations) {
+
+                    let slideChanged = false;
+
+                    mutations.forEach(function (mutation) {
+                        if (
+                            mutation.type === "attributes" &&
+                            mutation.attributeName === "class"
+                        ) {
+                            slideChanged = true;
+                        }
+                    });
+
+                    if (slideChanged) {
+                        syncHeroText();
+                    }
+                });
+
+            slides.forEach(function (slide) {
+
+                observer.observe(slide, {
+                    attributes: true,
+                    attributeFilter: ["class"]
+                });
+
+            });
+
+            /*
+                Sayfa ilk açıldığında
+                ilk slide'ın yazısını getir.
+            */
+            syncHeroText();
+        }
+    });
+</script>

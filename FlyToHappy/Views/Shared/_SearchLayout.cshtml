@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+
+    @await Component.InvokeAsync("_HeadSearchDefaultComponentPartial")
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+
+<body class="search-page-body">
+
+    <!-- Uçuş sonuç sayfasına özel navbar -->
+    @await Component.InvokeAsync("_NavbarSearchDefaultComponentPartial")
+
+
+    <!-- Sayfanın içeriği -->
+    <main>
+        @RenderBody()
+    </main>
+
+
+    <!-- Ana sayfadaki footer -->
+    @await Component.InvokeAsync("_FooterSearchDefaultComponentPartial")
+
+
+    <!-- Mevcut JavaScript dosyaların -->
+    @await Component.InvokeAsync("_ScriptSearchDefaultComponentPartial")
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

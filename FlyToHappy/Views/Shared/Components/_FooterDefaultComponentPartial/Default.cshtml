@@ -1,0 +1,658 @@
+﻿@* FlyToHappy - İçeriği Saran Ortalanmış Glass Footer *@
+
+<style>
+    .fly-footer {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        background: transparent;
+        padding: 38px 16px 24px;
+        position: relative;
+        z-index: 10;
+    }
+
+        .fly-footer * {
+            box-sizing: border-box;
+        }
+
+    .fly-footer-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    /* =========================
+           POPÜLER BAĞLANTILAR
+           ========================= */
+
+    .fly-footer-destinations {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(190px, 240px));
+        gap: 54px;
+        width: max-content;
+        max-width: 100%;
+        margin: 0 auto 22px;
+    }
+
+    .fly-footer-destination {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        min-width: 0;
+    }
+
+    .fly-footer-destination-accent {
+        width: 14px;
+        height: 65px;
+        flex-shrink: 0;
+        border-radius: 20px;
+        background: linear-gradient( 180deg, var(--accent, #ff6a3d), rgba(255, 106, 61, .08) );
+        box-shadow: 0 0 18px rgba(255, 106, 61, .16);
+    }
+
+    .fly-footer-destination-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 0;
+    }
+
+    .fly-footer-destination-title {
+        margin-bottom: 4px;
+        font-size: .85rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: var(--text, #fff);
+    }
+
+    .fly-footer-destination-links {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .fly-footer-destination-link {
+        width: max-content;
+        max-width: 100%;
+        font-size: .78rem;
+        line-height: 1.45;
+        color: var(--text-dim, rgba(255,255,255,.68));
+        text-decoration: none;
+        transition: color .2s ease, transform .2s ease;
+    }
+
+        .fly-footer-destination-link:hover {
+            color: var(--accent-2, #ffb020);
+            transform: translateX(3px);
+        }
+
+    /* =========================
+           ANA GLASS FOOTER
+           ========================= */
+
+    .fly-footer-main {
+        display: grid;
+        grid-template-columns: minmax(260px, 310px) 145px 165px minmax(260px, 310px);
+        gap: 38px;
+        width: max-content;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 26px 28px;
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 22px;
+        background: rgba(28,32,46,.36);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 16px 40px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .fly-footer-column {
+        min-width: 0;
+    }
+
+    /* =========================
+           MARKA
+           ========================= */
+
+    .fly-footer-brand .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        text-decoration: none;
+    }
+
+    .fly-footer-brand .brand-mark {
+        flex-shrink: 0;
+    }
+
+    .fly-footer-brand .brand-name {
+        font-size: 1.35rem;
+        font-weight: 800;
+        letter-spacing: -.02em;
+        color: #fff;
+    }
+
+        .fly-footer-brand .brand-name em {
+            font-style: normal;
+            color: var(--accent-2, #ffb020);
+        }
+
+    .fly-footer-description {
+        max-width: 300px;
+        margin: 0 0 14px;
+        font-size: .8rem;
+        line-height: 1.55;
+        color: var(--text-dim, rgba(255,255,255,.68));
+    }
+
+    /* =========================
+           SOSYAL MEDYA
+           ========================= */
+
+    .fly-footer-social {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .fly-footer-social-btn {
+        width: 34px;
+        height: 34px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 50%;
+        background: rgba(255,255,255,.05);
+        color: var(--text-dim, rgba(255,255,255,.75));
+        font-size: .88rem;
+        text-decoration: none;
+        transition: background .25s ease, border-color .25s ease, color .25s ease, transform .25s ease;
+    }
+
+        .fly-footer-social-btn:hover {
+            background: var(--accent, #ff6a3d);
+            border-color: var(--accent, #ff6a3d);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+    /* =========================
+           BAŞLIK VE LİNKLER
+           ========================= */
+
+    .fly-footer-title {
+        margin-bottom: 12px;
+        font-size: .82rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: var(--text, #fff);
+    }
+
+    .fly-footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .fly-footer-links li {
+            margin-bottom: 5px;
+        }
+
+    .fly-footer-link {
+        display: inline-block;
+        width: max-content;
+        max-width: 100%;
+        font-size: .78rem;
+        color: var(--text-dim, rgba(255,255,255,.68));
+        text-decoration: none;
+        transition: color .2s ease, transform .2s ease;
+    }
+
+        .fly-footer-link:hover {
+            color: var(--accent-2, #ffb020);
+            transform: translateX(3px);
+        }
+
+    /* =========================
+           İLETİŞİM
+           ========================= */
+
+    .fly-footer-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .fly-footer-contact-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: max-content;
+        max-width: 100%;
+        font-size: .78rem;
+        color: var(--text-dim, rgba(255,255,255,.75));
+        text-decoration: none;
+        transition: color .2s ease;
+    }
+
+        .fly-footer-contact-row:hover {
+            color: var(--accent-2, #ffb020);
+        }
+
+        .fly-footer-contact-row i {
+            flex-shrink: 0;
+            font-size: .88rem;
+            color: var(--accent, #ff6a3d);
+        }
+
+    /* =========================
+           NEWSLETTER
+           ========================= */
+
+    .fly-footer-newsletter-label {
+        margin-top: 11px;
+        margin-bottom: 6px;
+        font-size: .78rem;
+        font-weight: 600;
+        color: var(--text, #fff);
+    }
+
+    .fly-footer-newsletter {
+        display: flex;
+        align-items: center;
+        width: 280px;
+        max-width: 100%;
+        padding: 3px 4px 3px 14px;
+        border: 1px solid rgba(255,106,61,.5);
+        border-radius: 999px;
+        background: rgba(255,255,255,.045);
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+        .fly-footer-newsletter:focus-within {
+            border-color: var(--accent, #ff6a3d);
+            box-shadow: 0 0 12px rgba(255,106,61,.18);
+        }
+
+    .fly-footer-newsletter-input {
+        flex: 1;
+        min-width: 0;
+        padding: 4px 0;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: .78rem;
+        color: var(--text, #fff);
+    }
+
+        .fly-footer-newsletter-input::placeholder {
+            color: rgba(255,255,255,.42);
+        }
+
+    .fly-footer-newsletter-button {
+        width: 28px;
+        height: 28px;
+        flex: 0 0 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 50%;
+        background: linear-gradient( 135deg, var(--accent, #ff6a3d), var(--accent-2, #ffb020) );
+        color: #fff;
+        cursor: pointer;
+        font-size: .8rem;
+        transition: transform .2s ease;
+    }
+
+        .fly-footer-newsletter-button:hover {
+            transform: scale(1.06);
+        }
+
+    /* =========================
+           COPYRIGHT
+           ========================= */
+
+    .fly-footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 55px;
+        width: max-content;
+        max-width: 100%;
+        margin: 14px auto 0;
+        padding: 11px 16px;
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 14px;
+        background: rgba(20,24,36,.38);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 10px 28px rgba(0,0,0,.12);
+    }
+
+    .fly-footer-copyright {
+        margin: 0;
+        white-space: nowrap;
+        font-size: .76rem;
+        color: var(--text-dim, rgba(255,255,255,.58));
+    }
+
+    .fly-footer-legal {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 9px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .fly-footer-legal-link {
+        white-space: nowrap;
+        font-size: .76rem;
+        color: var(--text-dim, rgba(255,255,255,.58));
+        text-decoration: none;
+        transition: color .2s ease;
+    }
+
+        .fly-footer-legal-link:hover {
+            color: var(--accent-2, #ffb020);
+        }
+
+    .fly-footer-legal-sep {
+        font-size: .7rem;
+        color: rgba(255,255,255,.2);
+        user-select: none;
+    }
+
+    /* =========================
+           TABLET
+           ========================= */
+
+    @@media (max-width: 991.98px) {
+        .fly-footer {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .fly-footer-destinations {
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            width: 100%;
+            max-width: 760px;
+            gap: 26px;
+        }
+
+        .fly-footer-main {
+            width: 100%;
+            max-width: 760px;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px 36px;
+            padding: 24px;
+        }
+
+        .fly-footer-bottom {
+            width: 100%;
+            max-width: 760px;
+            gap: 25px;
+        }
+    }
+
+    /* =========================
+           MOBİL
+           ========================= */
+
+    @@media (max-width: 767.98px) {
+        .fly-footer {
+            padding: 30px 16px 20px;
+        }
+
+        .fly-footer-destinations {
+            grid-template-columns: 1fr;
+            width: 100%;
+            max-width: 420px;
+            gap: 18px;
+        }
+
+        .fly-footer-destination-accent {
+            width: 11px;
+            height: 55px;
+        }
+
+        .fly-footer-main {
+            width: 100%;
+            max-width: 420px;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            padding: 22px 20px;
+        }
+
+        .fly-footer-description {
+            max-width: 100%;
+        }
+
+        .fly-footer-newsletter {
+            width: 100%;
+        }
+
+        .fly-footer-bottom {
+            width: 100%;
+            max-width: 420px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 12px 14px;
+        }
+
+        .fly-footer-copyright,
+        .fly-footer-legal-link {
+            white-space: normal;
+        }
+
+        .fly-footer-legal {
+            justify-content: flex-start;
+            gap: 7px;
+        }
+    }
+</style>
+
+<footer class="fly-footer">
+    <div class="fly-footer-container">
+        <!-- ANA FOOTER -->
+        <div class="fly-footer-main">
+
+            <!-- MARKA -->
+            <div class="fly-footer-column">
+                <div class="fly-footer-brand">
+
+                    <a href="#" class="brand">
+                        <svg class="brand-mark"
+                             width="30"
+                             height="30"
+                             viewBox="0 0 40 40"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg"
+                             aria-hidden="true">
+
+                            <defs>
+                                <linearGradient id="fthGradFooter"
+                                                x1="4"
+                                                y1="36"
+                                                x2="36"
+                                                y2="4"
+                                                gradientUnits="userSpaceOnUse">
+                                    <stop offset="0" stop-color="#ff6a3d" />
+                                    <stop offset="1" stop-color="#ffb020" />
+                                </linearGradient>
+                            </defs>
+
+                            <rect width="40"
+                                  height="40"
+                                  rx="12"
+                                  fill="url(#fthGradFooter)" />
+
+                            <path d="M7 25c4.5 6.5 21.5 6.5 26 0"
+                                  stroke="#fff"
+                                  stroke-width="2.1"
+                                  stroke-linecap="round"
+                                  stroke-dasharray="0.5 5.2"
+                                  opacity="0.9" />
+
+                            <path d="M12.5 22.5 29 9.5 23 27 19.3 20 12.5 22.5Z"
+                                  fill="#fff" />
+
+                            <path d="M19.3 20 23 27 20.3 22.3 19.3 20Z"
+                                  fill="#ffd9bd" />
+
+                            <path d="M31 8.3l0.9 2.1 2.1 0.9-2.1 0.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z"
+                                  fill="#fff" />
+                        </svg>
+
+                        <span class="brand-name">
+                            FlyTo<em>Happy</em>
+                        </span>
+                    </a>
+                </div>
+
+                <p class="fly-footer-description">
+                    Hayalinizdeki destinasyona en uygun uçuşları keşfedin.
+                    FlyToHappy ile seyahatinizi kolayca planlayın.
+                </p>
+
+                <div class="fly-footer-social">
+                    <a href="#" class="fly-footer-social-btn" aria-label="Instagram">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+
+                    <a href="#" class="fly-footer-social-btn" aria-label="X">
+                        <i class="bi bi-twitter-x"></i>
+                    </a>
+
+                    <a href="#" class="fly-footer-social-btn" aria-label="Facebook">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+
+                    <a href="#" class="fly-footer-social-btn" aria-label="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- KURUMSAL -->
+            <div class="fly-footer-column">
+                <div class="fly-footer-title">Kurumsal</div>
+
+                <ul class="fly-footer-links">
+                    <li><a href="#" class="fly-footer-link">Hakkımızda</a></li>
+                    <li><a href="#" class="fly-footer-link">Kariyer</a></li>
+                    <li><a href="#" class="fly-footer-link">Kampanyalar</a></li>
+                    <li><a href="#" class="fly-footer-link">İş Ortaklarımız</a></li>
+                </ul>
+            </div>
+
+            <!-- YARDIM -->
+            <div class="fly-footer-column">
+                <div class="fly-footer-title">Yardım</div>
+
+                <ul class="fly-footer-links">
+                    <li><a href="#" class="fly-footer-link">Yardım Merkezi</a></li>
+                    <li><a href="#" class="fly-footer-link">Online Check-in</a></li>
+                    <li><a href="#" class="fly-footer-link">Uçuş Durumu</a></li>
+                    <li><a href="#" class="fly-footer-link">Rezervasyonlarım</a></li>
+                    <li><a href="#" class="fly-footer-link">Bagaj Bilgileri</a></li>
+                </ul>
+            </div>
+
+            <!-- İLETİŞİM -->
+            <div class="fly-footer-column">
+                <div class="fly-footer-title">İletişim</div>
+
+                <div class="fly-footer-contact">
+
+                    <div class="fly-footer-contact-row">
+                        <i class="bi bi-clock-fill"></i>
+                        <span>7/24 Destek</span>
+                    </div>
+
+                    <a href="tel:+908500000000"
+                       class="fly-footer-contact-row">
+                        <i class="bi bi-telephone-fill"></i>
+                        <span>+90 850 000 00 00</span>
+                    </a>
+
+                    <a href="mailto:support@flytohappy.com"
+                       class="fly-footer-contact-row">
+                        <i class="bi bi-envelope-fill"></i>
+                        <span>support@flytohappy.com</span>
+                    </a>
+                </div>
+
+                <div class="fly-footer-newsletter-label">
+                    Fırsatlardan Haberdar Ol
+                </div>
+
+                <form class="fly-footer-newsletter"
+                      onsubmit="return false;">
+
+                    <input type="email"
+                           class="fly-footer-newsletter-input"
+                           placeholder="E-posta adresiniz"
+                           aria-label="E-posta adresiniz"
+                           required />
+
+                    <button type="submit"
+                            class="fly-footer-newsletter-button"
+                            aria-label="Gönder">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+
+        <!-- COPYRIGHT -->
+        <div class="fly-footer-bottom">
+
+            <p class="fly-footer-copyright">
+                © 2026 FlyToHappy. Tüm hakları saklıdır.
+            </p>
+
+            <ul class="fly-footer-legal">
+                <li>
+                    <a href="#" class="fly-footer-legal-link">
+                        Kullanım Koşulları
+                    </a>
+                </li>
+
+                <li class="fly-footer-legal-sep">•</li>
+
+                <li>
+                    <a href="#" class="fly-footer-legal-link">
+                        Gizlilik Politikası
+                    </a>
+                </li>
+
+                <li class="fly-footer-legal-sep">•</li>
+
+                <li>
+                    <a href="#" class="fly-footer-legal-link">
+                        Çerez Politikası
+                    </a>
+                </li>
+
+                <li class="fly-footer-legal-sep">•</li>
+
+                <li>
+                    <a href="#" class="fly-footer-legal-link">
+                        KVKK
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</footer>

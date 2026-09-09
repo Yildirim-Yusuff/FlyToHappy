@@ -1,0 +1,587 @@
+﻿<style>
+    .popular-flight-section {
+        padding: 85px 0;
+    }
+
+    .popular-flight-head {
+        margin-bottom: 30px;
+    }
+
+    .popular-flight-eyebrow {
+        display: block;
+        margin-bottom: 6px;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        color: var(--accent, #ff6a3d);
+    }
+
+    /* SLIDER DIŞ ALANI */
+    .popular-flight-slider {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 10px 0 22px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+        .popular-flight-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+    /* KARTLARIN AKTIĞI ALAN */
+    .popular-flight-grid {
+        display: flex;
+        gap: 18px;
+        width: max-content;
+    }
+
+        .popular-flight-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+    /* KAMPANYA KARTI */
+    .popular-flight-card {
+        flex: 0 0 210px;
+        width: 210px;
+        min-width: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        border-radius: 18px;
+        text-decoration: none;
+        color: var(--text, #fff);
+        background: var(--glass-bg, rgba(255,255,255,.08));
+        border: 1px solid var(--glass-border, rgba(255,255,255,.18));
+        box-shadow: var(--glass-shadow, 0 10px 30px rgba(0,0,0,.25));
+        -webkit-backdrop-filter: blur(var(--blur, 14px));
+        backdrop-filter: blur(var(--blur, 14px));
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+        .popular-flight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        }
+
+    /* KART GÖRSELİ */
+    .popular-flight-image {
+        height: 150px;
+        overflow: hidden;
+    }
+
+        .popular-flight-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform .3s ease;
+        }
+
+    .popular-flight-card:hover .popular-flight-image img {
+        transform: scale(1.05);
+    }
+
+    /* KART İÇERİĞİ */
+    .popular-flight-body {
+        min-height: 155px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 6px;
+        padding: 16px;
+    }
+
+    .popular-flight-route {
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--text, #fff);
+    }
+
+        .popular-flight-route span {
+            margin: 0 3px;
+            color: var(--accent-2, #ffb020);
+        }
+
+    .popular-flight-date {
+        font-size: .76rem;
+        line-height: 1.4;
+        color: var(--text-dim, rgba(255,255,255,.7));
+    }
+
+    .popular-flight-fare {
+        margin-top: auto;
+        padding-top: 10px;
+    }
+
+    .popular-flight-note {
+        margin-bottom: 3px;
+        font-size: .72rem;
+        color: var(--text-dim, rgba(255,255,255,.7));
+    }
+
+    .popular-flight-price {
+        font-size: 1.12rem;
+        font-weight: 800;
+        color: var(--accent-2, #ffb020);
+    }
+
+    /* TABLET */
+    @@media (max-width: 992px) {
+        .popular-flight-card {
+            flex: 0 0 200px;
+            width: 200px;
+        }
+
+        .popular-flight-image {
+            height: 140px;
+        }
+    }
+
+    /* MOBİL */
+    @@media (max-width: 576px) {
+        .popular-flight-section {
+            padding: 60px 0;
+        }
+
+        .popular-flight-card {
+            flex: 0 0 180px;
+            width: 180px;
+        }
+
+        .popular-flight-image {
+            height: 125px;
+        }
+
+        .popular-flight-body {
+            min-height: 145px;
+            padding: 12px;
+        }
+
+        .popular-flight-route {
+            font-size: .9rem;
+        }
+
+        .popular-flight-date {
+            font-size: .7rem;
+        }
+
+        .popular-flight-price {
+            font-size: 1rem;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .popular-flight-card,
+        .popular-flight-image img {
+            transition: none;
+        }
+    }
+</style>
+
+<section class="section popular-flight-section" id="popularFlights">
+    <div class="container">
+
+        <div class="popular-flight-head">
+            <span class="popular-flight-eyebrow">FIRSAT UÇUŞLAR</span>
+            <h2 class="section-title">Popüler Uçuş Kampanyaları</h2>
+        </div>
+
+        <div class="popular-flight-slider">
+            <div class="popular-flight-grid">
+
+                <!-- 1 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.pexels.com/photos/532263/pexels-photo-532263.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600"
+                             alt="Roma, Kolosseum"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            İstanbul <span>→</span> Roma
+                        </div>
+
+                        <div class="popular-flight-date">
+                            10 Haziran 2026 - 17 Haziran 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                2.090 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 2 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.pexels.com/photos/1963082/pexels-photo-1963082.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600"
+                             alt="Berlin"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            Ankara <span>→</span> Berlin
+                        </div>
+
+                        <div class="popular-flight-date">
+                            15 Haziran 2026 - 22 Haziran 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                1.980 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 3 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.pexels.com/photos/460740/pexels-photo-460740.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600"
+                             alt="Paris"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            İzmir <span>→</span> Paris
+                        </div>
+
+                        <div class="popular-flight-date">
+                            20 Haziran 2026 - 27 Haziran 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                2.150 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 4 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.pexels.com/photos/635611/pexels-photo-635611.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600"
+                             alt="Londra"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            Antalya <span>→</span> Londra
+                        </div>
+
+                        <div class="popular-flight-date">
+                            18 Haziran 2026 - 25 Haziran 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                2.290 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 5 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.pexels.com/photos/4237160/pexels-photo-4237160.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600"
+                             alt="Amsterdam"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            İstanbul <span>→</span> Amsterdam
+                        </div>
+
+                        <div class="popular-flight-date">
+                            25 Haziran 2026 - 02 Temmuz 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                2.120 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 6 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.pexels.com/photos/9255685/pexels-photo-9255685.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=600"
+                             alt="Barselona"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            İzmir <span>→</span> Barselona
+                        </div>
+
+                        <div class="popular-flight-date">
+                            01 Temmuz 2026 - 08 Temmuz 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                2.050 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 7 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=600&q=80"
+                             alt="Prag"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            Adana <span>→</span> Prag
+                        </div>
+
+                        <div class="popular-flight-date">
+                            05 Temmuz 2026 - 12 Temmuz 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                2.240 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 8 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.unsplash.com/photo-1516550893923-42d28e5677af?w=600&q=80"
+                             alt="Viyana"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            İstanbul <span>→</span> Viyana
+                        </div>
+
+                        <div class="popular-flight-date">
+                            08 Temmuz 2026 - 15 Temmuz 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                1.890 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 9 -->
+                <a class="popular-flight-card" href="#">
+                    <div class="popular-flight-image">
+                        <img src="https://images.unsplash.com/photo-1555993539-1732b0258235?w=600&q=80"
+                             alt="Atina"
+                             loading="lazy">
+                    </div>
+
+                    <div class="popular-flight-body">
+                        <div class="popular-flight-route">
+                            Ankara <span>→</span> Atina
+                        </div>
+
+                        <div class="popular-flight-date">
+                            12 Temmuz 2026 - 19 Temmuz 2026
+                        </div>
+
+                        <div class="popular-flight-fare">
+                            <div class="popular-flight-note">
+                                Ekonomi sınıfı başlangıç fiyatı
+                            </div>
+
+                            <div class="popular-flight-price">
+                                1.790 TL
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    (function () {
+        const section = document.querySelector("#popularFlights");
+
+        if (!section) return;
+
+        const slider = section.querySelector(".popular-flight-slider");
+        const track = section.querySelector(".popular-flight-grid");
+
+        if (!slider || !track) return;
+
+        const cards = Array.from(
+            track.querySelectorAll(".popular-flight-card")
+        );
+
+        if (!cards.length) return;
+
+        /* KARTLARIN KOPYASINI SONA EKLE */
+        cards.forEach(function (card) {
+            const clone = card.cloneNode(true);
+
+            clone.setAttribute("aria-hidden", "true");
+            clone.setAttribute("tabindex", "-1");
+
+            track.appendChild(clone);
+        });
+
+        let groupWidth = 0;
+        let position = 0;
+        let paused = false;
+        let lastTime = null;
+
+        /* HAREKET HIZI */
+        const speed = 40;
+
+        function calculateWidth() {
+            const allCards =
+                track.querySelectorAll(".popular-flight-card");
+
+            const firstCard = allCards[0];
+            const firstClone = allCards[cards.length];
+
+            groupWidth =
+                firstClone.offsetLeft -
+                firstCard.offsetLeft;
+
+            /*
+                İkinci grubun başından başlatıyoruz.
+                Böylece kartlar görsel olarak sağa doğru akar.
+            */
+            position = groupWidth;
+
+            slider.scrollLeft = position;
+        }
+
+        function animate(time) {
+            if (lastTime === null) {
+                lastTime = time;
+            }
+
+            const delta =
+                (time - lastTime) / 1000;
+
+            lastTime = time;
+
+            if (!paused && groupWidth > 0) {
+                position -= speed * delta;
+
+                /*
+                    Baştaki gruba geldiğimizde
+                    görünmeden tekrar ikinci gruba geç.
+                */
+                if (position <= 0) {
+                    position += groupWidth;
+                }
+
+                slider.scrollLeft = position;
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        /* MOUSE GELİNCE DUR */
+        slider.addEventListener("mouseenter", function () {
+            paused = true;
+        });
+
+        /* MOUSE ÇIKINCA DEVAM */
+        slider.addEventListener("mouseleave", function () {
+            paused = false;
+            lastTime = null;
+        });
+
+        /* MOBİL DOKUNMA */
+        slider.addEventListener(
+            "touchstart",
+            function () {
+                paused = true;
+            },
+            { passive: true }
+        );
+
+        slider.addEventListener(
+            "touchend",
+            function () {
+                paused = false;
+                lastTime = null;
+            },
+            { passive: true }
+        );
+
+        /* EKRAN BOYUTU DEĞİŞİRSE */
+        window.addEventListener("resize", function () {
+            calculateWidth();
+            lastTime = null;
+        });
+
+        /* BAŞLAT */
+        requestAnimationFrame(function () {
+            calculateWidth();
+            requestAnimationFrame(animate);
+        });
+    })();
+</script>

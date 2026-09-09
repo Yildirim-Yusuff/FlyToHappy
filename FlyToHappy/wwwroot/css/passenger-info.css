@@ -1,0 +1,495 @@
+﻿
+/* =====================================================
+   PASSENGER SELECTION
+=====================================================*/
+
+#passengersContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ========================
+   PAGE HEADER
+======================== */
+
+.passenger-page-header {
+    margin-bottom: 30px;
+}
+
+    .passenger-page-header h1 {
+        margin: 0 0 8px;
+        color: #fff;
+        font-size: 1.8rem;
+        font-weight: 800;
+    }
+
+    .passenger-page-header p {
+        margin: 0;
+        color: rgba(255, 255, 255, .65);
+        font-size: .9rem;
+        font-weight: 500;
+    }
+
+.passenger-content-main {
+    min-width: 0;
+}
+
+
+/* ========================
+   PASSENGER CARD
+======================== */
+
+.passenger-card {
+    overflow: visible;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .10);
+}
+
+.passenger-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, .10);
+}
+
+    .passenger-card-header h2 {
+        margin: 0;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .passenger-card-header span {
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: rgba(255, 176, 32, .14);
+        color: #ffcf5c;
+        font-size: .75rem;
+        font-weight: 700;
+    }
+
+.passenger-card-body {
+    padding: 24px 22px;
+}
+
+
+/* ========================
+   PASSENGER FORM
+======================== */
+
+.passenger-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+}
+
+    .passenger-form-row + .passenger-form-row {
+        margin-top: 18px;
+    }
+
+.passenger-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+    .passenger-form-group label {
+        margin: 0;
+        color: rgba(255, 255, 255, .82);
+        font-size: .8rem;
+        font-weight: 600;
+    }
+
+.passenger-field-label {
+    display: block;
+    min-height: 18px;
+    margin: 0;
+}
+
+.passenger-form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, .07);
+    color: #fff;
+    font-size: .85rem;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+    .passenger-form-group input:disabled {
+        opacity: .45;
+        cursor: not-allowed;
+        background: rgba(255,255,255,.03);
+    }
+
+    .passenger-form-group input::placeholder {
+        color: rgba(255, 255, 255, .38);
+    }
+
+    .passenger-form-group input:focus {
+        border-color: #ff6a3d;
+        background: rgba(255, 255, 255, .10);
+        box-shadow: 0 0 0 3px rgba(255, 106, 61, .12);
+    }
+
+
+/* ========================
+   FORM SELECT
+======================== */
+
+.passenger-form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, .07);
+    color: #fff;
+    font-size: .85rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+    .passenger-form-group select:focus {
+        border-color: #ff6a3d;
+        background: rgba(255, 255, 255, .10);
+        box-shadow: 0 0 0 3px rgba(255, 106, 61, .12);
+    }
+
+    .passenger-form-group select option {
+        background: #4a4453;
+        color: #fff;
+    }
+
+
+/* ========================
+   BIRTH DATE
+======================== */
+
+.birth-date-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+}
+
+.custom-date-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-date-trigger {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, .07);
+    color: #fff;
+    font-size: .85rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+    .custom-date-trigger:hover {
+        background: rgba(255, 255, 255, .10);
+    }
+
+    .custom-date-trigger:focus {
+        border-color: #ff6a3d;
+        box-shadow: 0 0 0 3px rgba(255, 106, 61, .12);
+    }
+
+    .custom-date-trigger i {
+        color: rgba(255, 255, 255, .65);
+        font-size: .72rem;
+    }
+
+
+/* ========================
+   CUSTOM DATE MENU
+======================== */
+
+.custom-date-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 10px;
+    background: #514a59;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, .25);
+}
+
+    .custom-date-menu.open {
+        display: block;
+    }
+
+.custom-date-option {
+    width: 100%;
+    padding: 10px 12px;
+    display: block;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: .82rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+    .custom-date-option:hover {
+        background: rgba(255, 255, 255, .10);
+        color: #ffcf5c;
+    }
+
+    .custom-date-option:active {
+        background: rgba(255, 106, 61, .18);
+    }
+
+
+/* ========================
+   MONTH SELECT
+======================== */
+
+.birth-date-fields > select {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, .07);
+    color: #fff;
+    font-size: .85rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+    .birth-date-fields > select:hover {
+        background: rgba(255, 255, 255, .10);
+    }
+
+    .birth-date-fields > select:focus {
+        border-color: #ff6a3d;
+        box-shadow: 0 0 0 3px rgba(255, 106, 61, .12);
+    }
+
+    .birth-date-fields > select option {
+        background: #514a59;
+        color: #fff;
+    }
+
+
+/* ========================
+   NATIONAL ID FIELD
+======================== */
+
+.national-id-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    height: 46px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, .07);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+    .national-id-field:focus-within {
+        border-color: #ff6a3d;
+        box-shadow: 0 0 0 3px rgba(255, 106, 61, .12);
+    }
+
+    .national-id-field #nationalId {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        padding: 0;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+    }
+
+        .national-id-field #nationalId:focus {
+            border: none;
+            background: transparent;
+            box-shadow: none;
+        }
+
+.national-id-checkbox {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    margin: 0 !important;
+    white-space: nowrap;
+    font-size: .72rem !important;
+    cursor: pointer;
+}
+
+    .national-id-checkbox input {
+        width: 15px !important;
+        height: 15px !important;
+        margin: 0;
+        flex-shrink: 0;
+        accent-color: #ff6a3d;
+    }
+
+
+/* ========================
+   PASSPORT
+======================== */
+
+.passenger-passport-toggle {
+    margin-top: 18px;
+    margin-bottom: 18px;
+}
+
+    .passenger-passport-toggle label {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        color: rgba(255, 255, 255, .82);
+        font-size: .82rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .passenger-passport-toggle input {
+        width: 17px;
+        height: 17px;
+        accent-color: #ff6a3d;
+        cursor: pointer;
+    }
+
+
+/* ========================
+   BOOKING CONTACT CARD
+======================== */
+
+.booking-contact-card {
+    overflow: hidden;
+    margin-bottom: 22px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .10);
+}
+
+.booking-contact-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, .10);
+}
+
+    .booking-contact-header h2 {
+        margin: 0 0 5px;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .booking-contact-header p {
+        margin: 0;
+        color: rgba(255, 255, 255, .58);
+        font-size: .78rem;
+    }
+
+.booking-contact-body {
+    padding: 22px;
+}
+
+
+/* ========================
+   PASSENGER ACTIONS
+======================== */
+
+.passenger-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.passenger-back-btn {
+    padding: 11px 18px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, .06);
+    color: rgba(255, 255, 255, .82);
+    font-size: .85rem;
+    font-weight: 600;
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+}
+
+    .passenger-back-btn:hover {
+        border-color: rgba(255, 255, 255, .30);
+        background: rgba(255, 255, 255, .12);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .passenger-back-btn:active {
+        transform: translateY(0);
+    }
+
+.passenger-continue-btn {
+    padding: 11px 22px;
+    border: 1px solid #ff6a3d;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #ff6a3d, #ffb020);
+    color: #fff;
+    font-size: .85rem;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(255, 106, 61, .18);
+    transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+    .passenger-continue-btn:hover {
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(255, 106, 61, .28);
+    }
+
+    .passenger-continue-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 6px 14px rgba(255, 106, 61, .18);
+    }
+
+
+/* ========================
+   RESPONSIVE
+======================== */
+
+@media (max-width: 767.98px) {
+    .passenger-form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Passport expiry dropdowns open upward */
+[id^="passportExpiryDayMenu"],
+[id^="passportExpiryYearMenu"] {
+    top: auto;
+    bottom: calc(100% + 8px);
+    z-index: 100;
+}

@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+    
+    @await Component.InvokeAsync("_HeadDefaultComponentPartial")
+
+<body>
+
+    @await Component.InvokeAsync("_NavbarDefaultComponentPartial")
+
+    <!-- ================= SLIDER ================= -->
+    
+    @await Component.InvokeAsync("_HeaderDefaultComponentPartial")
+
+    <!-- ================= SONUCLAR (JS ile acilir) ================= -->
+    
+    @await Component.InvokeAsync("_FlightResultsDefaultComponentPartial")
+
+    <!-- ================= POPULER ROTALAR ================= -->
+    
+    @await Component.InvokeAsync("_DefaultPopulerRotatePartial")
+
+    <!-- ================= EK HIZMETLER ================= -->
+    
+    @await Component.InvokeAsync("_AdditionalServicesDefaultComponentPartial")
+    
+    <!-- ================= SIK SORULAN SORULAR ================= -->
+    
+    @await Component.InvokeAsync("_FrequentlyAskedQuestionDefaultComponentPartial")
+
+    <!-- ================= POPULER Bilet ================= -->
+    
+    @await Component.InvokeAsync("_PopularLinksDefaultComponentPartial")
+
+    <!-- ================= FOOTER ================= -->
+    
+    @await Component.InvokeAsync("_FooterDefaultComponentPartial")
+    
+    @await Component.InvokeAsync("_ScriptDefaultComponentPartial")
+
+</body>
+</html>

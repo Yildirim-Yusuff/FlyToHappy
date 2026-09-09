@@ -1,0 +1,601 @@
+﻿@{
+    ViewData["Title"] = "Uçuş Sonuçları";
+    Layout = "~/Views/Shared/_SearchLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/search-panel.css" asp-append-version="true" />
+}
+
+<section class="sr-summary-bar">
+
+    <div class="container">
+
+        <div class="sr-summary-wrap">
+
+            <div class="sr-summary-chips">
+
+                <div class="sr-chip sr-chip-route">
+                    <i class="bi bi-airplane"></i>
+
+                    <span id="sumRoute">
+                        Rota seçin
+                    </span>
+                </div>
+
+                <div class="sr-chip">
+                    <i class="bi bi-calendar-event"></i>
+
+                    <span id="sumDates">
+                        Tarih seçin
+                    </span>
+                </div>
+
+                <div class="sr-chip">
+                    <i class="bi bi-people"></i>
+
+                    <span id="sumPax">
+                        Yolcu seçin
+                    </span>
+                </div>
+
+                <div class="sr-chip">
+                    <i class="bi bi-briefcase"></i>
+
+                    <span id="sumCabin">
+                        Kabin seçin
+                    </span>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="sr-search-panel-wrap">
+            @await Html.PartialAsync("_SearchPanelPartial")
+        </div>
+
+        <div class="sr-result-head">
+
+            <div>
+
+                <h1 class="sr-result-title"
+                    id="resultTitle">
+                    Uçuş Sonuçları
+                </h1>
+
+                <p class="sr-result-count"
+                   id="resultCount">
+                    Uçuş seçenekleri hazırlanıyor
+                </p>
+
+            </div>
+
+
+            <div class="sr-sort-wrap">
+
+                <label class="sr-sort-label"
+                       for="sortSelect">
+                    Sırala:
+                </label>
+
+                <select class="form-select sr-input sr-sort-select"
+                        id="sortSelect">
+
+                    <option value="recommended"
+                            selected>
+                        Önerilen
+                    </option>
+
+                    <option value="price">
+                        En Düşük Fiyat
+                    </option>
+
+                    <option value="duration">
+                        En Kısa Süre
+                    </option>
+
+                    <option value="earliest">
+                        En Erken Kalkış
+                    </option>
+
+                    <option value="latest">
+                        En Geç Kalkış
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+    <main class="container sr-main">
+
+        <div class="row g-4">
+
+            <!-- Sol filtre alanı -->
+            <aside class="col-lg-3 d-none d-lg-block">
+
+                <div class="sr-filter-panel">
+
+                    <div class="sr-filter-header">
+
+                        <h2 class="sr-filter-title">
+                            Filtreler
+                        </h2>
+
+                        <button type="button"
+                                class="sr-filter-clear">
+                            Temizle
+                        </button>
+
+                    </div>
+
+
+                    <div class="sr-filter-group">
+
+                        <h3 class="sr-filter-group-title">
+                            Aktarma
+                        </h3>
+
+                        <label class="sr-filter-option">
+
+                            <input type="checkbox"
+                                   id="filterDirect"
+                                   value="0" />
+
+                            <span>
+                                Direkt Uçuşlar
+                            </span>
+
+                        </label>
+
+                        <label class="sr-filter-option">
+
+                            <input type="checkbox"
+                                   id="filterOneStop"
+                                   value="1" />
+
+                            <span>
+                                1 Aktarma
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                    <div class="sr-filter-group">
+
+                        <h3 class="sr-filter-group-title">
+                            Havayolları
+                        </h3>
+
+                        <label class="sr-filter-option">
+
+                            <input type="checkbox"
+                                   id="filterTurkishAirlines"
+                                   value="TK" />
+
+                            <span class="sr-airline-code">
+                                <img src="~/images/airlines/tk-mark.png"
+                                     asp-append-version="true"
+                                     alt="" />
+                            </span>
+
+                            <span class="sr-airline-name-filter">
+                                Turkish Airlines
+                            </span>
+
+                            <span class="sr-airline-count">
+                                (3)
+                            </span>
+
+                        </label>
+
+                        <label class="sr-filter-option">
+
+                            <input type="checkbox"
+                                   id="filterPegasus"
+                                   value="PC" />
+
+                            <span class="sr-airline-code">
+                                <img src="~/images/airlines/pc-mark.png"
+                                     asp-append-version="true"
+                                     alt="" />
+                            </span>
+
+                            <span class="sr-airline-name-filter">
+                                Pegasus
+                            </span>
+
+                            <span class="sr-airline-count">
+                                (4)
+                            </span>
+
+                        </label>
+
+                        <label class="sr-filter-option">
+
+                            <input type="checkbox"
+                                   id="filterAJet"
+                                   value="VF" />
+
+                            <span class="sr-airline-code">
+                                <img src="~/images/airlines/vf-mark.png"
+                                     asp-append-version="true"
+                                     alt="" />
+                            </span>
+
+                            <span class="sr-airline-name-filter">
+                                AJet
+                            </span>
+
+                            <span class="sr-airline-count">
+                                (3)
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                    <div class="sr-filter-group">
+
+                        <h3 class="sr-filter-group-title">
+                            Fiyat Aralığı
+                        </h3>
+
+                        <div class="sr-price-filter">
+
+                            <input type="range"
+                                   id="priceRange"
+                                   min="1500"
+                                   max="3000"
+                                   step="50"
+                                   value="3000" />
+
+                            <div class="sr-price-values">
+
+                                <span>
+                                    1.500 TL
+                                </span>
+
+                                <span id="priceRangeValue">
+                                    3.000 TL
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="sr-filter-group">
+
+                        <h3 class="sr-filter-group-title">
+                            Kalkış Saati
+                        </h3>
+
+                        <div class="sr-time-filter-grid">
+
+                            <label class="sr-time-filter-option">
+
+                                <input type="checkbox"
+                                       id="filterMorning"
+                                       value="morning" />
+
+                                <span class="sr-time-filter-content">
+
+                                    <i class="bi bi-sunrise"></i>
+
+                                    <strong>Sabah</strong>
+
+                                    <small>06–12</small>
+
+                                </span>
+
+                            </label>
+
+
+                            <label class="sr-time-filter-option">
+
+                                <input type="checkbox"
+                                       id="filterNoon"
+                                       value="noon" />
+
+                                <span class="sr-time-filter-content">
+
+                                    <i class="bi bi-sun"></i>
+
+                                    <strong>Öğle</strong>
+
+                                    <small>12–18</small>
+
+                                </span>
+
+                            </label>
+
+
+                            <label class="sr-time-filter-option">
+
+                                <input type="checkbox"
+                                       id="filterEvening"
+                                       value="evening" />
+
+                                <span class="sr-time-filter-content">
+
+                                    <i class="bi bi-sunset"></i>
+
+                                    <strong>Akşam</strong>
+
+                                    <small>18–24</small>
+
+                                </span>
+
+                            </label>
+
+
+                            <label class="sr-time-filter-option">
+
+                                <input type="checkbox"
+                                       id="filterNight"
+                                       value="night" />
+
+                                <span class="sr-time-filter-content">
+
+                                    <i class="bi bi-moon-stars"></i>
+
+                                    <strong>Gece</strong>
+
+                                    <small>00–06</small>
+
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="sr-filter-group">
+
+                        <h3 class="sr-filter-group-title">
+                            Uçuş Süresi
+                        </h3>
+
+                        <div class="sr-duration-filter">
+
+                            <input type="range"
+                                   id="durationRange"
+                                   min="160"
+                                   max="400"
+                                   step="10"
+                                   value="400" />
+
+                            <div class="sr-duration-values">
+
+                                <span>
+                                    2 sa 40 dk
+                                </span>
+
+                                <span id="durationRangeValue">
+                                    6 sa 40 dk
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="sr-filter-group">
+
+                        <h3 class="sr-filter-group-title">
+                            Bagaj
+                        </h3>
+
+                        <label class="sr-filter-option">
+
+                            <input type="checkbox"
+                                   id="filterCabinBaggage"
+                                   value="cabin" />
+
+                            <span>
+                                Kabin bagajı dahil
+                            </span>
+
+                        </label>
+
+                        <label class="sr-filter-option">
+
+                            <input type="checkbox"
+                                   id="filterCheckedBaggage"
+                                   value="checked" />
+
+                            <span>
+                                Kayıtlı bagaj dahil
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+
+                </div>
+
+            </aside>
+
+
+            <!-- Sağ uçuş sonuçları -->
+            <section class="col-lg-9">
+
+                <div id="flightList">
+
+                    <article class="sr-flight-card">
+
+                        <div class="sr-flight-body">
+
+                            <!-- HEAD: hava yolu + etiketler -->
+                            <div class="sr-flight-head">
+
+                                <div class="sr-airline-logo">
+                                    <img src="~/images/airlines/tk.png" asp-append-version="true" alt="Turkish Airlines" />
+                                </div>
+
+                                <div class="sr-airline">
+                                    <span class="sr-airline-name">Turkish Airlines</span>
+                                    <span class="sr-flight-number">TK1861</span>
+                                </div>
+
+                                <div class="sr-flight-tags">
+
+                                    <span class="sr-tag">
+                                        <i class="bi bi-luggage-fill"></i>
+                                        23 kg
+                                    </span>
+
+                                    <span class="sr-tag">
+                                        <i class="bi bi-briefcase"></i>
+                                        Ekonomi
+                                    </span>
+
+                                    <span class="sr-tag">
+                                        <i class="bi bi-check-circle"></i>
+                                        Kayıtlı bagaj dahil
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <!-- TIMES: kalkış - rota - varış -->
+                            <div class="sr-flight-times">
+
+                                <div class="sr-flight-time">
+                                    <strong>08:10</strong>
+                                    <div class="sr-flight-airport">
+                                        <span class="sr-airport-code">IST</span>
+                                        <span class="sr-airport-name">İstanbul Havalimanı</span>
+                                    </div>
+                                </div>
+
+                                <div class="sr-flight-route">
+
+                                    <span class="sr-duration">2 sa 45 dk · Direkt</span>
+
+                                    <div class="sr-route-line">
+                                        <span class="sr-route-dot sr-route-dot--start"></span>
+                                        <span class="sr-route-dash"></span>
+                                        <i class="bi bi-airplane-fill"></i>
+                                        <span class="sr-route-dash"></span>
+                                        <span class="sr-route-dot"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="sr-flight-time sr-flight-time--arrival">
+                                    <strong>09:55</strong>
+                                    <div class="sr-flight-airport">
+                                        <span class="sr-airport-name">Roma Fiumicino Havalimanı</span>
+                                        <span class="sr-airport-code">FCO</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- PRICE COLUMN -->
+                        <div class="sr-flight-price">
+
+                            <div class="sr-price-info">
+                                <small>Toplam</small>
+                                <strong>2.490 TL</strong>
+                            </div>
+
+                            <button type="button" class="btn sr-select-flight">
+                                Uçuşu Seç
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</section>
+
+<!-- UÇUŞ SEÇİM MODALI -->
+<div class="modal fade"
+     id="selectFlightModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content sr-select-modal">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    Uçuş Seçiminiz
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Kapat">
+                </button>
+
+            </div>
+
+            <div class="modal-body"
+                 id="selectedFlightBody">
+
+                Uçuş bilgileri burada gösterilecek.
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn sr-modal-cancel"
+                        data-bs-dismiss="modal">
+                    Vazgeç
+                </button>
+
+                <button type="button"
+                        class="btn sr-modal-continue">
+                    Devam Et
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="~/js/flight-list.js"
+            asp-append-version="true"></script>
+
+    <script src="~/js/search-panel.js"
+            asp-append-version="true"></script>
+
+}

@@ -1,0 +1,392 @@
+/* Shared Home and SearchResults search panel. */
+.search-panel { padding: 22px; margin-top: 28px; }
+
+.search-panel .trip-tabs {
+  display: inline-flex; gap: 0.25rem;
+  padding: 0.25rem; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--input-border);
+  margin-bottom: 1rem;
+}
+.search-panel .trip-tab {
+  border: none; background: transparent;
+  color: var(--text-dim); font-weight: 600; font-family: inherit;
+  padding: 0.45rem 1.1rem; border-radius: 999px; cursor: pointer;
+  transition: all 0.15s ease;
+}
+.search-panel .trip-tab.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; }
+
+/* From ↔ To takas butonu */
+.search-panel .swap-wrap { position: relative; }
+.search-panel .swap-btn {
+  position: absolute; left: 50%; top: 32px;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: none; color: var(--ink);
+  cursor: pointer; font-size: 1rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+.search-panel .swap-btn:hover { transform: translateX(-50%) rotate(180deg); }
+
+.search-panel .step-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--input-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff; font-size: 1.1rem; line-height: 1; cursor: pointer;
+}
+.search-panel .step-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.search-panel .cabin-select {
+  width: 100%; margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--input-border);
+  color: #fff; border-radius: 12px; padding: 0.6rem; font-family: inherit;
+}
+.search-panel .cabin-select option { color: #12243c; }  /* açılır listede koyu yazı */
+
+.search-panel .booking-main-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+
+.search-panel .booking-main-tab {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+        padding: .6rem .9rem;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: .9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        color: var(--text-dim);
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(255,255,255,.12);
+        transition: transform .25s ease, background .25s ease, color .25s ease;
+    }
+
+.search-panel .booking-main-tab:hover {
+            transform: translateY(-1px);
+        }
+
+.search-panel .booking-main-tab.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+            border-color: transparent;
+        }
+
+.search-panel .booking-main-tab i {
+            font-size: 1rem;
+        }
+
+.search-panel .booking-main-content {
+        width: 100%;
+        min-width: 0;
+        min-height: 180px;
+        overflow: visible;
+    }
+
+.search-panel .booking-main-pane {
+        display: none;
+        width: 100%;
+        min-width: 0;
+        overflow: visible;
+    }
+
+.search-panel .booking-main-pane.active {
+            display: block;
+            animation: bookingFade .25s ease;
+        }
+
+.search-panel .booking-main-title {
+        margin: 0 0 .25rem;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text);
+    }
+
+.search-panel .booking-main-description {
+        margin: 0 0 1rem;
+        font-size: .9rem;
+        color: var(--text-dim);
+    }
+
+.search-panel .booking-main-info {
+        display: flex;
+        align-items: center;
+        gap: .4rem;
+        margin: 0 0 1rem;
+        font-size: .78rem;
+        color: var(--text-dim);
+    }
+
+.search-panel .booking-main-info i {
+            color: var(--accent-2);
+        }
+
+.search-panel {
+        position: relative;
+        z-index: 50;
+        overflow: visible;
+    }
+
+.search-panel .booking-main-pane .row,
+    .search-panel .booking-main-pane .field {
+        overflow: visible;
+    }
+
+.search-panel .pax-field {
+        position: relative;
+        z-index: 5000;
+    }
+
+.search-panel .pax-field .dropdown {
+            position: relative;
+            width: 100%;
+            overflow: visible;
+        }
+
+.search-panel .pax-field .dropdown-toggle {
+            width: 100%;
+        }
+
+.search-panel .pax-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-panel .pax-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        width: 320px;
+        min-width: 320px;
+        max-width: calc(100vw - 32px);
+        margin: 0;
+        padding: 14px;
+        color: #fff;
+        z-index: 999999;
+        background: rgba(45, 22, 14, .96);
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 16px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 20px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(255,106,61,.05);
+    }
+
+.search-panel .pax-menu.show {
+        display: block;
+    }
+
+.search-panel .field label {
+        font-size: .9rem;
+        margin-bottom: 6px;
+    }
+
+.search-panel .g-input {
+        min-height: 48px;
+        padding: 11px 14px;
+        font-size: .92rem;
+        border-radius: 12px;
+    }
+
+.search-panel input[type="date"] {
+        min-height: 48px;
+        font-size: .9rem;
+    }
+
+.search-panel #returnInput:disabled {
+    opacity: 0.5;
+}
+
+.search-panel .dropdown-toggle {
+        min-height: 48px;
+        font-size: .92rem;
+    }
+
+.search-panel #fromInput,
+    .search-panel #toInput {
+        min-height: 48px;
+        font-size: .92rem;
+    }
+
+.search-panel .pax-menu .stepper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: .5rem 0;
+    }
+
+.search-panel .pax-menu .stepper small {
+            color: var(--text-dim);
+        }
+
+.search-panel .pax-divider {
+        margin: 12px 0;
+        border: none;
+        border-top: 1px solid rgba(255,255,255,.10);
+        opacity: 1;
+    }
+
+@keyframes bookingFade {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+@media (max-width: 991px) {
+.search-panel {
+            width: 100%;
+            max-width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+.search-panel .booking-main-content,
+        .search-panel .booking-main-pane {
+            width: 100%;
+            max-width: 100%;
+        }
+.search-panel .booking-main-pane > .row {
+                margin-left: 0;
+                margin-right: 0;
+            }
+.search-panel .swap-wrap {
+            position: relative;
+            margin-left: 0;
+            margin-right: 0;
+        }
+.search-panel .swap-wrap > .col-6 {
+                width: 100%;
+                max-width: 100%;
+                flex: 0 0 100%;
+                padding-left: 0;
+                padding-right: 0;
+            }
+.search-panel .swap-wrap > .col-6:first-child {
+                    margin-bottom: 14px;
+                }
+.search-panel .swap-wrap .g-input {
+                width: 100%;
+            }
+.search-panel .swap-btn {
+            position: absolute;
+            top: -7px;
+            right: 14px;
+            left: auto;
+            z-index: 10;
+            transform: none;
+        }
+.search-panel .booking-main-pane > .row > .col-6 {
+            width: 50%;
+            flex: 0 0 50%;
+        }
+.search-panel .pax-field {
+            width: 100%;
+            flex: 0 0 100%;
+        }
+.search-panel .pax-field .g-input {
+                width: 100%;
+            }
+.search-panel #searchBtn {
+            width: 100%;
+            min-height: 46px;
+            justify-content: center;
+        }
+}
+
+@media (max-width: 576px) {
+.search-panel {
+            padding: 14px;
+            border-radius: 20px;
+        }
+.search-panel .booking-main-tabs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+        }
+.search-panel .booking-main-tab {
+            width: 100%;
+            min-width: 0;
+            padding: 10px 6px;
+            font-size: .76rem;
+        }
+.search-panel .trip-tabs {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+.search-panel .trip-tab {
+            min-width: 0;
+            padding: 9px 5px;
+            font-size: .8rem;
+            white-space: nowrap;
+        }
+.search-panel .field label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: .82rem;
+        }
+.search-panel .g-input {
+            width: 100%;
+            min-height: 44px;
+            padding: 10px 13px;
+            font-size: .86rem;
+            box-sizing: border-box;
+        }
+.search-panel .booking-main-pane > .row > .col-6 {
+            width: 50%;
+            flex: 0 0 50%;
+        }
+.search-panel .pax-field .pax-menu {
+            right: 0;
+            left: auto;
+            width: min(320px, calc(100vw - 60px));
+            min-width: 0;
+            max-width: calc(100vw - 60px);
+        }
+}
+
+@media (max-width: 390px) {
+.search-panel .booking-main-pane > .row > .col-6 {
+            width: 100%;
+            flex: 0 0 100%;
+        }
+.search-panel .booking-main-tab {
+            font-size: .7rem;
+        }
+.search-panel .trip-tab {
+            font-size: .72rem;
+        }
+}
+
+
+/* Spacing when the panel is used on the SearchResults page (above the title). */
+.sr-search-panel-wrap {
+    margin-bottom: 26px;
+}
+
+@media (max-width: 991px) {
+    .search-panel .swap-btn:hover { transform: rotate(180deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .search-panel .swap-btn { transition: none; }
+}

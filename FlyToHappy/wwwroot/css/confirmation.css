@@ -1,0 +1,321 @@
+﻿/* ========================
+   CONFIRMATION PAGE
+======================== */
+
+.confirmation-main {
+    width: 100%;
+}
+
+.confirmation-page-header {
+    margin-bottom: 24px;
+}
+
+    .confirmation-page-header h1 {
+        margin: 0 0 6px;
+        color: #fff;
+        font-size: 1.7rem;
+        font-weight: 800;
+    }
+
+    .confirmation-page-header p {
+        margin: 0;
+        color: rgba(255,255,255,.58);
+        font-size: .86rem;
+    }
+
+
+/* ========================
+   CARDS
+======================== */
+
+.confirmation-card {
+    margin-bottom: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 16px;
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.10);
+}
+
+.confirmation-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+    .confirmation-card-header > div {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .confirmation-card-header i {
+        color: #ffcf5c;
+        font-size: .95rem;
+    }
+
+    .confirmation-card-header h2 {
+        margin: 0;
+        color: #fff;
+        font-size: .9rem;
+        font-weight: 700;
+    }
+
+.confirmation-card-body {
+    padding: 18px;
+}
+
+
+/* ========================
+   EDIT BUTTON
+======================== */
+
+.confirmation-edit-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 11px;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 9px;
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.72);
+    font-size: .72rem;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+    .confirmation-edit-btn:hover {
+        border-color: rgba(255,176,32,.45);
+        background: rgba(255,176,32,.10);
+        color: #fff;
+    }
+
+    .confirmation-edit-btn i {
+        color: #ffcf5c;
+    }
+
+
+/* ========================
+   INFORMATION GRID
+======================== */
+
+.confirmation-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 28px;
+}
+
+.confirmation-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .confirmation-info-item span {
+        color: rgba(255,255,255,.48);
+        font-size: .70rem;
+    }
+
+    .confirmation-info-item strong {
+        color: #fff;
+        font-size: .82rem;
+        font-weight: 650;
+        word-break: break-word;
+    }
+
+
+/* ========================
+   PASSENGER BLOCKS
+======================== */
+
+.confirmation-passenger-block {
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+    .confirmation-passenger-block:first-child {
+        padding-top: 0;
+    }
+
+    .confirmation-passenger-block:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+.confirmation-passenger-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+    .confirmation-passenger-title strong {
+        color: #fff;
+        font-size: .88rem;
+        font-weight: 700;
+    }
+
+    .confirmation-passenger-title span {
+        padding: 4px 8px;
+        border-radius: 8px;
+        background: rgba(255,176,32,.12);
+        color: #ffcf5c;
+        font-size: .68rem;
+        font-weight: 700;
+    }
+
+
+/* ========================
+   BAGGAGE
+======================== */
+
+.confirmation-baggage-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+    .confirmation-baggage-row:first-child {
+        padding-top: 0;
+    }
+
+    .confirmation-baggage-row:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .confirmation-baggage-row > div {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .confirmation-baggage-row span {
+        color: rgba(255,255,255,.48);
+        font-size: .70rem;
+    }
+
+    .confirmation-baggage-row strong {
+        color: #fff;
+        font-size: .82rem;
+    }
+
+.confirmation-baggage-price {
+    flex-shrink: 0;
+    color: #ffcf5c !important;
+    font-weight: 800 !important;
+}
+
+
+/* ========================
+   AGREEMENT
+======================== */
+
+.confirmation-agreement {
+    margin-top: 20px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 14px;
+    background: rgba(255,255,255,.05);
+}
+
+    .confirmation-agreement label {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .confirmation-agreement input {
+        width: 17px;
+        height: 17px;
+        margin-top: 2px;
+        accent-color: #ff8a3d;
+        cursor: pointer;
+    }
+
+    .confirmation-agreement span {
+        color: rgba(255,255,255,.72);
+        font-size: .78rem;
+        line-height: 1.5;
+    }
+
+
+/* ========================
+   ACTIONS
+======================== */
+
+.confirmation-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.confirmation-back-btn,
+.confirmation-complete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 20px;
+    border-radius: 11px;
+    font-size: .80rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.confirmation-back-btn {
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06);
+    color: #fff;
+}
+
+    .confirmation-back-btn:hover {
+        background: rgba(255,255,255,.10);
+    }
+
+.confirmation-complete-btn {
+    border: none;
+    background: linear-gradient(135deg, #ff6a3d, #ffb020);
+    color: #fff;
+    box-shadow: 0 8px 22px rgba(255,106,61,.22);
+}
+
+    .confirmation-complete-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 26px rgba(255,106,61,.30);
+    }
+
+
+/* ========================
+   RESPONSIVE
+======================== */
+
+@media (max-width: 767.98px) {
+    .confirmation-info-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .confirmation-actions {
+        flex-direction: column-reverse;
+    }
+
+    .confirmation-back-btn,
+    .confirmation-complete-btn {
+        width: 100%;
+    }
+}

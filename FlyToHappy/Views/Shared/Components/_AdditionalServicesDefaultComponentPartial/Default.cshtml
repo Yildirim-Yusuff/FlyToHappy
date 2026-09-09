@@ -1,0 +1,256 @@
+@* Lucide Icons *@
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+    .service-eyebrow {
+        display: inline-block;
+        margin-bottom: .5rem;
+        font-size: .78rem;
+        font-weight: 700;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--accent);
+    }
+
+    .service-card {
+        height: 100%;
+        padding: 1.8rem 1.4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: .6rem;
+        cursor: pointer;
+        transition: transform .25s ease, box-shadow .25s ease, border-color .3s ease;
+    }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 45px rgba(70,20,0,.3);
+        }
+
+        .service-card.selected {
+            border-color: var(--accent-2);
+        }
+
+    /* LUCIDE İKONLAR */
+    .service-icon-box {
+        width: 96px;
+        height: 96px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-2);
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+        .service-icon-box svg {
+            width: 68px;
+            height: 68px;
+            stroke-width: 1.8;
+            transition: transform .25s ease, color .25s ease;
+        }
+
+    .service-card:hover .service-icon-box svg {
+        transform: translateY(-3px) scale(1.06);
+        color: #ffc04d;
+    }
+
+    .service-name {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .service-desc {
+        font-size: .82rem;
+        line-height: 1.4;
+        color: var(--text-dim);
+    }
+
+    .service-add-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-top: auto;
+        background: rgba(255,255,255,0.10);
+        border: 1px solid var(--glass-border);
+        color: #fff;
+        font-size: 1.3rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        line-height: 1;
+    }
+
+        .service-add-btn span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            line-height: 1;
+            transform: translateY(-1px);
+        }
+
+        .service-add-btn:hover {
+            transform: scale(1.12) rotate(90deg);
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            box-shadow: 0 8px 22px rgba(255,106,61,.35);
+        }
+
+    .service-card.selected .service-add-btn {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        box-shadow: 0 6px 18px rgba(255,106,61,.3);
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .service-card,
+        .service-add-btn,
+        .service-icon-box svg {
+            transition: none;
+        }
+    }
+</style>
+
+<section class="section" id="additionalServices">
+    <div class="container">
+
+        <span class="service-eyebrow">
+            UÇUŞUNU ÖZELLEŞTİR
+        </span>
+
+        <h2 class="section-title">
+            Uçuşuna Ek Hizmet Ekle
+        </h2>
+
+        <p class="section-sub">
+            Seyahatinizi daha konforlu hale getirmek için ek hizmetleri kolayca seçin.
+        </p>
+
+        <div class="row g-3">
+
+            <!-- KOLTUK SEÇİMİ -->
+            <div class="col-6 col-lg-3">
+                <div class="glass service-card">
+
+                    <div class="service-icon-box">
+                        <i data-lucide="armchair"></i>
+                    </div>
+
+                    <div class="service-name">
+                        Koltuk Seçimi
+                    </div>
+
+                    <div class="service-desc">
+                        Uçuş öncesinde koltuğunu seç.
+                    </div>
+
+                    <button type="button"
+                            class="service-add-btn"
+                            aria-label="Koltuk seçimi ekle">
+                        <span>+</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- EK BAGAJ -->
+            <div class="col-6 col-lg-3">
+                <div class="glass service-card">
+
+                    <div class="service-icon-box">
+                        <i data-lucide="luggage"></i>
+                    </div>
+
+                    <div class="service-name">
+                        Ek Bagaj
+                    </div>
+
+                    <div class="service-desc">
+                        Bagaj hakkını ihtiyacına göre artır.
+                    </div>
+
+                    <button type="button"
+                            class="service-add-btn"
+                            aria-label="Ek bagaj ekle">
+                        <span>+</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- YEMEK SEÇİMİ -->
+            <div class="col-6 col-lg-3">
+                <div class="glass service-card">
+
+                    <div class="service-icon-box">
+                        <i data-lucide="utensils"></i>
+                    </div>
+
+                    <div class="service-name">
+                        Yemek Seçimi
+                    </div>
+
+                    <div class="service-desc">
+                        Uçuşuna özel yemek tercihini yap.
+                    </div>
+
+                    <button type="button"
+                            class="service-add-btn"
+                            aria-label="Yemek seçimi ekle">
+                        <span>+</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- SEYAHAT SİGORTASI -->
+            <div class="col-6 col-lg-3">
+                <div class="glass service-card">
+
+                    <div class="service-icon-box">
+                        <i data-lucide="shield-check"></i>
+                    </div>
+
+                    <div class="service-name">
+                        Seyahat Sigortası
+                    </div>
+
+                    <div class="service-desc">
+                        Seyahatini beklenmedik durumlara karşı güvenceye al.
+                    </div>
+
+                    <button type="button"
+                            class="service-add-btn"
+                            aria-label="Seyahat sigortası ekle">
+                        <span>+</span>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    lucide.createIcons();
+</script>
+
+<script>
+    (function(){
+        document.querySelectorAll('#additionalServices .service-add-btn').forEach(function(btn){
+            btn.addEventListener('click',function(){
+                var card=btn.closest('.service-card');
+                var on=card.classList.toggle('selected');
+                btn.querySelector('span').textContent=on?'✓':'+';
+            });
+        });
+    })();
+</script>

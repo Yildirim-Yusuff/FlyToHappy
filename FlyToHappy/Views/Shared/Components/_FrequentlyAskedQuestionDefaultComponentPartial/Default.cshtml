@@ -1,0 +1,731 @@
+﻿<style>
+    .fth-faq-section {
+        position: relative;
+        width: 100%;
+        padding: 88px 24px;
+        overflow: hidden;
+        background: none;
+    }
+
+    .fth-faq-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1160px;
+        margin: 0 auto;
+    }
+
+    .fth-faq-layout {
+        display: grid;
+        grid-template-columns: minmax(330px, .9fr) minmax(520px, 1.15fr);
+        gap: 75px;
+        align-items: start;
+    }
+
+    /* =========================
+           SOL TARAF
+           ========================= */
+
+    .fth-faq-left {
+        padding-top: 4px;
+    }
+
+    .fth-faq-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        padding: 8px 16px;
+        border: 1px solid rgba(255,176,32,.55);
+        border-radius: 999px;
+        background: rgba(255,176,32,.10);
+        color: var(--accent-2, #ffb020);
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        box-shadow: inset 0 0 15px rgba(255,176,32,.05), 0 5px 18px rgba(0,0,0,.10);
+    }
+
+    .fth-faq-title {
+        max-width: 430px;
+        margin: 0 0 22px;
+        font-size: clamp(2.8rem, 4.4vw, 4.25rem);
+        font-weight: 800;
+        line-height: 1.04;
+        letter-spacing: -.035em;
+        color: #fff;
+        text-shadow: 0 4px 20px rgba(0,0,0,.18);
+    }
+
+    .fth-faq-description {
+        max-width: 470px;
+        margin: 0 0 48px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.55;
+        color: rgba(255,255,255,.84);
+    }
+
+    /* =========================
+           DESTEK KARTI
+           ========================= */
+
+    .fth-faq-support {
+        position: relative;
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        align-items: center;
+        gap: 28px;
+        max-width: 510px;
+        min-height: 185px;
+        padding: 28px 30px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.32);
+        border-radius: 16px;
+        background: rgba(60,43,43,.34);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        box-shadow: 0 18px 45px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+        .fth-faq-support::after {
+            content: "";
+            position: absolute;
+            right: -60px;
+            bottom: -80px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,106,61,.08);
+            pointer-events: none;
+        }
+
+    /* İKONDA ÇERÇEVE YOK */
+    .fth-faq-support-icon {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        color: #fff;
+    }
+
+        .fth-faq-support-icon i {
+            font-size: 4.5rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+    .fth-faq-support-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .fth-faq-support-title {
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .fth-faq-support-text {
+        margin: 0 0 18px;
+        font-size: .85rem;
+        line-height: 1.55;
+        color: rgba(255,255,255,.76);
+    }
+
+    .fth-faq-support-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent-2, #ffb020);
+        font-size: .84rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: gap .25s ease, color .25s ease;
+    }
+
+        .fth-faq-support-link i {
+            font-size: .9rem;
+        }
+
+        .fth-faq-support-link:hover {
+            gap: 12px;
+            color: #ffc04d;
+        }
+
+    /* =========================
+           SAĞ ACCORDION
+           ========================= */
+
+    .fth-faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .fth-faq-item {
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.34);
+        border-radius: 14px;
+        background: rgba(52,48,52,.30);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: 0 12px 30px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.05);
+        transition: border-color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease;
+    }
+
+        .fth-faq-item:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,176,32,.40);
+            background: rgba(66,56,56,.38);
+        }
+
+        .fth-faq-item.open {
+            border-color: rgba(255,176,32,.48);
+            background: rgba(65,48,44,.42);
+            box-shadow: 0 18px 40px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.06);
+        }
+
+    .fth-faq-question {
+        width: 100%;
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 15px 18px;
+        border: none;
+        background: transparent;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    /* SORU NUMARASI */
+    .fth-faq-number {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255,176,32,.72);
+        border-radius: 9px;
+        background: rgba(255,176,32,.07);
+        color: var(--accent-2, #ffb020);
+        font-size: .82rem;
+        font-weight: 800;
+        transition: background .25s ease, color .25s ease, border-color .25s ease;
+    }
+
+    .fth-faq-item.open .fth-faq-number {
+        color: #fff;
+        border-color: transparent;
+        background: linear-gradient( 135deg, var(--accent, #ff6a3d), var(--accent-2, #ffb020) );
+    }
+
+    /* SORU YAZISI */
+    .fth-faq-question-text {
+        flex: 1;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
+        text-shadow: 0 2px 10px rgba(0,0,0,.10);
+    }
+
+    /* OK */
+    .fth-faq-chevron {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: rgba(255,255,255,.92);
+        transition: transform .3s ease, color .25s ease;
+    }
+
+        .fth-faq-chevron i {
+            font-size: 1.05rem;
+        }
+
+    .fth-faq-item.open .fth-faq-chevron {
+        transform: rotate(180deg);
+        color: var(--accent-2, #ffb020);
+    }
+
+    /* =========================
+           CEVAP
+           ========================= */
+
+    .fth-faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height .4s ease, opacity .3s ease;
+    }
+
+    .fth-faq-answer-inner {
+        margin: 0 18px 20px 78px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255,255,255,.12);
+        color: rgba(255,255,255,.78);
+        font-size: .88rem;
+        line-height: 1.65;
+    }
+
+        .fth-faq-answer-inner strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+    .fth-faq-item.open .fth-faq-answer {
+        max-height: 220px;
+        opacity: 1;
+    }
+
+    /* =========================
+           GİRİŞ ANİMASYONU
+           ========================= */
+
+    @@keyframes fthFaqFade {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .fth-faq-item {
+        animation: fthFaqFade .4s ease both;
+    }
+
+        .fth-faq-item:nth-child(2) {
+            animation-delay: .05s;
+        }
+
+        .fth-faq-item:nth-child(3) {
+            animation-delay: .10s;
+        }
+
+        .fth-faq-item:nth-child(4) {
+            animation-delay: .15s;
+        }
+
+        .fth-faq-item:nth-child(5) {
+            animation-delay: .20s;
+        }
+
+        .fth-faq-item:nth-child(6) {
+            animation-delay: .25s;
+        }
+
+    /* =========================
+           TABLET
+           ========================= */
+
+    @@media (max-width: 992px) {
+        .fth-faq-section {
+            padding: 70px 20px;
+        }
+
+        .fth-faq-layout {
+            grid-template-columns: 1fr;
+            gap: 45px;
+        }
+
+        .fth-faq-left {
+            max-width: 620px;
+        }
+
+        .fth-faq-title {
+            max-width: 100%;
+        }
+
+        .fth-faq-description {
+            max-width: 600px;
+        }
+
+        .fth-faq-support {
+            max-width: 540px;
+        }
+    }
+
+    /* =========================
+           MOBİL
+           ========================= */
+
+    @@media (max-width: 576px) {
+        .fth-faq-section {
+            min-height: auto;
+            padding: 55px 15px;
+            background-position: center;
+        }
+
+        .fth-faq-layout {
+            gap: 35px;
+        }
+
+        .fth-faq-eyebrow {
+            margin-bottom: 18px;
+            padding: 7px 13px;
+            font-size: .66rem;
+        }
+
+        .fth-faq-title {
+            margin-bottom: 16px;
+            font-size: 2.6rem;
+            line-height: 1.02;
+        }
+
+        .fth-faq-description {
+            margin-bottom: 28px;
+            font-size: .9rem;
+        }
+
+        .fth-faq-support {
+            grid-template-columns: 75px 1fr;
+            gap: 17px;
+            min-height: 150px;
+            padding: 20px;
+        }
+
+        .fth-faq-support-icon {
+            width: 70px;
+            height: 70px;
+        }
+
+            .fth-faq-support-icon i {
+                font-size: 3.3rem;
+            }
+
+        .fth-faq-list {
+            gap: 12px;
+        }
+
+        .fth-faq-question {
+            min-height: 68px;
+            gap: 11px;
+            padding: 13px;
+        }
+
+        .fth-faq-number {
+            width: 36px;
+            height: 36px;
+            flex-basis: 36px;
+            font-size: .75rem;
+        }
+
+        .fth-faq-question-text {
+            font-size: .88rem;
+        }
+
+        .fth-faq-chevron {
+            width: 28px;
+            height: 28px;
+            flex-basis: 28px;
+        }
+
+        .fth-faq-answer-inner {
+            margin: 0 14px 17px;
+            padding-top: 14px;
+            font-size: .82rem;
+        }
+    }
+</style>
+
+<section class="fth-faq-section" id="flyToHappyFaq">
+    <div class="fth-faq-container">
+
+        <div class="fth-faq-layout">
+
+            <!-- SOL TARAF -->
+            <div class="fth-faq-left">
+
+                <div class="fth-faq-eyebrow">
+                    Yardım Merkezi
+                </div>
+
+                <h2 class="fth-faq-title">
+                    Sık Sorulan<br />
+                    Sorular
+                </h2>
+
+                <p class="fth-faq-description">
+                    Uçuş rezervasyonu, check-in ve seyahat hizmetleri
+                    hakkında en çok merak edilen soruların cevaplarını
+                    burada bulabilirsiniz.
+                </p>
+
+                <!-- DESTEK KARTI -->
+                <div class="fth-faq-support">
+
+                    <div class="fth-faq-support-icon">
+                        <i class="bi bi-headset"></i>
+                    </div>
+
+                    <div class="fth-faq-support-content">
+
+                        <div class="fth-faq-support-title">
+                            Cevap bulamadınız mı?
+                        </div>
+
+                        <p class="fth-faq-support-text">
+                            Destek ekibimiz rezervasyon ve uçuş
+                            işlemleriniz için 7/24 yardımcı olmaya hazır.
+                        </p>
+
+                        <a href="#" class="fth-faq-support-link">
+                            Bize Ulaşın
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SAĞ TARAF -->
+            <div class="fth-faq-list">
+
+                <!-- 01 -->
+                <div class="fth-faq-item">
+                    <button class="fth-faq-question"
+                            type="button"
+                            aria-expanded="false">
+
+                        <span class="fth-faq-number">
+                            01
+                        </span>
+
+                        <span class="fth-faq-question-text">
+                            Uçuşuma ek bagaj nasıl ekleyebilirim?
+                        </span>
+
+                        <span class="fth-faq-chevron">
+                            <i class="bi bi-chevron-down"></i>
+                        </span>
+
+                    </button>
+
+                    <div class="fth-faq-answer">
+                        <div class="fth-faq-answer-inner">
+                            Rezervasyon sırasında veya rezervasyonunuzu
+                            tamamladıktan sonra <strong>Ek Hizmetler</strong>
+                            bölümünden ek bagaj satın alabilirsiniz.
+                            Bagaj seçenekleri uçuş ve hava yolu
+                            kurallarına göre değişebilir.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 02 -->
+                <div class="fth-faq-item">
+                    <button class="fth-faq-question"
+                            type="button"
+                            aria-expanded="false">
+
+                        <span class="fth-faq-number">
+                            02
+                        </span>
+
+                        <span class="fth-faq-question-text">
+                            Online check-in işlemi ne zaman başlar?
+                        </span>
+
+                        <span class="fth-faq-chevron">
+                            <i class="bi bi-chevron-down"></i>
+                        </span>
+
+                    </button>
+
+                    <div class="fth-faq-answer">
+                        <div class="fth-faq-answer-inner">
+                            Online check-in genellikle uçuş saatinden
+                            <strong>24 saat önce</strong> açılır.
+                            Kesin süre hava yolu şirketinin
+                            kurallarına göre değişebilir.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 03 -->
+                <div class="fth-faq-item">
+                    <button class="fth-faq-question"
+                            type="button"
+                            aria-expanded="false">
+
+                        <span class="fth-faq-number">
+                            03
+                        </span>
+
+                        <span class="fth-faq-question-text">
+                            Koltuk seçimi nasıl yapılır?
+                        </span>
+
+                        <span class="fth-faq-chevron">
+                            <i class="bi bi-chevron-down"></i>
+                        </span>
+
+                    </button>
+
+                    <div class="fth-faq-answer">
+                        <div class="fth-faq-answer-inner">
+                            Rezervasyon sırasında veya daha sonra
+                            <strong>Rezervasyonlarım</strong> bölümünden
+                            koltuk seçimi yapabilirsiniz.
+                            Bazı koltuklar için ek ücret uygulanabilir.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 04 -->
+                <div class="fth-faq-item">
+                    <button class="fth-faq-question"
+                            type="button"
+                            aria-expanded="false">
+
+                        <span class="fth-faq-number">
+                            04
+                        </span>
+
+                        <span class="fth-faq-question-text">
+                            Uçuşumu değiştirebilir veya iptal edebilir miyim?
+                        </span>
+
+                        <span class="fth-faq-chevron">
+                            <i class="bi bi-chevron-down"></i>
+                        </span>
+
+                    </button>
+
+                    <div class="fth-faq-answer">
+                        <div class="fth-faq-answer-inner">
+                            Değişiklik ve iptal koşulları satın aldığınız
+                            bilet sınıfına ve hava yolu şirketinin kurallarına
+                            bağlıdır. İşlemlerinizi
+                            <strong>Rezervasyonlarım</strong> bölümünden
+                            kontrol edebilirsiniz.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 05 -->
+                <div class="fth-faq-item">
+                    <button class="fth-faq-question"
+                            type="button"
+                            aria-expanded="false">
+
+                        <span class="fth-faq-number">
+                            05
+                        </span>
+
+                        <span class="fth-faq-question-text">
+                            Uçuşuma yemek seçimi ekleyebilir miyim?
+                        </span>
+
+                        <span class="fth-faq-chevron">
+                            <i class="bi bi-chevron-down"></i>
+                        </span>
+
+                    </button>
+
+                    <div class="fth-faq-answer">
+                        <div class="fth-faq-answer-inner">
+                            Hava yolu destekliyorsa uçuşunuza yemek
+                            tercihi ekleyebilirsiniz. Vejetaryen,
+                            çocuk menüsü veya özel beslenme seçenekleri
+                            uçuşa göre farklılık gösterebilir.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 06 -->
+                <div class="fth-faq-item">
+                    <button class="fth-faq-question"
+                            type="button"
+                            aria-expanded="false">
+
+                        <span class="fth-faq-number">
+                            06
+                        </span>
+
+                        <span class="fth-faq-question-text">
+                            Uçuş durumumu nereden kontrol edebilirim?
+                        </span>
+
+                        <span class="fth-faq-chevron">
+                            <i class="bi bi-chevron-down"></i>
+                        </span>
+
+                    </button>
+
+                    <div class="fth-faq-answer">
+                        <div class="fth-faq-answer-inner">
+                            Ana sayfadaki <strong>Uçuş Durumu</strong>
+                            sekmesinden uçuş numarası ve tarih bilgisi girerek
+                            kalkış, varış ve gecikme bilgilerini
+                            görüntüleyebilirsiniz.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    (function () {
+        const faq = document.querySelector("#flyToHappyFaq");
+
+        if (!faq) return;
+
+        const items = faq.querySelectorAll(".fth-faq-item");
+
+        items.forEach(function (item) {
+            const button = item.querySelector(".fth-faq-question");
+
+            button.addEventListener("click", function () {
+                const isOpen = item.classList.contains("open");
+
+                items.forEach(function (otherItem) {
+                    otherItem.classList.remove("open");
+
+                    const otherButton =
+                        otherItem.querySelector(".fth-faq-question");
+
+                    otherButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+                });
+
+                if (!isOpen) {
+                    item.classList.add("open");
+
+                    button.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+                }
+            });
+        });
+    })();
+</script>

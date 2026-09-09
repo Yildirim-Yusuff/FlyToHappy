@@ -1,0 +1,189 @@
+﻿@{
+    ViewData["Title"] = "Rezervasyon Tamamlandı";
+    Layout = "~/Views/Shared/_SearchLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/booking-flow.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/confirmation.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/success.css" asp-append-version="true" />
+}
+
+<section class="success-page">
+    <div class="container">
+
+        <!-- SUCCESS HERO -->
+        <div class="success-hero">
+
+            <div class="success-hero-top">
+
+                <div class="success-check">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+                <div>
+                    <h1>Rezervasyonunuz Başarıyla Oluşturuldu</h1>
+                    <p>Rezervasyon bilgilerin aşağıda yer alıyor. İyi yolculuklar!</p>
+                </div>
+
+            </div>
+
+            <div class="success-hero-band">
+
+                <div class="success-band-left">
+
+                    <div class="success-pnr">
+                        <span>Rezervasyon Kodu (PNR)</span>
+                        <strong id="successPnr">------</strong>
+                    </div>
+
+                    <div class="success-route">
+                        <span>Rota</span>
+                        <strong id="successRoute">-</strong>
+                        <small id="successTripMeta">-</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FLIGHTS -->
+        <div class="success-section">
+
+            <h2 class="success-section-title">
+                <i class="bi bi-airplane"></i>
+                Uçuş Bilgileri
+            </h2>
+
+            <div id="successFlights"></div>
+
+        </div>
+
+
+        <!-- PASSENGERS -->
+        <div class="success-section">
+
+            <h2 class="success-section-title">
+                <i class="bi bi-people"></i>
+                Yolcular
+            </h2>
+
+            <div class="confirmation-card">
+                <div class="confirmation-card-body">
+                    <div id="successPassengers"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="success-two-col">
+
+        <!-- BAGGAGE -->
+        <div class="success-section">
+
+            <h2 class="success-section-title">
+                <i class="bi bi-luggage-fill"></i>
+                Bagaj Seçimleri
+            </h2>
+
+            <div class="confirmation-card">
+                <div class="confirmation-card-body">
+
+                    <div class="confirmation-baggage-row">
+                        <div>
+                            <span>Kabin Bagajı</span>
+                            <strong id="successCabinName">-</strong>
+                        </div>
+
+                        <strong class="confirmation-baggage-price" id="successCabinPrice">
+                            0 TL
+                        </strong>
+                    </div>
+
+                    <div class="confirmation-baggage-row">
+                        <div>
+                            <span>Uçak Altı Bagajı</span>
+                            <strong id="successCheckedName">-</strong>
+                        </div>
+
+                        <strong class="confirmation-baggage-price" id="successCheckedPrice">
+                            0 TL
+                        </strong>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- PRICE SUMMARY -->
+        <div class="success-section">
+
+            <h2 class="success-section-title">
+                <i class="bi bi-receipt"></i>
+                Ödeme Özeti
+            </h2>
+
+            <div class="booking-price-card">
+
+                <div class="booking-price-body">
+
+                    <div class="booking-price-row">
+                        <span>Gidiş Uçuşu</span>
+                        <strong id="successDeparturePrice">0 TL</strong>
+                    </div>
+
+                    <div class="booking-price-row d-none" id="successReturnRow">
+                        <span>Dönüş Uçuşu</span>
+                        <strong id="successReturnPrice">0 TL</strong>
+                    </div>
+
+                    <div class="booking-price-row">
+                        <span>Kabin Bagajı</span>
+                        <strong id="successSummaryCabinPrice">0 TL</strong>
+                    </div>
+
+                    <div class="booking-price-row">
+                        <span>Uçak Altı Bagajı</span>
+                        <strong id="successSummaryCheckedPrice">0 TL</strong>
+                    </div>
+
+                    <div class="booking-price-total">
+                        <span>Ödenen Tutar</span>
+                        <strong id="successTotalPrice">0 TL</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+        <div class="success-actions">
+
+            <a asp-controller="Default"
+               asp-action="Index"
+               class="btn success-home-btn"
+               id="successHomeBtn">
+
+                <i class="bi bi-house-door"></i>
+                Ana Sayfaya Dön
+
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/success.js" asp-append-version="true"></script>
+}

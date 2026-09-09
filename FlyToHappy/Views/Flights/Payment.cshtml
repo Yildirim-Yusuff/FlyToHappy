@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "Ödeme";
+    Layout = "~/Views/Shared/_SearchLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/payment.css" asp-append-version="true" />
+}
+
+<section class="payment-page">
+    <div class="container">
+
+        <div class="payment-page-header">
+            <button type="button" class="payment-back-link" id="paymentBackBtn">
+                <i class="bi bi-arrow-left"></i>
+                Onaya Dön
+            </button>
+
+            <h1>Güvenli Ödeme</h1>
+            <p>Rezervasyonunu tamamlamak için ödeme bilgilerini gir.</p>
+        </div>
+
+        <div class="payment-grid">
+
+            <!-- LEFT -->
+            <div class="payment-main">
+
+                <div class="payment-card">
+                    <div class="payment-card-header">
+                        <div>
+                            <i class="bi bi-credit-card-fill"></i>
+                            <h2>Kart Bilgileri</h2>
+                        </div>
+
+                        <span class="secure-payment">
+                            <i class="bi bi-lock-fill"></i>
+                            Güvenli Ödeme
+                        </span>
+                    </div>
+
+                    <div class="payment-card-body">
+
+                        <div class="payment-form-group">
+                            <label for="cardHolder">Kart Üzerindeki İsim</label>
+                            <input type="text"
+                                   id="cardHolder"
+                                   placeholder="AD SOYAD"
+                                   autocomplete="cc-name" />
+                        </div>
+
+                        <div class="payment-form-group">
+                            <label for="cardNumber">Kart Numarası</label>
+
+                            <div class="payment-input-icon">
+                                <input type="text"
+                                       id="cardNumber"
+                                       maxlength="19"
+                                       placeholder="0000 0000 0000 0000"
+                                       inputmode="numeric"
+                                       autocomplete="cc-number" />
+
+                                <i class="bi bi-credit-card"></i>
+                            </div>
+                        </div>
+
+                        <div class="payment-form-row">
+
+                            <div class="payment-form-group">
+                                <label for="cardExpiry">Son Kullanma Tarihi</label>
+                                <input type="text"
+                                       id="cardExpiry"
+                                       maxlength="5"
+                                       placeholder="AA/YY"
+                                       inputmode="numeric"
+                                       autocomplete="cc-exp" />
+                            </div>
+
+                            <div class="payment-form-group">
+                                <label for="cardCvv">CVV</label>
+
+                                <div class="payment-input-icon">
+                                    <input type="text"
+                                           id="cardCvv"
+                                           maxlength="3"
+                                           placeholder="123"
+                                           inputmode="numeric"
+                                           autocomplete="cc-csc" />
+
+                                    <i class="bi bi-question-circle"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="payment-security">
+                    <i class="bi bi-shield-check"></i>
+
+                    <div>
+                        <strong>Ödeme bilgileriniz güvende</strong>
+                        <span>Kart bilgileriniz tarayıcıda saklanmaz.</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+            <aside class="payment-sidebar">
+
+                <div class="payment-summary-card">
+
+                    <div class="payment-summary-header">
+                        <div>
+                            <strong>Ödeme Özeti</strong>
+                            <span>Rezervasyon toplamı</span>
+                        </div>
+
+                        <i class="bi bi-receipt"></i>
+                    </div>
+
+                    <div class="payment-summary-body">
+
+                        <div class="payment-summary-row">
+                            <span>Gidiş Uçuşu</span>
+                            <strong id="paymentDeparturePrice">0 TL</strong>
+                        </div>
+
+                        <div class="payment-summary-row d-none" id="paymentReturnRow">
+                            <span>Dönüş Uçuşu</span>
+                            <strong id="paymentReturnPrice">0 TL</strong>
+                        </div>
+
+                        <div class="payment-summary-row">
+                            <span>Kabin Bagajı</span>
+                            <strong id="paymentCabinPrice">0 TL</strong>
+                        </div>
+
+                        <div class="payment-summary-row">
+                            <span>Uçak Altı Bagajı</span>
+                            <strong id="paymentCheckedPrice">0 TL</strong>
+                        </div>
+
+                        <div class="payment-summary-total">
+                            <span>Ödenecek Tutar</span>
+                            <strong id="paymentTotalPrice">0 TL</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button type="button" class="payment-complete-btn" id="paymentCompleteBtn">
+                    <i class="bi bi-lock-fill"></i>
+                    Güvenli Ödeme Yap
+                </button>
+
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/payment.js" asp-append-version="true"></script>
+}
