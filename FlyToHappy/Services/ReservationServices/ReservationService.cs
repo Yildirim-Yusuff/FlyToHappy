@@ -1,8 +1,12 @@
 ﻿using FlyToHappy.Data;
+using FlyToHappy.Dtos.Flights;
 using FlyToHappy.Dtos.Reservations;
 using FlyToHappy.Models;
+using FlyToHappy.Services.RapidApiServices;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using System.Globalization;
+using Microsoft.Data.SqlClient;
 
 namespace FlyToHappy.Services.ReservationServices
 {
@@ -11,11 +15,13 @@ namespace FlyToHappy.Services.ReservationServices
 
         private readonly IMapper _mapper;
         private readonly AppDbContext _context;
+        private readonly IRapidApiFlightService _rapidApiFlightService;
 
-        public ReservationService(AppDbContext context, IMapper mapper)
+        public ReservationService(AppDbContext context, IMapper mapper, IRapidApiFlightService rapidApiFlightService)
         {
             _context = context;
             _mapper = mapper;
+            _rapidApiFlightService = rapidApiFlightService;
         }
 
 
@@ -63,6 +69,185 @@ namespace FlyToHappy.Services.ReservationServices
                     CheckedBaggagePrice = reservation.PriceSummary.CheckedBaggagePrice,
                     TotalPrice = reservation.PriceSummary.TotalPrice
                 }
+            };
+        }
+
+        private static readonly string[] DemoOccupiedSeats = { "1A", "1F", "3C", "4D", "7B", "9E" };
+
+        private async Task<Reservation?> FindTripAsync(string? pnr, string? surname)
+        {
+            if (string.IsNullOrWhiteSpace(pnr) || string.IsNullOrWhiteSpace(surname))
+            {
+                return null;
+            }
+
+            var normalizedPnr = pnr.Trim().ToUpperInvariant();
+            var reservation = await _context.Reservations.AsNoTracking()
+                .Include(r => r.Passengers).Include(r => r.DepartureFlight).Include(r => r.ReturnFlight)
+                .FirstOrDefaultAsync(r => r.Pnr == normalizedPnr);
+            if (reservation == null)
+            {
+                return null;
+            }
+
+            var comparer = StringComparer.Create(CultureInfo.GetCultureInfo("tr-TR"), true);
+            foreach (var passenger in reservation.Passengers)
+            {
+                if (comparer.Equals(passenger.LastName.Trim(), surname.Trim()))
+                {
+                    return reservation;
+                }
+            }
+            return null;
+        }
+
+        private async Task<TripDetailDto> MapTripAsync(Reservation reservation)
+        {
+            // Reuse the existing detail mapping, but never expose identity documents in the hero.
+            var detail = (await GetReservationByIdAsync(reservation.ReservationId))!;
+            var trip = new TripDetailDto
+            {
+                ReservationId = detail.ReservationId, Pnr = detail.Pnr, TripType = detail.TripType,
+                From = detail.From, To = detail.To, DepartureDate = detail.DepartureDate,
+                ReturnDate = detail.ReturnDate, Cabin = detail.Cabin, TotalPassengers = detail.TotalPassengers,
+                DepartureFlight = detail.DepartureFlight, ReturnFlight = detail.ReturnFlight,
+                BaggageSelection = detail.BaggageSelection, PriceSummary = detail.PriceSummary
+            };
+            foreach (var passenger in reservation.Passengers)
+            {
+                trip.Passengers.Add(new TripPassengerDto
+                {
+                    PassengerId = passenger.PassengerId, FirstName = passenger.FirstName,
+                    LastName = passenger.LastName, PassengerType = passenger.PassengerType
+                });
+            }
+            return trip;
+        }
+
+        public async Task<TripDetailDto?> GetTripAsync(TripLookupDto dto)
+        {
+            var reservation = await FindTripAsync(dto.Pnr, dto.Surname);
+            return reservation == null ? null : await MapTripAsync(reservation);
+        }
+
+        public async Task<CheckInLookupDto?> GetCheckInAsync(TripLookupDto dto)
+        {
+            var reservation = await FindTripAsync(dto.Pnr, dto.Surname);
+            if (reservation == null) return null;
+
+            var result = new CheckInLookupDto { Trip = await MapTripAsync(reservation) };
+            result.Flights.Add(await MapCheckInFlightAsync(reservation.DepartureFlight, reservation.DepartureDate));
+            if (reservation.ReturnFlight != null && reservation.ReturnDate.HasValue)
+            {
+                result.Flights.Add(await MapCheckInFlightAsync(reservation.ReturnFlight, reservation.ReturnDate.Value));
+            }
+
+            var checkIns = await _context.DemoCheckIns.AsNoTracking()
+                .Include(c => c.Passenger).Include(c => c.Flight)
+                .Where(c => c.Passenger.ReservationId == reservation.ReservationId).ToListAsync();
+            foreach (var checkIn in checkIns)
+            {
+                result.CheckIns.Add(MapBoardingPass(checkIn, reservation));
+            }
+            return result;
+        }
+
+        private async Task<CheckInFlightDto> MapCheckInFlightAsync(Flight flight, DateOnly date)
+        {
+            var occupied = new List<string>(DemoOccupiedSeats);
+            occupied.AddRange(await _context.DemoCheckIns.AsNoTracking()
+                .Where(c => c.FlightId == flight.FlightId).Select(c => c.SeatNumber).ToListAsync());
+            return new CheckInFlightDto
+            {
+                FlightId = flight.FlightId, Date = date, Flight = MapReservationFlight(flight), OccupiedSeats = occupied
+            };
+        }
+
+        public async Task<BoardingPassDto> CompleteCheckInAsync(CompleteCheckInDto dto)
+        {
+            var reservation = await FindTripAsync(dto.Pnr, dto.Surname);
+            if (reservation == null) throw new KeyNotFoundException("PNR veya soyad ile eşleşen rezervasyon bulunamadı.");
+
+            var passenger = reservation.Passengers.FirstOrDefault(p => p.PassengerId == dto.PassengerId);
+            if (passenger == null) throw new ArgumentException("Seçilen yolcu bu rezervasyona ait değil.");
+
+            Flight? flight = null;
+            if (dto.FlightId == reservation.DepartureFlightId) flight = reservation.DepartureFlight;
+            if (dto.FlightId == reservation.ReturnFlightId && reservation.ReturnDate.HasValue) flight = reservation.ReturnFlight;
+            if (flight == null) throw new ArgumentException("Seçilen uçuş bu rezervasyona ait değil.");
+
+            var seat = dto.SeatNumber?.Trim().ToUpperInvariant() ?? "";
+            if (seat.Length < 2 || seat.Length > 3 || !"ABCDEF".Contains(seat[^1]) ||
+                !int.TryParse(seat[..^1], out var row) || row < 1 || row > 30 || seat != $"{row}{seat[^1]}")
+            {
+                throw new ArgumentException("Lütfen geçerli bir koltuk seçin.");
+            }
+            if (await _context.DemoCheckIns.AnyAsync(c => c.PassengerId == passenger.PassengerId && c.FlightId == flight.FlightId))
+            {
+                throw new InvalidOperationException("Bu yolcu için bu uçuşta demo check-in daha önce tamamlanmış.");
+            }
+            if (DemoOccupiedSeats.Contains(seat) || await _context.DemoCheckIns.AnyAsync(c => c.FlightId == flight.FlightId && c.SeatNumber == seat))
+            {
+                throw new InvalidOperationException("Bu koltuk dolu. Lütfen başka bir koltuk seçin.");
+            }
+
+            var checkIn = new DemoCheckIn
+            {
+                PassengerId = passenger.PassengerId, FlightId = flight.FlightId,
+                IsCheckedIn = true, CheckInDate = DateTime.UtcNow, SeatNumber = seat,
+                BoardingPassNumber = Guid.NewGuid().ToString("N").ToUpperInvariant()
+            };
+            _context.DemoCheckIns.Add(checkIn);
+            try
+            {
+                // Unique indexes also guard simultaneous requests for the same passenger or seat.
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException exception) when (exception.InnerException is SqlException sql && (sql.Number == 2601 || sql.Number == 2627))
+            {
+                throw new InvalidOperationException("Check-in veya koltuk başka bir işlemde kaydedildi. Lütfen yeniden sorgulayın.");
+            }
+
+            checkIn.Passenger = passenger;
+            checkIn.Flight = flight;
+            return MapBoardingPass(checkIn, reservation);
+        }
+
+        private static BoardingPassDto MapBoardingPass(DemoCheckIn checkIn, Reservation reservation)
+        {
+            return new BoardingPassDto
+            {
+                PassengerId = checkIn.PassengerId, FlightId = checkIn.FlightId,
+                PassengerName = $"{checkIn.Passenger.FirstName} {checkIn.Passenger.LastName}",
+                Pnr = reservation.Pnr, Airline = checkIn.Flight.Airline, FlightNumber = checkIn.Flight.FlightNumber,
+                From = checkIn.Flight.DepartureAirport, To = checkIn.Flight.ArrivalAirport,
+                Date = checkIn.FlightId == reservation.DepartureFlightId ? reservation.DepartureDate : reservation.ReturnDate!.Value,
+                DepartureTime = checkIn.Flight.DepartureTime, Cabin = reservation.Cabin,
+                SeatNumber = checkIn.SeatNumber, BoardingPassNumber = checkIn.BoardingPassNumber, CheckInDate = checkIn.CheckInDate
+            };
+        }
+
+        public async Task<FlightStatusDto?> GetFlightStatusAsync(string flightNumber, DateOnly date)
+        {
+            var number = flightNumber.Trim().Replace(" ", "").ToUpperInvariant();
+            // Snapshots have no live status. Reservation dates identify the scheduled flight day.
+            var departure = await _context.Reservations.AsNoTracking()
+                .Where(r => r.DepartureDate == date && r.DepartureFlight.FlightNumber.Replace(" ", "").ToUpper() == number)
+                .Select(r => r.DepartureFlight).FirstOrDefaultAsync();
+            var flight = departure;
+            if (flight == null)
+            {
+                flight = await _context.Reservations.AsNoTracking()
+                    .Where(r => r.ReturnDate == date && r.ReturnFlight != null && r.ReturnFlight.FlightNumber.Replace(" ", "").ToUpper() == number)
+                    .Select(r => r.ReturnFlight).FirstOrDefaultAsync();
+            }
+            if (flight == null) return null;
+
+            return new FlightStatusDto
+            {
+                FlightNumber = flight.FlightNumber, Airline = flight.Airline,
+                From = flight.DepartureAirport, To = flight.ArrivalAirport, Date = date,
+                DepartureTime = flight.DepartureTime, ArrivalTime = flight.ArrivalTime
             };
         }
 
@@ -121,30 +306,32 @@ namespace FlyToHappy.Services.ReservationServices
 
 
             // ================================
-            // Departure  & Return Flight
+            // Departure & Return Flight
+            // The chosen flights live in the backend search cache (not in SQL yet).
+            // Only the flights actually reserved are written to SQL, as new Flight rows.
             // ================================
-            var departureFlight = await _context.Flights
-                .FirstOrDefaultAsync(f => f.FlightId == dto.DepartureFlightId);
+            var departureSearchFlight = _rapidApiFlightService.GetCachedSearchFlight(dto.DepartureSearchFlightId);
 
-            if (departureFlight == null)
+            if (departureSearchFlight == null)
             {
-                throw new Exception("Gidiş uçuşu bulunamadı.");
+                throw new KeyNotFoundException("Gidiş uçuşu bulunamadı veya arama süresi doldu. Lütfen uçuş aramasını tekrarlayın.");
             }
+
+            var departureFlight = CreateFlightSnapshot(departureSearchFlight);
 
 
             Flight? returnFlight = null;
 
-            if (dto.ReturnFlightId.HasValue)
+            if (dto.ReturnSearchFlightId.HasValue)
             {
-                returnFlight = await _context.Flights
-                    .FirstOrDefaultAsync(f => f.FlightId == dto.ReturnFlightId.Value);
+                var returnSearchFlight = _rapidApiFlightService.GetCachedSearchFlight(dto.ReturnSearchFlightId.Value);
 
-                if (returnFlight is null)
+                if (returnSearchFlight == null)
                 {
-                    throw new KeyNotFoundException("Dönüş uçuşu bulunamadı.");
+                    throw new KeyNotFoundException("Dönüş uçuşu bulunamadı veya arama süresi doldu. Lütfen uçuş aramasını tekrarlayın.");
                 }
 
-
+                returnFlight = CreateFlightSnapshot(returnSearchFlight);
             }
 
 
@@ -178,7 +365,7 @@ namespace FlyToHappy.Services.ReservationServices
             {
                 if (returnFlight == null)
                 {
-                    throw new ArgumentException("Gidiş-dönüş için dönüş uçuşu gereklidir.", nameof(dto.ReturnFlightId));
+                    throw new ArgumentException("Gidiş-dönüş için dönüş uçuşu gereklidir.", nameof(dto.ReturnSearchFlightId));
                 }
 
                 returnFlightPrice = returnFlight.BasePrice * chargeablePassengers;
@@ -233,10 +420,8 @@ namespace FlyToHappy.Services.ReservationServices
                 ContactEmail = dto.ContactEmail,
                 ContactPhone = dto.ContactPhone,
 
-                DepartureFlightId = dto.DepartureFlightId,
+                // EF inserts the new Flight rows first and fills the FK ids.
                 DepartureFlight = departureFlight,
-
-                ReturnFlightId = dto.ReturnFlightId,
                 ReturnFlight = returnFlight,
 
                 Passengers = passengers,
@@ -265,6 +450,33 @@ namespace FlyToHappy.Services.ReservationServices
 
 
 
+
+
+        // ================================
+        // Flight snapshot: copy the search result into a Flight row for this reservation.
+        // BasePrice = provider fare for one passenger (authoritative). Price mirrors it.
+        // ================================
+        private static Flight CreateFlightSnapshot(SearchFlightDto searchFlight)
+        {
+            return new Flight
+            {
+                Airline = searchFlight.Airline,
+                AirlineCode = searchFlight.AirlineCode,
+                FlightNumber = searchFlight.FlightNumber,
+                DepartureAirport = searchFlight.DepartureAirport,
+                ArrivalAirport = searchFlight.ArrivalAirport,
+                DepartureTime = searchFlight.DepartureTime,
+                ArrivalTime = searchFlight.ArrivalTime,
+                Duration = searchFlight.Duration,
+                Stops = searchFlight.Stops,
+                BaggageKg = searchFlight.BaggageKg,
+                CabinBaggageIncluded = searchFlight.CabinBaggageIncluded,
+                CheckedBaggageIncluded = searchFlight.CheckedBaggageIncluded,
+                CabinClass = searchFlight.CabinClass,
+                BasePrice = searchFlight.Price,
+                Price = searchFlight.Price
+            };
+        }
 
 
         // ================================

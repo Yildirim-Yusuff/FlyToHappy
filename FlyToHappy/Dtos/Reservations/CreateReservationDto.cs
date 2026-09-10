@@ -9,8 +9,10 @@ namespace FlyToHappy.Dtos.Reservations
         public DateOnly? ReturnDate { get; set; }
         public string Cabin { get; set; } = string.Empty;
 
-        public int DepartureFlightId { get; set; }
-        public int? ReturnFlightId { get; set; }
+        // Ids of flights picked on SearchResults. They point to the backend search cache,
+        // not to SQL. The chosen flight is written to SQL only when the reservation is created.
+        public Guid DepartureSearchFlightId { get; set; }
+        public Guid? ReturnSearchFlightId { get; set; }
 
         public string ContactFirstName { get; set; } = string.Empty;
         public string ContactLastName { get; set; } = string.Empty;

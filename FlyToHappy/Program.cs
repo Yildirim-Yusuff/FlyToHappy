@@ -1,7 +1,9 @@
 using FlyToHappy.Data;
-using FlyToHappy.Services.ReservationServices;
-using Microsoft.EntityFrameworkCore;
 using FlyToHappy.Mapping;
+using FlyToHappy.Services.RapidApiServices;
+using FlyToHappy.Services.ReservationServices;
+using FlyToHappy.Settings;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -15,9 +17,16 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlName")));
 
+
+builder.Services.Configure<RapidApiSettings>(
+    builder.Configuration.GetSection("RapidApi"));
+
+builder.Services.AddMemoryCache();
+
+
 builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddAutoMapper(cfg => { }, typeof(GeneralMapping));
-
+builder.Services.AddHttpClient<IRapidApiFlightService, RapidApiFlightService>();
 
 
 

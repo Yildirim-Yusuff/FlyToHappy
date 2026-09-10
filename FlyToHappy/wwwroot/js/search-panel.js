@@ -40,17 +40,232 @@
         ADB: "İzmir", AYT: "Antalya"
     };
 
-    function codeToDisplay(code) {
-        const city = airportCity[code];
-        return city ? city + " (" + code + ")" : (code || "");
-    }
-
     function parseAirportCode(value) {
         const match = String(value || "").match(/\(([A-Za-z]{3})\)/);
         const trimmed = String(value || "").trim();
         return match ? match[1].toUpperCase() :
             (/^[A-Za-z]{3}$/.test(trimmed) ? trimmed.toUpperCase() : trimmed);
     }
+
+
+    // =================================================
+    // AIRPORT AUTOCOMPLETE (From / To)
+    // The input shows a readable name. The real identity is the IATA code
+    // kept in selectedFromAirport / selectedToAirport. Typed text alone is
+    // never a valid selection.
+    // =================================================
+
+    const fromMenu = byId("fromMenu");
+    const toMenu = byId("toMenu");
+    const searchError = byId("searchError");
+
+    let selectedFromAirport = null;
+    let selectedToAirport = null;
+
+    function airportToLabel(airport) {
+        return airport.name + " (" + airport.code + ")";
+    }
+
+    // Builds a selection when only the code is known (markup defaults, old storage).
+    function airportFromCode(code) {
+        if (!/^[A-Z]{3}$/.test(code || "")) {
+            return null;
+        }
+
+        const city = airportCity[code];
+
+        return { code: code, name: city || code, city: city || "", description: "" };
+    }
+
+    function showSearchError(message) {
+        if (!searchError) return;
+        searchError.textContent = message;
+        searchError.hidden = false;
+    }
+
+    function hideSearchError() {
+        if (!searchError) return;
+        searchError.textContent = "";
+        searchError.hidden = true;
+    }
+
+    function setupAirportAutocomplete(input, menu, onSelect) {
+        if (!input || !menu) {
+            return;
+        }
+
+        let items = [];
+        let activeIndex = -1;
+        let debounceTimer = null;
+        let requestCounter = 0;
+
+        function closeMenu() {
+            menu.hidden = true;
+            menu.innerHTML = "";
+            items = [];
+            activeIndex = -1;
+        }
+
+        function showNote(text) {
+            menu.innerHTML = '<div class="airport-menu-note">' + text + '</div>';
+            menu.hidden = false;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text || "";
+            return div.innerHTML;
+        }
+
+        function renderItems() {
+            let html = "";
+
+            items.forEach(function (airport, index) {
+                const meta = [airport.city, airport.description].filter(Boolean).join(" · ");
+
+                html +=
+                    '<button type="button" class="airport-option" data-index="' + index + '">' +
+                        '<span>' +
+                            '<span class="airport-option-name">' + escapeHtml(airport.name) + '</span>' +
+                            '<span class="airport-option-meta">' + escapeHtml(meta) + '</span>' +
+                        '</span>' +
+                        '<span class="airport-code">' + escapeHtml(airport.code) + '</span>' +
+                    '</button>';
+            });
+
+            menu.innerHTML = html;
+            menu.hidden = false;
+            activeIndex = -1;
+        }
+
+        function highlightActive() {
+            const buttons = menu.querySelectorAll(".airport-option");
+
+            buttons.forEach(function (button, index) {
+                button.classList.toggle("is-active", index === activeIndex);
+            });
+
+            if (buttons[activeIndex]) {
+                buttons[activeIndex].scrollIntoView({ block: "nearest" });
+            }
+        }
+
+        function selectIndex(index) {
+            const airport = items[index];
+
+            if (!airport) {
+                return;
+            }
+
+            input.value = airportToLabel(airport);
+            input.classList.remove("invalid");
+            onSelect(airport);
+            closeMenu();
+            publishDraftSearchState();
+        }
+
+        async function searchAirports(query) {
+            const myRequest = ++requestCounter;
+
+            showNote("Aranıyor...");
+
+            try {
+                const response = await fetch(
+                    "/api/RapidApiFlights/airports?query=" + encodeURIComponent(query)
+                );
+
+                if (!response.ok) {
+                    throw new Error("HTTP " + response.status);
+                }
+
+                const data = await response.json();
+
+                // A newer request was started while this one was running; ignore this answer.
+                if (myRequest !== requestCounter) {
+                    return;
+                }
+
+                items = data;
+
+                if (items.length === 0) {
+                    showNote("Sonuç bulunamadı.");
+                    return;
+                }
+
+                renderItems();
+            } catch (error) {
+                if (myRequest !== requestCounter) {
+                    return;
+                }
+
+                showNote("Havalimanları alınamadı.");
+            }
+        }
+
+        input.addEventListener("input", function () {
+            // Typing changes the text, so the old selection is no longer valid.
+            onSelect(null);
+            input.classList.remove("invalid");
+            hideSearchError();
+
+            clearTimeout(debounceTimer);
+
+            const query = input.value.trim();
+
+            if (query.length < 2) {
+                closeMenu();
+                return;
+            }
+
+            // Wait 300 ms after the last keystroke before asking the backend.
+            debounceTimer = setTimeout(function () {
+                searchAirports(query);
+            }, 300);
+        });
+
+        input.addEventListener("keydown", function (event) {
+            if (menu.hidden || items.length === 0) {
+                return;
+            }
+
+            if (event.key === "ArrowDown") {
+                event.preventDefault();
+                activeIndex = Math.min(activeIndex + 1, items.length - 1);
+                highlightActive();
+            } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                activeIndex = Math.max(activeIndex - 1, 0);
+                highlightActive();
+            } else if (event.key === "Enter") {
+                event.preventDefault();
+                selectIndex(activeIndex >= 0 ? activeIndex : 0);
+            } else if (event.key === "Escape") {
+                closeMenu();
+            }
+        });
+
+        menu.addEventListener("click", function (event) {
+            const option = event.target.closest(".airport-option");
+
+            if (option) {
+                selectIndex(Number(option.dataset.index));
+            }
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!input.contains(event.target) && !menu.contains(event.target)) {
+                closeMenu();
+            }
+        });
+    }
+
+    setupAirportAutocomplete(fromInput, fromMenu, function (airport) {
+        selectedFromAirport = airport;
+    });
+
+    setupAirportAutocomplete(toInput, toMenu, function (airport) {
+        selectedToAirport = airport;
+    });
 
     function getCurrentDraftSearchState() {
         const activeTrip = panel.querySelector(".trip-tab.active");
@@ -59,8 +274,10 @@
             : "roundTrip";
 
         return {
-            from: parseAirportCode(fromInput ? fromInput.value : ""),
-            to: parseAirportCode(toInput ? toInput.value : ""),
+            from: selectedFromAirport ? selectedFromAirport.code : "",
+            fromName: selectedFromAirport ? selectedFromAirport.name : "",
+            to: selectedToAirport ? selectedToAirport.code : "",
+            toName: selectedToAirport ? selectedToAirport.name : "",
             departureDate: departInput ? departInput.value : "",
             returnDate: tripType === "roundTrip" && returnInput
                 ? returnInput.value
@@ -157,9 +374,15 @@
 
     if (swapBtn && fromInput && toInput) {
         swapBtn.addEventListener("click", () => {
-            const temp = fromInput.value;
+            const tempText = fromInput.value;
             fromInput.value = toInput.value;
-            toInput.value = temp;
+            toInput.value = tempText;
+
+            const tempAirport = selectedFromAirport;
+            selectedFromAirport = selectedToAirport;
+            selectedToAirport = tempAirport;
+
+            hideSearchError();
             publishDraftSearchState();
         });
     }
@@ -257,11 +480,23 @@
 
         if (searchData) {
             if (fromInput && searchData.from) {
-                fromInput.value = codeToDisplay(searchData.from);
+                selectedFromAirport = {
+                    code: searchData.from,
+                    name: searchData.fromName || airportCity[searchData.from] || searchData.from,
+                    city: "",
+                    description: ""
+                };
+                fromInput.value = airportToLabel(selectedFromAirport);
             }
 
             if (toInput && searchData.to) {
-                toInput.value = codeToDisplay(searchData.to);
+                selectedToAirport = {
+                    code: searchData.to,
+                    name: searchData.toName || airportCity[searchData.to] || searchData.to,
+                    city: "",
+                    description: ""
+                };
+                toInput.value = airportToLabel(selectedToAirport);
             }
 
             if (departInput && searchData.departureDate) {
@@ -272,6 +507,10 @@
                 returnInput.value = searchData.returnDate;
             }
 
+        } else {
+            // First visit: the markup defaults like "İstanbul (IST)" become real selections.
+            selectedFromAirport = airportFromCode(parseAirportCode(fromInput ? fromInput.value : ""));
+            selectedToAirport = airportFromCode(parseAirportCode(toInput ? toInput.value : ""));
         }
 
         const restoredTrip = (searchData && searchData.tripType) ||
@@ -313,19 +552,48 @@
             return;
         }
 
-        if (fromValue) fromInput.value = fromValue;
-        if (toValue) toInput.value = toValue;
-        publishDraftSearchState();
+        // Values passed in (e.g. popular route cards) count only if they carry a code;
+        // free text opens the suggestion list so the user can pick a real airport.
+        if (fromValue) {
+            fromInput.value = fromValue;
+            selectedFromAirport = airportFromCode(parseAirportCode(fromValue));
+            if (!selectedFromAirport) fromInput.dispatchEvent(new Event("input"));
+        }
 
-        const badFrom = !fromInput.value.trim();
-        const badTo = !toInput.value.trim();
+        if (toValue) {
+            toInput.value = toValue;
+            selectedToAirport = airportFromCode(parseAirportCode(toValue));
+            if (!selectedToAirport) toInput.dispatchEvent(new Event("input"));
+        }
+
+        publishDraftSearchState();
+        hideSearchError();
+
+        const badFrom = !selectedFromAirport;
+        const badTo = !selectedToAirport;
+        const sameAirport = !badFrom && !badTo && selectedFromAirport.code === selectedToAirport.code;
         const badDate = !departInput || !departInput.value;
 
-        fromInput.classList.toggle("invalid", badFrom);
-        toInput.classList.toggle("invalid", badTo);
+        fromInput.classList.toggle("invalid", badFrom || sameAirport);
+        toInput.classList.toggle("invalid", badTo || sameAirport);
         if (departInput) departInput.classList.toggle("invalid", badDate);
 
-        if (badFrom || badTo || badDate) {
+        if (badFrom) {
+            showSearchError("Lütfen listeden geçerli bir kalkış havalimanı seçin.");
+            return;
+        }
+
+        if (badTo) {
+            showSearchError("Lütfen listeden geçerli bir varış havalimanı seçin.");
+            return;
+        }
+
+        if (sameAirport) {
+            showSearchError("Kalkış ve varış havalimanı aynı olamaz.");
+            return;
+        }
+
+        if (badDate) {
             return;
         }
 
@@ -358,8 +626,10 @@
         };
 
         const searchData = {
-            from: draftSearchState.from,
+            from: draftSearchState.from,          // IATA code -> backend / RapidAPI
+            fromName: draftSearchState.fromName,  // readable label -> UI only
             to: draftSearchState.to,
+            toName: draftSearchState.toName,
             departureDate: draftSearchState.departureDate,
             returnDate: draftSearchState.returnDate,
             cabin: draftSearchState.cabin,

@@ -4,6 +4,7 @@ using FlyToHappy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlyToHappy.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260910105219_RemoveDemoFlightSeed")]
+    partial class RemoveDemoFlightSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,48 +24,6 @@ namespace FlyToHappy.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FlyToHappy.Models.DemoCheckIn", b =>
-                {
-                    b.Property<Guid>("DemoCheckInId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("BoardingPassNumber")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
-
-                    b.Property<DateTime>("CheckInDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("FlightId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsCheckedIn")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("PassengerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SeatNumber")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.HasKey("DemoCheckInId");
-
-                    b.HasIndex("BoardingPassNumber")
-                        .IsUnique();
-
-                    b.HasIndex("FlightId", "SeatNumber")
-                        .IsUnique();
-
-                    b.HasIndex("PassengerId", "FlightId")
-                        .IsUnique();
-
-                    b.ToTable("DemoCheckIns");
-                });
 
             modelBuilder.Entity("FlyToHappy.Models.Flight", b =>
                 {
@@ -265,25 +226,6 @@ namespace FlyToHappy.Migrations
                     b.HasIndex("ReturnFlightId");
 
                     b.ToTable("Reservations");
-                });
-
-            modelBuilder.Entity("FlyToHappy.Models.DemoCheckIn", b =>
-                {
-                    b.HasOne("FlyToHappy.Models.Flight", "Flight")
-                        .WithMany()
-                        .HasForeignKey("FlightId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FlyToHappy.Models.Passenger", "Passenger")
-                        .WithMany()
-                        .HasForeignKey("PassengerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Flight");
-
-                    b.Navigation("Passenger");
                 });
 
             modelBuilder.Entity("FlyToHappy.Models.Passenger", b =>

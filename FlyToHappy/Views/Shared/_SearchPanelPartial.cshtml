@@ -1,3 +1,5 @@
+        <link rel="stylesheet" href="~/css/hero-actions.css" asp-append-version="true" />
+        <script src="~/js/hero-actions.js" asp-append-version="true" defer></script>
         <div class="glass search-panel">
 
             <!-- ANA SEKMELER -->
@@ -60,11 +62,14 @@
                                 <div class="col-6 field">
                                     <label for="fromInput">Nereden</label>
 
-                                    <input id="fromInput"
-                                           class="g-input"
-                                           type="text"
-                                           value="İstanbul (IST)"
-                                           autocomplete="off" />
+                                    <div class="airport-field">
+                                        <input id="fromInput"
+                                               class="g-input"
+                                               type="text"
+                                               value="İstanbul (IST)"
+                                               autocomplete="off" />
+                                        <div class="airport-menu" id="fromMenu" hidden></div>
+                                    </div>
                                 </div>
 
                                 <div class="col-6 field">
@@ -77,12 +82,17 @@
 
                                     <label for="toInput">Nereye</label>
 
-                                    <input id="toInput"
-                                           class="g-input"
-                                           type="text"
-                                           value="Roma (FCO)"
-                                           autocomplete="off" />
+                                    <div class="airport-field">
+                                        <input id="toInput"
+                                               class="g-input"
+                                               type="text"
+                                               value="Roma (FCO)"
+                                               autocomplete="off" />
+                                        <div class="airport-menu" id="toMenu" hidden></div>
+                                    </div>
                                 </div>
+
+                                <p class="search-error" id="searchError" hidden></p>
 
                             </div>
                         </div>
@@ -300,12 +310,12 @@
                     </h3>
 
                     <p class="booking-main-description">
-                        Uçuş bilgilerinizi girerek check-in işleminizi hızlıca tamamlayın.
+                        Rezervasyonunu bul, yolcunu ve demo koltuğunu seç.
                     </p>
 
                     <div class="booking-main-info">
                         <i class="bi bi-info-circle"></i>
-                        Check-in işlemi uçuş saatinden 24 saat önce başlar.
+                        Demo check-in — işlem havayolu sistemine iletilmez.
                     </div>
 
                     <div class="row g-3 align-items-end">
@@ -354,7 +364,7 @@
                     </h3>
 
                     <p class="booking-main-description">
-                        Uçuşunuzun güncel kalkış ve varış bilgilerini görüntüleyin.
+                        Uçuşunuzun kayıtlı kalkış ve varış bilgilerini görüntüleyin.
                     </p>
 
                     <div class="row g-3 align-items-end">

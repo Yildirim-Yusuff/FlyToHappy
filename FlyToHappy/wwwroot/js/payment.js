@@ -359,12 +359,12 @@ paymentCompleteBtn
             if (
                 !searchData?.from || !searchData?.to ||
                 !searchData?.departureDate || !searchData?.cabin ||
-                !departureFlight?.id ||
+                !departureFlight?.searchFlightId ||
                 !Array.isArray(passengerInfo?.passengers) ||
                 passengerInfo.passengers.length === 0 ||
                 !baggageSelection?.cabinBaggage?.type ||
                 baggageSelection?.checkedBaggage?.kg == null ||
-                (isRoundTrip && (!returnFlight?.id || !searchData.returnDate))
+                (isRoundTrip && (!returnFlight?.searchFlightId || !searchData.returnDate))
             ) {
                 alert("Rezervasyon bilgileri eksik. Lütfen önceki adımları kontrol edin.");
                 return;
@@ -383,8 +383,8 @@ paymentCompleteBtn
 
                 cabin: searchData.cabin,
 
-                departureFlightId: departureFlight.id,
-                returnFlightId: isRoundTrip ? returnFlight.id : null,
+                departureSearchFlightId: departureFlight.searchFlightId,
+                returnSearchFlightId: isRoundTrip ? returnFlight.searchFlightId : null,
 
                 contactFirstName: passengerInfo.contactFirstName,
                 contactLastName: passengerInfo.contactLastName,

@@ -1,187 +1,4 @@
-﻿const flights = [
-    {
-        id: 1,
-        airline: "Turkish Airlines",
-        airlineCode: "TK",
-        flightNumber: "TK1861",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "08:10",
-        arrivalTime: "09:55",
-        duration: "2 sa 45 dk",
-        stops: 0,
-        baggageKg: 23,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: true,
-        cabinClass: "Ekonomi",
-        price: 2490
-    },
-
-    {
-        id: 2,
-        airline: "AJet",
-        airlineCode: "VF",
-        flightNumber: "VF1306",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "09:30",
-        arrivalTime: "11:10",
-        duration: "2 sa 40 dk",
-        stops: 0,
-        baggageKg: 20,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: true,
-        cabinClass: "Ekonomi",
-        price: 1940
-    },
-
-    {
-        id: 3,
-        airline: "Pegasus",
-        airlineCode: "PC",
-        flightNumber: "PC1248",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "05:40",
-        arrivalTime: "11:20",
-        duration: "6 sa 40 dk",
-        stops: 1,
-        baggageKg: 15,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: false,
-        cabinClass: "Ekonomi",
-        price: 1690
-    },
-
-    {
-        id: 4,
-        airline: "Pegasus",
-        airlineCode: "PC",
-        flightNumber: "PC1242",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "06:25",
-        arrivalTime: "08:20",
-        duration: "2 sa 55 dk",
-        stops: 0,
-        baggageKg: 15,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: false,
-        cabinClass: "Ekonomi",
-        price: 1850
-    },
-
-    {
-        id: 5,
-        airline: "AJet",
-        airlineCode: "VF",
-        flightNumber: "VF1312",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "12:05",
-        arrivalTime: "13:55",
-        duration: "2 sa 50 dk",
-        stops: 0,
-        baggageKg: 20,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: true,
-        cabinClass: "Ekonomi",
-        price: 1790
-    },
-
-    {
-        id: 6,
-        airline: "Pegasus",
-        airlineCode: "PC",
-        flightNumber: "PC1256",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "15:15",
-        arrivalTime: "17:15",
-        duration: "3 saat",
-        stops: 0,
-        baggageKg: 20,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: true,
-        cabinClass: "Ekonomi",
-        price: 2090
-    },
-
-    {
-        id: 7,
-        airline: "AJet",
-        airlineCode: "VF",
-        flightNumber: "VF1318",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "21:20",
-        arrivalTime: "23:15",
-        duration: "2 sa 55 dk",
-        stops: 0,
-        baggageKg: 20,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: false,
-        cabinClass: "Ekonomi",
-        price: 2150
-    },
-
-    {
-        id: 8,
-        airline: "Pegasus",
-        airlineCode: "PC",
-        flightNumber: "PC1260",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "16:40",
-        arrivalTime: "22:05",
-        duration: "6 sa 25 dk",
-        stops: 1,
-        baggageKg: 15,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: false,
-        cabinClass: "Ekonomi",
-        price: 2290
-    },
-
-    {
-        id: 9,
-        airline: "Turkish Airlines",
-        airlineCode: "TK",
-        flightNumber: "TK1863",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "19:05",
-        arrivalTime: "20:55",
-        duration: "2 sa 50 dk",
-        stops: 0,
-        baggageKg: 23,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: true,
-        cabinClass: "Ekonomi",
-        price: 2390
-    },
-
-    {
-        id: 10,
-        airline: "Turkish Airlines",
-        airlineCode: "TK",
-        flightNumber: "TK1867",
-        departureAirport: "IST",
-        arrivalAirport: "FCO",
-        departureTime: "13:40",
-        arrivalTime: "15:30",
-        duration: "2 sa 50 dk",
-        stops: 0,
-        baggageKg: 23,
-        cabinBaggageIncluded: true,
-        checkedBaggageIncluded: true,
-        cabinClass: "Ekonomi",
-        price: 2650
-    }
-];
-
-
-// =====================================================
+﻿// =====================================================
 // SELECTED FLIGHT
 // =====================================================
 
@@ -268,30 +85,143 @@ if (isReturnStep && !sessionStorage.getItem("selectedDepartureFlight")) {
         "/Flights/SearchResults?tripType=roundTrip&step=departure";
 }
 
-// Apply the current search to demo inventory without changing base fares.
-const departureFlights = flights.map(function (flight) {
-    return {
-        ...flight,
-        departureAirport: (searchContext && searchContext.from) || "—",
-        arrivalAirport: (searchContext && searchContext.to) || "—",
-        cabinClass: (searchContext && searchContext.cabin) || passengerSelection.cabin || "—"
-    };
-});
+// =====================================================
+// FLIGHT DATA SOURCE (backend -> RapidAPI)
+// =====================================================
 
-// Build a route-reversed list WITHOUT mutating the original `flights`.
-// Only the airport fields are swapped on the newly created objects.
-const returnFlights =
-    departureFlights.map(function (flight) {
-        return {
-            ...flight,
-            departureAirport: flight.arrivalAirport,
-            arrivalAirport: flight.departureAirport
-        };
+// Filled by loadFlights(). Same object shape the filters and cards already use.
+let activeFlights = [];
+
+function showFlightListMessage(title, text) {
+    const flightList = document.querySelector("#flightList");
+
+    if (!flightList) {
+        return;
+    }
+
+    flightList.innerHTML = `
+        <div class="sr-empty">
+            <i class="bi bi-airplane-engines"></i>
+            <h3>${title}</h3>
+            <p>${text}</p>
+        </div>
+    `;
+}
+
+async function loadFlights() {
+
+    if (!searchContext || !searchContext.from || !searchContext.to || !searchContext.departureDate) {
+        showFlightListMessage("Arama bilgisi bulunamadı", "Lütfen ana sayfadan yeniden arama yapın.");
+        return;
+    }
+
+    // Departure step: from -> to on departureDate.
+    // Return step: the real reverse direction, to -> from on returnDate.
+    let from = searchContext.from;
+    let to = searchContext.to;
+    let date = searchContext.departureDate;
+
+    if (isReturnStep) {
+        from = searchContext.to;
+        to = searchContext.from;
+        date = searchContext.returnDate;
+    }
+
+    if (!date) {
+        showFlightListMessage("Dönüş tarihi bulunamadı", "Lütfen ana sayfadan yeniden arama yapın.");
+        return;
+    }
+
+    const cabin = searchContext.cabin || passengerSelection.cabin || "Economy";
+
+    showFlightListMessage("Uçuşlar aranıyor…", "Gerçek uçuş verileri getiriliyor, lütfen bekleyin.");
+
+    const url =
+        "/api/RapidApiFlights/search" +
+        "?from=" + encodeURIComponent(from) +
+        "&to=" + encodeURIComponent(to) +
+        "&date=" + encodeURIComponent(date) +
+        "&cabin=" + encodeURIComponent(cabin);
+
+    let flightsFromBackend;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status);
+        }
+
+        flightsFromBackend = await response.json();
+    } catch (error) {
+        showFlightListMessage("Uçuşlar yüklenemedi", "Uçuş servisine ulaşılamadı. Lütfen daha sonra tekrar deneyin.");
+
+        if (resultCount) {
+            resultCount.textContent = "0 uçuş seçeneği bulundu";
+        }
+
+        return;
+    }
+
+    // `id` is what the "Uçuşu Seç" button carries; it is the backend searchFlightId.
+    activeFlights = flightsFromBackend.map(function (flight) {
+        return { ...flight, id: flight.searchFlightId };
     });
 
-// The list rendered and selected on this page depends on the step.
-const activeFlights =
-    isReturnStep ? returnFlights : departureFlights;
+    if (activeFlights.length === 0) {
+        showFlightListMessage(
+            "Bu rota ve tarihte uçuş bulunamadı",
+            "Turkish Airlines, Pegasus veya AJet ile uygun uçuş yok. Farklı bir tarih deneyebilirsiniz."
+        );
+
+        if (resultCount) {
+            resultCount.textContent = "0 uçuş seçeneği bulundu";
+        }
+
+        return;
+    }
+
+    // Real fares are outside the demo slider bounds. Widen the existing sliders to the
+    // loaded data so the untouched price/duration filters keep working. The sliders'
+    // own "input" listeners refresh their labels and render the list.
+    if (priceRange) {
+        let lowestPrice = activeFlights[0].price;
+        let highestPrice = activeFlights[0].price;
+
+        activeFlights.forEach(function (flight) {
+            if (flight.price < lowestPrice) { lowestPrice = flight.price; }
+            if (flight.price > highestPrice) { highestPrice = flight.price; }
+        });
+
+        priceRange.min = Math.floor(lowestPrice / 100) * 100;
+        priceRange.max = Math.ceil(highestPrice / 100) * 100;
+        priceRange.value = priceRange.max;
+    }
+
+    if (durationRange) {
+        let longestMinutes = 0;
+
+        activeFlights.forEach(function (flight) {
+            const parts = flight.duration.match(/(\d+)\s*(?:sa|saat)(?:\s*(\d+)\s*dk)?/);
+            const minutes = parts ? (Number(parts[1]) * 60) + Number(parts[2] || 0) : 0;
+            if (minutes > longestMinutes) { longestMinutes = minutes; }
+        });
+
+        const neededMax = Math.ceil(longestMinutes / 10) * 10;
+
+        if (neededMax > Number(durationRange.max)) {
+            durationRange.max = neededMax;
+            durationRange.value = neededMax;
+            durationRange.dispatchEvent(new Event("input"));
+        }
+    }
+
+    if (priceRange) {
+        priceRange.dispatchEvent(new Event("input"));
+    } else {
+        renderFlights();
+    }
+}
 
 // Derive a short city label from an airport code using the airport map
 // (text before the first space). Used to build the route header dynamically.
@@ -985,10 +915,12 @@ function renderFlights() {
 
                             <div class="sr-flight-tags">
 
-                                <span class="sr-tag">
-                                    <i class="bi bi-luggage-fill"></i>
-                                    ${flight.baggageKg} kg
-                                </span>
+                                ${flight.baggageKg > 0
+                    ? `<span class="sr-tag">
+                                            <i class="bi bi-luggage-fill"></i>
+                                            ${flight.baggageKg} kg
+                                        </span>`
+                    : ``}
 
                                 <span class="sr-tag">
                                     <i class="bi bi-briefcase"></i>
@@ -1304,15 +1236,13 @@ document.addEventListener(
 
 
         const flightId =
-            Number(
-                selectButton.dataset.flightId
-            );
+            selectButton.dataset.flightId;
 
 
         const selectedFlight =
             activeFlights.find(function (flight) {
 
-                return flight.id === flightId;
+                return String(flight.id) === flightId;
 
             });
 
@@ -1578,5 +1508,5 @@ if (modalContinueBtn) {
 // INITIAL RENDER
 // =====================================================
 
-renderFlights();
 updateRouteHeader();
+loadFlights();
