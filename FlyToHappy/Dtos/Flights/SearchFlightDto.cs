@@ -13,6 +13,13 @@
         public string DepartureAirport { get; set; } = string.Empty;
         public string ArrivalAirport { get; set; } = string.Empty;
 
+        // Full airport names as the provider sends them (e.g. "Kayseri Erkilet Airport"). Empty if the provider has none.
+        public string DepartureAirportName { get; set; } = string.Empty;
+        public string ArrivalAirportName { get; set; } = string.Empty;
+
+        // Every leg of the itinerary. 1-stop flights have two segments (e.g. TK2023 ASR->SAW, TK2816 SAW->TZX).
+        public List<FlightSegmentDto> Segments { get; set; } = new();
+
         public string DepartureTime { get; set; } = string.Empty;
         public string ArrivalTime { get; set; } = string.Empty;
 

@@ -276,8 +276,10 @@
         return {
             from: selectedFromAirport ? selectedFromAirport.code : "",
             fromName: selectedFromAirport ? selectedFromAirport.name : "",
+            fromCity: selectedFromAirport ? (selectedFromAirport.city || "") : "",
             to: selectedToAirport ? selectedToAirport.code : "",
             toName: selectedToAirport ? selectedToAirport.name : "",
+            toCity: selectedToAirport ? (selectedToAirport.city || "") : "",
             departureDate: departInput ? departInput.value : "",
             returnDate: tripType === "roundTrip" && returnInput
                 ? returnInput.value
@@ -483,7 +485,7 @@
                 selectedFromAirport = {
                     code: searchData.from,
                     name: searchData.fromName || airportCity[searchData.from] || searchData.from,
-                    city: "",
+                    city: searchData.fromCity || "",
                     description: ""
                 };
                 fromInput.value = airportToLabel(selectedFromAirport);
@@ -493,7 +495,7 @@
                 selectedToAirport = {
                     code: searchData.to,
                     name: searchData.toName || airportCity[searchData.to] || searchData.to,
-                    city: "",
+                    city: searchData.toCity || "",
                     description: ""
                 };
                 toInput.value = airportToLabel(selectedToAirport);
@@ -628,8 +630,10 @@
         const searchData = {
             from: draftSearchState.from,          // IATA code -> backend / RapidAPI
             fromName: draftSearchState.fromName,  // readable label -> UI only
+            fromCity: draftSearchState.fromCity,  // provider city -> SearchResults header
             to: draftSearchState.to,
             toName: draftSearchState.toName,
+            toCity: draftSearchState.toCity,
             departureDate: draftSearchState.departureDate,
             returnDate: draftSearchState.returnDate,
             cabin: draftSearchState.cabin,

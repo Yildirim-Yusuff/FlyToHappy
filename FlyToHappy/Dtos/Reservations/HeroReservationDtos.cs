@@ -1,3 +1,5 @@
+using FlyToHappy.Dtos.Flights;
+
 namespace FlyToHappy.Dtos.Reservations
 {
     public class TripLookupDto
@@ -66,6 +68,8 @@ namespace FlyToHappy.Dtos.Reservations
         public string FlightNumber { get; set; } = string.Empty;
         public string From { get; set; } = string.Empty;
         public string To { get; set; } = string.Empty;
+        public string FromAirportName { get; set; } = string.Empty;
+        public string ToAirportName { get; set; } = string.Empty;
         public DateOnly Date { get; set; }
         public string DepartureTime { get; set; } = string.Empty;
         public string SeatNumber { get; set; } = string.Empty;
@@ -80,9 +84,12 @@ namespace FlyToHappy.Dtos.Reservations
         public string Airline { get; set; } = string.Empty;
         public string From { get; set; } = string.Empty;
         public string To { get; set; } = string.Empty;
+        public string FromAirportName { get; set; } = string.Empty;
+        public string ToAirportName { get; set; } = string.Empty;
         public DateOnly Date { get; set; }
         public string DepartureTime { get; set; } = string.Empty;
         public string ArrivalTime { get; set; } = string.Empty;
+        public List<FlightSegmentDto> Segments { get; set; } = new();
         public string StatusMessage { get; set; } = "Güncel uçuş durumu verisi mevcut değil.";
     }
 }

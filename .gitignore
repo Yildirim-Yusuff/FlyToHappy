@@ -27,3 +27,6 @@ obj/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Local environment config (real secrets live in User Secrets)
+appsettings.Development.json

@@ -2,6 +2,7 @@
 using FlyToHappy.Services.RapidApiServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
 
 namespace FlyToHappy.Controllers
 {
@@ -11,13 +12,18 @@ namespace FlyToHappy.Controllers
     {
         
         private readonly IRapidApiFlightService _flightService;
+        private readonly IValidator<FlightSearchRequestDto> _searchValidator;
 
-        public RapidApiFlightsController(IRapidApiFlightService flightService)
+        public RapidApiFlightsController(IRapidApiFlightService flightService, IValidator<FlightSearchRequestDto> searchValidator)
         {
             _flightService = flightService;
+            _searchValidator = searchValidator;
         }
 
 
+        /// <summary>
+        /// Demo endpoint: RapidAPI'den sabit bir örnek uçuş cevabını ham JSON olarak döndürür. Uygulama tarafından kullanılmaz.
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> GetFlight()
         {
@@ -26,25 +32,36 @@ namespace FlyToHappy.Controllers
             return Content(result, "application/json");
         }
 
+        /// <summary>
+        /// Uçuş araması yapar. IATA kodu (örnek: IST, FCO), tarih ve kabin bilgisine göre
+        /// RapidAPI'den izinli havayollarının (TK, PC, VF) tüm uçuşlarını döndürür. Sonuçlar 60 dakika cache'te tutulur.
+        /// </summary>
         // GET /api/RapidApiFlights/search?from=IST&to=FCO&date=2026-10-10&cabin=Economy
         [HttpGet("search")]
-        public async Task<ActionResult<List<SearchFlightDto>>> Search(string from, string to, string date, string cabin)
+        public async Task<ActionResult<List<SearchFlightDto>>> Search([FromQuery] FlightSearchRequestDto request)
         {
-            if (string.IsNullOrWhiteSpace(from) || string.IsNullOrWhiteSpace(to) || string.IsNullOrWhiteSpace(date))
+            var validationResult = await _searchValidator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
             {
-                return BadRequest("from, to ve date parametreleri zorunludur.");
+                return BadRequest(new
+                {
+                    message = "Girilen bilgiler geçersiz.",
+                    errors = validationResult.Errors.Select(e => e.ErrorMessage).Distinct().ToList()
+                });
             }
 
-            if (string.IsNullOrWhiteSpace(cabin))
-            {
-                cabin = "Economy";
-            }
+            var cabin = string.IsNullOrWhiteSpace(request.Cabin) ? "Economy" : request.Cabin;
 
-            var flights = await _flightService.SearchFlightsAsync(from, to, date, cabin);
+            var flights = await _flightService.SearchFlightsAsync(request.From.ToUpperInvariant(), request.To.ToUpperInvariant(), request.Date, cabin);
 
             return Ok(flights);
         }
 
+        /// <summary>
+        /// Havalimanı / şehir autocomplete. Yazılan metne göre havalimanı önerileri (IATA kodu ve ad) döndürür.
+        /// </summary>
+        /// <param name="query">Aranan şehir veya havalimanı adı. En az 2 karakter; daha kısa ise boş liste döner.</param>
         // GET /api/RapidApiFlights/airports?query=istanbul
         [HttpGet("airports")]
         public async Task<ActionResult<List<AirportSuggestionDto>>> Airports(string query)

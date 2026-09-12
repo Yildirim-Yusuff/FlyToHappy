@@ -131,7 +131,9 @@
     }
 
     .success-route strong em {
-        color: rgba(255,255,255,.62);
+        display: block;
+        color: #ffcf5c;
+        font-size: .78rem;
         font-style: normal;
         font-weight: 500;
     }

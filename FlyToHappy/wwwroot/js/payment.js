@@ -421,11 +421,14 @@ paymentCompleteBtn
                     body: JSON.stringify(request)
                 });
 
-                if (!response.ok) {
-                    throw new Error("Reservation request failed.");
-                }
+                const reservationResult = await response.json().catch(() => null);
 
-                const reservationResult = await response.json();
+                if (!response.ok) {
+                    throw new Error(
+                        reservationResult?.message ||
+                        "Rezervasyon oluşturulamadı. Lütfen tekrar deneyin."
+                    );
+                }
 
                 if (!reservationResult?.reservationId || !reservationResult?.pnr) {
                     throw new Error("Invalid reservation response.");
@@ -439,8 +442,11 @@ paymentCompleteBtn
                 window.location.href =
                     "/Flights/ReservationSuccess?tripType=" +
                     encodeURIComponent(paymentTripType);
-            } catch {
-                alert("Rezervasyon oluşturulamadı. Lütfen tekrar deneyin.");
+            } catch (error) {
+                alert(
+                    error.message ||
+                    "Rezervasyon oluşturulamadı. Lütfen tekrar deneyin."
+                );
             } finally {
                 paymentRequestInProgress = false;
                 paymentCompleteBtn.disabled = false;

@@ -17,7 +17,6 @@ namespace FlyToHappy.Services.RapidApiServices
         // Only these carriers are shown on SearchResults.
         private static readonly string[] AllowedAirlineCodes = { "TK", "PC", "VF" };
 
-        private const int MaxSearchResults = 10;
         private static readonly TimeSpan SearchCacheDuration = TimeSpan.FromMinutes(60);
 
         private const int MaxAirportSuggestions = 10;
@@ -222,17 +221,39 @@ namespace FlyToHappy.Services.RapidApiServices
                 var lastLeg = legs[legs.GetArrayLength() - 1];
                 var airlineCode = GetAirlineCode(firstLeg);
                 var flightNumbers = new List<string>();
-                
-                
+                var segments = new List<FlightSegmentDto>();
+
+                // One segment per leg. Flight numbers are also joined for the card title ("TK2023 / TK2816").
                 foreach (var leg in legs.EnumerateArray())
                 {
-                    var legFlightNumber = leg.GetProperty("flight_number").GetString() ?? "";
-                    flightNumbers.Add(legFlightNumber.Replace(" ", ""));
+                    var legFlightNumber = (leg.GetProperty("flight_number").GetString() ?? "").Replace(" ", "");
+                    flightNumbers.Add(legFlightNumber);
+
+                    var legDeparture = leg.GetProperty("departure_airport");
+                    var legArrival = leg.GetProperty("arrival_airport");
+                    var legDepartureCode = GetString(legDeparture, "airport_code");
+                    var legArrivalCode = GetString(legArrival, "airport_code");
+
+                    segments.Add(new FlightSegmentDto
+                    {
+                        FlightNumber = legFlightNumber,
+                        DepartureAirport = legDepartureCode,
+                        DepartureAirportName = CleanAirportName(GetString(legDeparture, "airport_name"), legDepartureCode),
+                        DepartureTime = GetClockTime(GetString(legDeparture, "time")),
+                        ArrivalAirport = legArrivalCode,
+                        ArrivalAirportName = CleanAirportName(GetString(legArrival, "airport_name"), legArrivalCode),
+                        ArrivalTime = GetClockTime(GetString(legArrival, "time"))
+                    });
                 }
+
                 var flightNumber = string.Join(" / ", flightNumbers);
 
                 var departureAirportCode = firstLeg.GetProperty("departure_airport").GetProperty("airport_code").GetString() ?? "";
                 var arrivalAirportCode = lastLeg.GetProperty("arrival_airport").GetProperty("airport_code").GetString() ?? "";
+
+                // Real airport names from the provider, e.g. "Kayseri Erkilet Airport (ASR)" -> "Kayseri Erkilet Airport".
+                var departureAirportName = CleanAirportName(GetString(firstLeg.GetProperty("departure_airport"), "airport_name"), departureAirportCode);
+                var arrivalAirportName = CleanAirportName(GetString(lastLeg.GetProperty("arrival_airport"), "airport_name"), arrivalAirportCode);
 
                 
                 
@@ -291,6 +312,9 @@ namespace FlyToHappy.Services.RapidApiServices
                     FlightNumber = flightNumber,
                     DepartureAirport = departureAirportCode,
                     ArrivalAirport = arrivalAirportCode,
+                    DepartureAirportName = departureAirportName,
+                    ArrivalAirportName = arrivalAirportName,
+                    Segments = segments,
                     DepartureTime = departureTime,
                     ArrivalTime = arrivalTime,
                     Duration = FormatDuration(durationMinutes),
@@ -306,11 +330,6 @@ namespace FlyToHappy.Services.RapidApiServices
                 _memoryCache.Set(GetCacheKey(searchFlight.SearchFlightId), searchFlight, SearchCacheDuration);
 
                 searchResults.Add(searchFlight);
-
-                if (searchResults.Count == MaxSearchResults)
-                {
-                    break;
-                }
             }
 
             return searchResults;
@@ -478,6 +497,19 @@ namespace FlyToHappy.Services.RapidApiServices
                 "VF" => "AJet",
                 _ => airlineCode
             };
+        }
+
+        // "Kayseri Erkilet Airport (ASR)" -> "Kayseri Erkilet Airport". The code is already shown next to the name.
+        private static string CleanAirportName(string airportName, string airportCode)
+        {
+            var suffix = " (" + airportCode + ")";
+
+            if (airportName.EndsWith(suffix))
+            {
+                return airportName.Substring(0, airportName.Length - suffix.Length);
+            }
+
+            return airportName;
         }
 
         // "2026-10-10 04:25" -> "04:25"

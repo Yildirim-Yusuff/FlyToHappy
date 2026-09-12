@@ -3,10 +3,12 @@ using FlyToHappy.Dtos.Flights;
 using FlyToHappy.Dtos.Reservations;
 using FlyToHappy.Models;
 using FlyToHappy.Services.RapidApiServices;
+using FlyToHappy.Services.EmailSender;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System.Globalization;
 using Microsoft.Data.SqlClient;
+using System.Text.Json;
 
 namespace FlyToHappy.Services.ReservationServices
 {
@@ -16,12 +18,21 @@ namespace FlyToHappy.Services.ReservationServices
         private readonly IMapper _mapper;
         private readonly AppDbContext _context;
         private readonly IRapidApiFlightService _rapidApiFlightService;
+        private readonly IEmailSender _emailSender;
+        private readonly ILogger<ReservationService> _logger;
 
-        public ReservationService(AppDbContext context, IMapper mapper, IRapidApiFlightService rapidApiFlightService)
+        public ReservationService(
+            AppDbContext context,
+            IMapper mapper,
+            IRapidApiFlightService rapidApiFlightService,
+            IEmailSender emailSender,
+            ILogger<ReservationService> logger)
         {
             _context = context;
             _mapper = mapper;
             _rapidApiFlightService = rapidApiFlightService;
+            _emailSender = emailSender;
+            _logger = logger;
         }
 
 
@@ -210,7 +221,80 @@ namespace FlyToHappy.Services.ReservationServices
 
             checkIn.Passenger = passenger;
             checkIn.Flight = flight;
-            return MapBoardingPass(checkIn, reservation);
+
+            var boardingPass = MapBoardingPass(checkIn, reservation);
+
+            // Check-in SQL'e kaydedildi, şimdi boarding bilgilerini mail atıyoruz.
+            await SendCheckInEmailAsync(reservation.ContactEmail, boardingPass);
+
+            return boardingPass;
+        }
+
+        private async Task SendReservationEmailAsync(Reservation reservation)
+        {
+            var tripTypeText = reservation.TripType == "roundTrip" ? "Gidiş-Dönüş" : "Tek Yön";
+
+            var returnDateText = "";
+            if (reservation.ReturnDate.HasValue)
+            {
+                returnDateText = $"Dönüş Tarihi: {reservation.ReturnDate.Value:dd.MM.yyyy}\n";
+            }
+
+            var passengerNames = string.Join(", ", reservation.Passengers.Select(p => p.FirstName + " " + p.LastName));
+
+            var message = $"""
+                Rezervasyonunuz başarıyla oluşturuldu.
+
+                PNR: {reservation.Pnr}
+                Nereden: {reservation.From}
+                Nereye: {reservation.To}
+                Uçuş Tipi: {tripTypeText}
+                Gidiş Tarihi: {reservation.DepartureDate:dd.MM.yyyy}
+                {returnDateText}Yolcular: {passengerNames}
+                Toplam Tutar: {reservation.PriceSummary.TotalPrice:0.00} TL
+
+                FlyToHappy ile iyi yolculuklar.
+                """;
+
+            try
+            {
+                await _emailSender.SendEmailAsync(reservation.ContactEmail, "FlyToHappy Rezervasyon Bilgileri", message);
+                _logger.LogInformation("Rezervasyon maili gönderildi. PNR: {Pnr}", reservation.Pnr);
+            }
+            catch (Exception ex)
+            {
+                // Mail gitmese de rezervasyon kaydı geçerlidir; sadece logluyoruz.
+                _logger.LogError(ex, "Rezervasyon maili gönderilemedi. PNR: {Pnr}", reservation.Pnr);
+            }
+        }
+
+        private async Task SendCheckInEmailAsync(string contactEmail, BoardingPassDto boardingPass)
+        {
+            var message = $"""
+                Check-in işleminiz başarıyla tamamlandı.
+
+                PNR: {boardingPass.Pnr}
+                Yolcu: {boardingPass.PassengerName}
+                Uçuş: {boardingPass.Airline} {boardingPass.FlightNumber}
+                Rota: {boardingPass.From} → {boardingPass.To}
+                Tarih: {boardingPass.Date:dd.MM.yyyy} {boardingPass.DepartureTime}
+                Koltuk: {boardingPass.SeatNumber}
+                Boarding Pass No: {boardingPass.BoardingPassNumber}
+
+                İyi yolculuklar.
+                FlyToHappy
+                """;
+
+            try
+            {
+                await _emailSender.SendEmailAsync(contactEmail, "FlyToHappy Check-in Bilgileri", message);
+                _logger.LogInformation("Check-in maili gönderildi. PNR: {Pnr}", boardingPass.Pnr);
+            }
+            catch (Exception ex)
+            {
+                // Mail gitmese de check-in kaydı geçerlidir; sadece logluyoruz.
+                _logger.LogError(ex, "Check-in maili gönderilemedi. PNR: {Pnr}", boardingPass.Pnr);
+            }
         }
 
         private static BoardingPassDto MapBoardingPass(DemoCheckIn checkIn, Reservation reservation)
@@ -221,6 +305,7 @@ namespace FlyToHappy.Services.ReservationServices
                 PassengerName = $"{checkIn.Passenger.FirstName} {checkIn.Passenger.LastName}",
                 Pnr = reservation.Pnr, Airline = checkIn.Flight.Airline, FlightNumber = checkIn.Flight.FlightNumber,
                 From = checkIn.Flight.DepartureAirport, To = checkIn.Flight.ArrivalAirport,
+                FromAirportName = checkIn.Flight.DepartureAirportName, ToAirportName = checkIn.Flight.ArrivalAirportName,
                 Date = checkIn.FlightId == reservation.DepartureFlightId ? reservation.DepartureDate : reservation.ReturnDate!.Value,
                 DepartureTime = checkIn.Flight.DepartureTime, Cabin = reservation.Cabin,
                 SeatNumber = checkIn.SeatNumber, BoardingPassNumber = checkIn.BoardingPassNumber, CheckInDate = checkIn.CheckInDate
@@ -231,14 +316,15 @@ namespace FlyToHappy.Services.ReservationServices
         {
             var number = flightNumber.Trim().Replace(" ", "").ToUpperInvariant();
             // Snapshots have no live status. Reservation dates identify the scheduled flight day.
+            // Contains: a 1-stop snapshot stores "TK2023 / TK2816", so searching "TK2023" alone must also find it.
             var departure = await _context.Reservations.AsNoTracking()
-                .Where(r => r.DepartureDate == date && r.DepartureFlight.FlightNumber.Replace(" ", "").ToUpper() == number)
+                .Where(r => r.DepartureDate == date && r.DepartureFlight.FlightNumber.Replace(" ", "").ToUpper().Contains(number))
                 .Select(r => r.DepartureFlight).FirstOrDefaultAsync();
             var flight = departure;
             if (flight == null)
             {
                 flight = await _context.Reservations.AsNoTracking()
-                    .Where(r => r.ReturnDate == date && r.ReturnFlight != null && r.ReturnFlight.FlightNumber.Replace(" ", "").ToUpper() == number)
+                    .Where(r => r.ReturnDate == date && r.ReturnFlight != null && r.ReturnFlight.FlightNumber.Replace(" ", "").ToUpper().Contains(number))
                     .Select(r => r.ReturnFlight).FirstOrDefaultAsync();
             }
             if (flight == null) return null;
@@ -247,7 +333,9 @@ namespace FlyToHappy.Services.ReservationServices
             {
                 FlightNumber = flight.FlightNumber, Airline = flight.Airline,
                 From = flight.DepartureAirport, To = flight.ArrivalAirport, Date = date,
-                DepartureTime = flight.DepartureTime, ArrivalTime = flight.ArrivalTime
+                FromAirportName = flight.DepartureAirportName, ToAirportName = flight.ArrivalAirportName,
+                DepartureTime = flight.DepartureTime, ArrivalTime = flight.ArrivalTime,
+                Segments = ReadSegments(flight.SegmentsJson)
             };
         }
 
@@ -260,11 +348,25 @@ namespace FlyToHappy.Services.ReservationServices
                 FlightNumber = flight.FlightNumber,
                 DepartureAirport = flight.DepartureAirport,
                 ArrivalAirport = flight.ArrivalAirport,
+                DepartureAirportName = flight.DepartureAirportName,
+                ArrivalAirportName = flight.ArrivalAirportName,
                 DepartureTime = flight.DepartureTime,
                 ArrivalTime = flight.ArrivalTime,
                 Duration = flight.Duration,
-                Stops = flight.Stops
+                Stops = flight.Stops,
+                Segments = ReadSegments(flight.SegmentsJson)
             };
+        }
+
+        // Segments are stored as JSON text in the Flight snapshot. Older rows have no value -> empty list.
+        private static List<FlightSegmentDto> ReadSegments(string segmentsJson)
+        {
+            if (string.IsNullOrWhiteSpace(segmentsJson))
+            {
+                return new List<FlightSegmentDto>();
+            }
+
+            return JsonSerializer.Deserialize<List<FlightSegmentDto>>(segmentsJson) ?? new List<FlightSegmentDto>();
         }
 
         private static ReservationBaggageOptionDto MapReservationBaggage(BaggageOption baggage)
@@ -314,7 +416,7 @@ namespace FlyToHappy.Services.ReservationServices
 
             if (departureSearchFlight == null)
             {
-                throw new KeyNotFoundException("Gidiş uçuşu bulunamadı veya arama süresi doldu. Lütfen uçuş aramasını tekrarlayın.");
+                throw new ArgumentException("Gidiş uçuşu bulunamadı veya arama süresi doldu. Lütfen uçuş aramasını tekrarlayın.");
             }
 
             var departureFlight = CreateFlightSnapshot(departureSearchFlight);
@@ -328,7 +430,7 @@ namespace FlyToHappy.Services.ReservationServices
 
                 if (returnSearchFlight == null)
                 {
-                    throw new KeyNotFoundException("Dönüş uçuşu bulunamadı veya arama süresi doldu. Lütfen uçuş aramasını tekrarlayın.");
+                    throw new ArgumentException("Dönüş uçuşu bulunamadı veya arama süresi doldu. Lütfen uçuş aramasını tekrarlayın.");
                 }
 
                 returnFlight = CreateFlightSnapshot(returnSearchFlight);
@@ -435,6 +537,8 @@ namespace FlyToHappy.Services.ReservationServices
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
 
+            // Rezervasyon SQL'e kaydedildi, şimdi bilgi mailini gönderiyoruz.
+            await SendReservationEmailAsync(reservation);
 
             return new ReservationCreatedDto
             {
@@ -465,6 +569,9 @@ namespace FlyToHappy.Services.ReservationServices
                 FlightNumber = searchFlight.FlightNumber,
                 DepartureAirport = searchFlight.DepartureAirport,
                 ArrivalAirport = searchFlight.ArrivalAirport,
+                DepartureAirportName = searchFlight.DepartureAirportName,
+                ArrivalAirportName = searchFlight.ArrivalAirportName,
+                SegmentsJson = JsonSerializer.Serialize(searchFlight.Segments),
                 DepartureTime = searchFlight.DepartureTime,
                 ArrivalTime = searchFlight.ArrivalTime,
                 Duration = searchFlight.Duration,

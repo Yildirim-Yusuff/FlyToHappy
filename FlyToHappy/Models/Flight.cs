@@ -13,6 +13,14 @@ namespace FlyToHappy.Models
 
         public string ArrivalAirport { get; set; } = string.Empty;
 
+        // Provider airport names, copied at reservation time. Older snapshots have empty strings.
+        public string DepartureAirportName { get; set; } = string.Empty;
+
+        public string ArrivalAirportName { get; set; } = string.Empty;
+
+        // Itinerary legs stored as JSON text (List<FlightSegmentDto>). Empty for older snapshots.
+        public string SegmentsJson { get; set; } = string.Empty;
+
         public string DepartureTime { get; set; } = string.Empty;
 
         public string ArrivalTime { get; set; } = string.Empty;

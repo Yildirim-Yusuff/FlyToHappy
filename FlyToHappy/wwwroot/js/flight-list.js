@@ -108,6 +108,28 @@ function showFlightListMessage(title, text) {
     `;
 }
 
+// Sidebar airline counts come from the loaded flights (before any filter).
+// The numbers were static "(3) (4) (3)" in the view before; now they match the real result list.
+function updateAirlineCounts() {
+    const counts = { TK: 0, PC: 0, VF: 0 };
+
+    activeFlights.forEach(function (flight) {
+        if (counts[flight.airlineCode] !== undefined) {
+            counts[flight.airlineCode] += 1;
+        }
+    });
+
+    const countElements = { TK: "#airlineCountTK", PC: "#airlineCountPC", VF: "#airlineCountVF" };
+
+    Object.keys(countElements).forEach(function (code) {
+        const element = document.querySelector(countElements[code]);
+
+        if (element) {
+            element.textContent = "(" + counts[code] + ")";
+        }
+    });
+}
+
 async function loadFlights() {
 
     if (!searchContext || !searchContext.from || !searchContext.to || !searchContext.departureDate) {
@@ -167,6 +189,8 @@ async function loadFlights() {
     activeFlights = flightsFromBackend.map(function (flight) {
         return { ...flight, id: flight.searchFlightId };
     });
+
+    updateAirlineCounts();
 
     if (activeFlights.length === 0) {
         showFlightListMessage(
@@ -295,16 +319,22 @@ function updateRouteHeader(draftSearchState) {
             : departureText;
     }
 
-    const fromCity = getCityFromAirport(fromCode);
-    const toCity = getCityFromAirport(toCode);
+    // searchData carries the provider city of the airports chosen in the autocomplete (fromCity / toCity).
+    // The old code map is the fallback; when nothing is known the code itself is shown.
+    const fromCity = (searchData && (displayReturnStep ? searchData.toCity : searchData.fromCity)) || getCityFromAirport(fromCode);
+    const toCity = (searchData && (displayReturnStep ? searchData.fromCity : searchData.toCity)) || getCityFromAirport(toCode);
 
     // ROUTE chip
     const sumRoute = document.querySelector("#sumRoute");
 
     if (sumRoute) {
+        // No "ASR ASR": the city text is skipped when only the code is known.
+        const fromLabel = fromCity === fromCode ? "" : escapeSearchText(fromCity) + " ";
+        const toLabel = toCity === toCode ? "" : escapeSearchText(toCity) + " ";
+
         sumRoute.innerHTML =
-            escapeSearchText(fromCity) + " <b>" + escapeSearchText(fromCode) + "</b> \u2192 " +
-            escapeSearchText(toCity) + " <b>" + escapeSearchText(toCode) + "</b>";
+            fromLabel + "<b>" + escapeSearchText(fromCode) + "</b> \u2192 " +
+            toLabel + "<b>" + escapeSearchText(toCode) + "</b>";
     }
 
     // RESULT TITLE (adds a hint on the return step)
@@ -875,12 +905,15 @@ function renderFlights() {
                 " TL";
 
 
+            // Real airport name from the provider (backend); the old demo map is only a fallback.
             const departureAirportName =
+                flight.departureAirportName ||
                 airports[flight.departureAirport] ||
                 "";
 
 
             const arrivalAirportName =
+                flight.arrivalAirportName ||
                 airports[flight.arrivalAirport] ||
                 "";
 
@@ -948,7 +981,7 @@ function renderFlights() {
                                 <strong>${flight.departureTime}</strong>
                                 <div class="sr-flight-airport">
                                     <span class="sr-airport-code">${escapeSearchText(flight.departureAirport)}</span>
-                                    <span class="sr-airport-name">${departureAirportName}</span>
+                                    <span class="sr-airport-name">${escapeSearchText(departureAirportName)}</span>
                                 </div>
                             </div>
 
@@ -973,7 +1006,7 @@ function renderFlights() {
                             <div class="sr-flight-time sr-flight-time--arrival">
                                 <strong>${flight.arrivalTime}</strong>
                                 <div class="sr-flight-airport">
-                                    <span class="sr-airport-name">${arrivalAirportName}</span>
+                                    <span class="sr-airport-name">${escapeSearchText(arrivalAirportName)}</span>
                                     <span class="sr-airport-code">${escapeSearchText(flight.arrivalAirport)}</span>
                                 </div>
                             </div>
@@ -1283,9 +1316,9 @@ document.addEventListener(
                     </div>
 
                     <div>
-                        ${escapeSearchText(selectedFlight.departureAirport)}
+                        ${escapeSearchText(selectedFlight.departureAirport)}${selectedFlight.departureAirportName ? " · " + escapeSearchText(selectedFlight.departureAirportName) : ""}
                         →
-                        ${escapeSearchText(selectedFlight.arrivalAirport)}
+                        ${escapeSearchText(selectedFlight.arrivalAirport)}${selectedFlight.arrivalAirportName ? " · " + escapeSearchText(selectedFlight.arrivalAirportName) : ""}
                     </div>
 
                     <div>

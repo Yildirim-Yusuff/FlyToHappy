@@ -64,7 +64,9 @@ function setBookingText(selector, value) {
 }
 
 // Render an airport line as: IATA code (large/bold) + full name.
-function setBookingAirport(selector, code) {
+// `name` is the real provider airport name saved with the selected flight; when there is none
+// and the old demo map has no entry either, only the code is shown (no "ASR — ASR").
+function setBookingAirport(selector, code, name) {
     const element = document.querySelector(selector);
 
     if (!element) {
@@ -72,15 +74,20 @@ function setBookingAirport(selector, code) {
     }
 
     const airportCode = String(code || "").toUpperCase();
-    const airportName = getBookingAirportName(code);
+    const airportName = getBookingAirportName(airportCode, name);
 
-    element.innerHTML =
-        '<span class="airport-iata">' + airportCode + '</span>' +
-        '<span class="airport-name"> \u2014 ' + airportName + '</span>';
+    element.innerHTML = '<span class="airport-iata">' + airportCode + '</span>';
+
+    if (airportName) {
+        const nameElement = document.createElement("span");
+        nameElement.className = "airport-name";
+        nameElement.textContent = " \u2014 " + airportName;
+        element.appendChild(nameElement);
+    }
 }
 
-function getBookingAirportName(code) {
-    return bookingAirports[code] || code || "";
+function getBookingAirportName(code, name) {
+    return name || bookingAirports[code] || "";
 }
 
 function getBookingAirlineCode(flight) {
@@ -194,12 +201,14 @@ function renderBookingDepartureFlight() {
 
     setBookingAirport(
         "#summaryDepartureAirport",
-        flight.departureAirport || flight.from
+        flight.departureAirport || flight.from,
+        flight.departureAirportName
     );
 
     setBookingAirport(
         "#summaryArrivalAirport",
-        flight.arrivalAirport || flight.to
+        flight.arrivalAirport || flight.to,
+        flight.arrivalAirportName
     );
 
     setBookingText(
@@ -261,12 +270,14 @@ function renderBookingReturnFlight() {
 
     setBookingAirport(
         "#returnSummaryDepartureAirport",
-        flight.departureAirport || flight.from
+        flight.departureAirport || flight.from,
+        flight.departureAirportName
     );
 
     setBookingAirport(
         "#returnSummaryArrivalAirport",
-        flight.arrivalAirport || flight.to
+        flight.arrivalAirport || flight.to,
+        flight.arrivalAirportName
     );
 
     setBookingText(

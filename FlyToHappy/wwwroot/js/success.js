@@ -121,8 +121,9 @@
         "Perşembe", "Cuma", "Cumartesi"
     ];
 
-    function getAirportName(code) {
-        return airports[code] || code || "";
+    // Real airport name saved with the reservation first; old demo map as fallback; never the code itself.
+    function getAirportName(code, name) {
+        return name || airports[code] || "";
     }
 
     function getAirportCity(code) {
@@ -291,7 +292,7 @@
                     <div class="success-flight-point">
                         <strong>${escapeSuccessHtml(flight.departureTime || "--:--")}</strong>
                         <div class="iata">${escapeSuccessHtml(departureCode)}</div>
-                        <div class="airport">${escapeSuccessHtml(getAirportName(departureCode))}</div>
+                        <div class="airport">${escapeSuccessHtml(getAirportName(departureCode, flight.departureAirportName))}</div>
                         <div class="date">${escapeSuccessHtml(dateText)}</div>
                     </div>
 
@@ -309,7 +310,7 @@
                     <div class="success-flight-point success-flight-point--arrival">
                         <strong>${escapeSuccessHtml(flight.arrivalTime || "--:--")}</strong>
                         <div class="iata">${escapeSuccessHtml(arrivalCode)}</div>
-                        <div class="airport">${escapeSuccessHtml(getAirportName(arrivalCode))}</div>
+                        <div class="airport">${escapeSuccessHtml(getAirportName(arrivalCode, flight.arrivalAirportName))}</div>
                         <div class="date">${escapeSuccessHtml(dateText)}</div>
                     </div>
                 </div>
@@ -371,9 +372,18 @@
             reservation.to ||
             "";
 
-        const routeText =
-            getAirportCity(departureCode) + " (" + departureCode + ") → " +
-            getAirportCity(arrivalCode) + " (" + arrivalCode + ")";
+        // "Kayseri (ASR)" only when a city is known, otherwise just "ASR" (no "ASR (ASR)").
+        function routeLabel(code) {
+            const city = getAirportCity(code);
+            return city && city !== code ? city + " (" + code + ")" : code;
+        }
+
+        const routeText = routeLabel(departureCode) + " → " + routeLabel(arrivalCode);
+
+        // Real airport names under the route (only when the reservation has them).
+        const departureName = getAirportName(departureCode, departureFlight.departureAirportName);
+        const arrivalName = getAirportName(arrivalCode, departureFlight.arrivalAirportName);
+        const routeNames = departureName && arrivalName ? departureName + " → " + arrivalName : "";
 
         const passengerCount = reservation.totalPassengers;
         const cabin = reservation.cabin || "Ekonomi";
@@ -385,6 +395,12 @@
         ].filter(Boolean);
 
         setText("#successRoute", routeText);
+
+        if (routeNames) {
+            const names = document.createElement("em");
+            names.textContent = routeNames;
+            document.querySelector("#successRoute")?.appendChild(names);
+        }
         setText("#successTripMeta", metaParts.join(" · "));
     }
 

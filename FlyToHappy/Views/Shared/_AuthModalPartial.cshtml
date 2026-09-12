@@ -1,0 +1,76 @@
+@* Login / Register modal. navbar.js validates and calls /api/Auth/register and /api/Auth/login (Identity cookie). *@
+<dialog id="authModal" class="auth-modal" aria-labelledby="authTitle">
+    <div class="auth-body">
+
+        <div class="auth-head">
+            <span class="auth-brand" id="authTitle">FlyTo<em>Happy</em></span>
+            <button type="button" class="auth-close" id="authClose" aria-label="Kapat">&times;</button>
+        </div>
+
+        <div class="auth-tabs" role="tablist">
+            <button type="button" class="auth-tab active" data-auth-tab="login">Giriş Yap</button>
+            <button type="button" class="auth-tab" data-auth-tab="register">Kayıt Ol</button>
+        </div>
+
+        <!-- LOGIN -->
+        <form id="loginForm" class="auth-form" novalidate>
+            <label for="loginEmail">E-posta</label>
+            <input id="loginEmail" name="email" type="email" class="g-input" autocomplete="email" />
+
+            <label for="loginPassword">Şifre</label>
+            <div class="auth-password">
+                <input id="loginPassword" name="password" type="password" class="g-input" autocomplete="current-password" />
+                <button type="button" class="auth-eye" data-eye-for="loginPassword" aria-label="Şifreyi göster">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+
+            <p class="auth-error" id="loginError" hidden></p>
+            <p class="auth-note" id="loginNote" hidden></p>
+
+            <button type="submit" class="btn-primary-altura auth-submit">Giriş Yap</button>
+
+            <p class="auth-switch">Hesabın yok mu? <button type="button" data-auth-tab="register">Kayıt Ol</button></p>
+        </form>
+
+        <!-- REGISTER -->
+        <form id="registerForm" class="auth-form" novalidate hidden>
+            <div class="auth-row">
+                <div>
+                    <label for="registerFirstName">Ad</label>
+                    <input id="registerFirstName" name="firstName" type="text" class="g-input" autocomplete="given-name" />
+                </div>
+                <div>
+                    <label for="registerLastName">Soyad</label>
+                    <input id="registerLastName" name="lastName" type="text" class="g-input" autocomplete="family-name" />
+                </div>
+            </div>
+
+            <label for="registerEmail">E-posta</label>
+            <input id="registerEmail" name="email" type="email" class="g-input" autocomplete="email" />
+
+            <label for="registerPassword">Şifre</label>
+            <div class="auth-password">
+                <input id="registerPassword" name="password" type="password" class="g-input" autocomplete="new-password" />
+                <button type="button" class="auth-eye" data-eye-for="registerPassword" aria-label="Şifreyi göster">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+
+            <label for="registerPasswordConfirm">Şifre Tekrar</label>
+            <div class="auth-password">
+                <input id="registerPasswordConfirm" name="passwordConfirm" type="password" class="g-input" autocomplete="new-password" />
+                <button type="button" class="auth-eye" data-eye-for="registerPasswordConfirm" aria-label="Şifreyi göster">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+
+            <p class="auth-error" id="registerError" hidden></p>
+
+            <button type="submit" class="btn-primary-altura auth-submit">Kayıt Ol</button>
+
+            <p class="auth-switch">Zaten hesabın var mı? <button type="button" data-auth-tab="login">Giriş Yap</button></p>
+        </form>
+
+    </div>
+</dialog>
